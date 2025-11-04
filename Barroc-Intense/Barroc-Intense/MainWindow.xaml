@@ -9,9 +9,45 @@
     mc:Ignorable="d"
     Title="Barroc-Intense">
 
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
+    <Grid>
+        <!-- Achtergrond gradient in huisstijlkleuren -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#003366" Offset="0.0"/>
+                <GradientStop Color="#FF6600" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-    <Frame x:Name="MainFrame" />
+        <!-- Half transparant vlak voor contrast -->
+        <Border Background="#AAFFFFFF" CornerRadius="20" Margin="100" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
+                <!-- Header -->
+                <TextBlock Text="BARROC INTENS"
+                           FontSize="64"
+                           FontWeight="Bold"
+                           Foreground="#003366"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                <!-- Slogan -->
+                <TextBlock Text="Sterk. Helder. Stimulerend."
+                           FontSize="28"
+                           FontStyle="Italic"
+                           Foreground="#FF6600"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,30"/>
+
+                <!-- Ondertekst -->
+                <TextBlock Text="Groei, samenwerking en innovatie — de kern van Barroc Intens."
+                           FontSize="18"
+                           Foreground="#333333"
+                           TextAlignment="Center"
+                           Width="600"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,30"/>
+
+               
+            </StackPanel>
+        </Border>
+    </Grid>
 </Window>

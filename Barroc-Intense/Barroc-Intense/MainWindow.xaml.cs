@@ -26,7 +26,7 @@ namespace Barroc_Intense
     {
         public MainWindow()
         {
-             
+               this.InitializeComponent();
         }
 
 
