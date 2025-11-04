@@ -21,7 +21,7 @@
                 <ComboBoxItem Content="Guest"/>
             </ComboBox>
 
-            <Button Content="Inloggen" Click="Login_Click"/>
+            
         </StackPanel>
     </Grid>
 </Page>
