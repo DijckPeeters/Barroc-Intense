@@ -8,15 +8,10 @@ namespace BarrocIntens.Models
 {
     public class User
     {
-        public string Username { get; set; }
-        public string Role { get; set; }  // Bijvoorbeeld: "Admin", "Manager", "Medewerker"
-        public string Department { get; set; } // Bijvoorbeeld: "IT", "HR", "Finance"
+        public int Id { get; set; }
 
-        public User(string username, string role, string department)
-        {
-            Username = username;
-            Role = role;
-            Department = department;
-        }
+        public string Username { get; set; }
+        public string Role { get; set; }
+        public string Department { get; set; }
     }
 }
