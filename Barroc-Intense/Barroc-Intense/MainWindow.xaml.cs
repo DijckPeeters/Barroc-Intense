@@ -26,14 +26,7 @@ namespace Barroc_Intense
     {
         public MainWindow()
         {
-            InitializeComponent();
-
-            using var db = new AppDbContext();
-            db.Database.EnsureDeleted();
-            db.Database.EnsureCreated();     
-
-
-            MainFrame.Navigate(typeof(LoginPage));  
+             
         }
 
 
