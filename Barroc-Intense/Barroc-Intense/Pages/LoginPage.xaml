@@ -9,6 +9,19 @@
     mc:Ignorable="d">
 
     <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="250" Spacing="10">
+            <TextBlock Text="Login Pagina" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBox x:Name="UsernameBox" PlaceholderText="Gebruikersnaam"/>
+            <PasswordBox x:Name="PasswordBox" PlaceholderText="Wachtwoord"/>
 
+            <ComboBox x:Name="RoleBox" PlaceholderText="Kies rol">
+                <ComboBoxItem Content="Admin"/>
+                <ComboBoxItem Content="Manager"/>
+                <ComboBoxItem Content="User"/>
+                <ComboBoxItem Content="Guest"/>
+            </ComboBox>
+
+            <Button Content="Inloggen" Click="Login_Click"/>
+        </StackPanel>
     </Grid>
 </Page>
