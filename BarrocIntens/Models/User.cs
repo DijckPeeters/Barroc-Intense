@@ -9,13 +9,13 @@ namespace BarrocIntens.Models
     public class User
     {
         public string Username { get; set; }
-        public string Password { get; set; }
-        public string Department { get; set; }
+        public string Role { get; set; }  // Bijvoorbeeld: "Admin", "Manager", "Medewerker"
+        public string Department { get; set; } // Bijvoorbeeld: "IT", "HR", "Finance"
 
-        public User(string username, string password, string department)
+        public User(string username, string role, string department)
         {
             Username = username;
-            Password = password;
+            Role = role;
             Department = department;
         }
     }
