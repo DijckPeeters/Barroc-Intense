@@ -1,0 +1,22 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Barroc_Intense.Data
+{
+    internal class AppDbContext :DbContext
+    {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseMySql(
+            ConfigurationManager.ConnectionStrings["Barroc-Intense"].ConnectionString,
+            ServerVersion.Parse("8.0.30")
+            );
+        }
+    }
+}
