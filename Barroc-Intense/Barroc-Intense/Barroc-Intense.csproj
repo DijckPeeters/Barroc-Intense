@@ -13,6 +13,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Pages\Dashboards\FinanceDashboardPage.xaml" />
+    <None Remove="Pages\Dashboards\InkoopDashboardPage.xaml" />
+    <None Remove="Pages\Dashboards\KlantenserviceDashboardPage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
   </ItemGroup>
 
@@ -46,7 +49,22 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Pages\Dashboards\KlantenserviceDashboardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\InkoopDashboardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Pages\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\FinanceDashboardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

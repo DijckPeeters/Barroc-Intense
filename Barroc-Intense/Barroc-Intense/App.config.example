@@ -2,6 +2,6 @@
 <configuration>
 	<connectionStrings>
 		<add name="BarrocIntense"
-			 connectionString="server=localhost;port=3306;user=root;password=;database=barroc_it"/>
+			 connectionString="server=localhost;port=3306;user=c_sharp_dev;password=im@punchyouintheface;database=barroc_it"/>
 	</connectionStrings>
 </configuration>
