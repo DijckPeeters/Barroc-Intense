@@ -11,6 +11,7 @@ namespace Barroc_Intense.Data
 {
     internal class AppDbContext :DbContext
     {
+        public DbSet<Product> Products { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
