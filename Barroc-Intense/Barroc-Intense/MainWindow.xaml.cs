@@ -38,8 +38,10 @@ namespace Barroc_Intense
             MainFrame.Navigate(typeof(LoginPage));
         }
 
-
-
+        private void VooraadButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(ProductPage));
+        }
     }
 
 }

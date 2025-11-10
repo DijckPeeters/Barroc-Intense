@@ -58,7 +58,16 @@
                                     FontWeight="Bold"
                                     BorderThickness="0"
                                     Click="LoginButton_Click"/>
-            </StackPanel>
+                        <Button Content="Tijdelijke knop naar vooraad"
+                    Width="200"
+                    Height="50"
+                    Background="Black"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    Click="VooraadButton_Click"/>
+                    </StackPanel>
         </Border>
     </Grid>
         </Frame.Content>
