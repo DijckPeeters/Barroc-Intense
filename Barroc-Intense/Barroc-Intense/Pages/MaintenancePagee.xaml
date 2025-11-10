@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intense.Pages.MaintenancePagee"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intense.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- Achtergrond gradient in huisstijl -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Half transparant paneel voor contrast -->
+        <Border Background="#AAFFFFFF" CornerRadius="20" Margin="100" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
+
+                <!-- Header -->
+                <TextBlock Text="SITE IN MAINTENANCE"
+                           FontSize="64"
+                           FontWeight="Bold"
+                           Foreground="Yellow"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                <!-- Ondertekst -->
+                <TextBlock Text="We zijn bezig met het verbeteren van je ervaring. Dank voor je geduld!"
+                           FontSize="24"
+                           FontStyle="Italic"
+                           Foreground="Black"
+                           HorizontalAlignment="Center"
+                           TextAlignment="Center"
+                           Margin="0,0,0,30"
+                           TextWrapping="Wrap"
+                           Width="600"/>
+
+                <!-- Inspirerende quotes -->
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,0">
+                    <TextBlock Text="“Grote dingen worden nooit gedaan door één persoon. Ze worden gedaan door een team.”"
+                               FontSize="18"
+                               Foreground="Black"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="“Succes is de som van kleine inspanningen, herhaald dag na dag.”"
+                               FontSize="18"
+                               Foreground="Black"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,10"/>
+                    <TextBlock Text="“Innovatie onderscheidt leiders van volgers.”"
+                               FontSize="18"
+                               Foreground="Black"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>

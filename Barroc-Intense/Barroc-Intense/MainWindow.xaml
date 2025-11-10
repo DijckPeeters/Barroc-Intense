@@ -67,6 +67,15 @@
                     FontWeight="Bold"
                     BorderThickness="0"
                     Click="VooraadButton_Click"/>
+                        <Button Content="Maintenance"
+Width="200"
+Height="50"
+Background="Black"
+Foreground="Yellow"
+FontSize="20"
+FontWeight="Bold"
+BorderThickness="0"
+Click="MaintenanceButton_Click"/>
                     </StackPanel>
         </Border>
     </Grid>
