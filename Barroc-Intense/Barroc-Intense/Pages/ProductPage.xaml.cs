@@ -27,8 +27,9 @@ namespace Barroc_Intense.Pages
     {
         public ProductPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
+
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -53,15 +54,16 @@ namespace Barroc_Intense.Pages
             }
             else
             {
-                validationResultsTextBlock.Text = "✅ Validatie geslaagd!";
-
                 try
                 {
                     using var db = new AppDbContext();
                     db.Products.Add(product);
                     db.SaveChanges();
 
-                    validationResultsTextBlock.Text += "\n💾 Product succesvol opgeslagen!";
+                    validationResultsTextBlock.Text = "✅ Product succesvol opgeslagen!";
+
+                    // NAVIGATIE NAAR StockPage
+                    Frame.Navigate(typeof(StockPage)); // StockPage moet je Page-class zijn
                 }
                 catch (Exception ex)
                 {
@@ -69,6 +71,7 @@ namespace Barroc_Intense.Pages
                 }
             }
         }
+
 
     }
 }

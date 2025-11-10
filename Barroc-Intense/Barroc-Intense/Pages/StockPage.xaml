@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intense.Pages.StockPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intense.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:localData="using:Barroc_Intense.Data"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- Achtergrond in Barroc Intense-stijl -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Twee kolommen: links lijst, rechts details -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- PRODUCT LIJST -->
+        <Border Background="#EEFFFFFF"
+                CornerRadius="10"
+                Margin="30"
+                Grid.Column="0">
+            <StackPanel Margin="10">
+                <TextBlock Text="Producten"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,0,0,10"/>
+                <ListView x:Name="productListView"
+                          IsItemClickEnabled="True"
+                          SelectionMode="Single"
+                          ItemClick="productListView_ItemClick">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="localData:Product">
+                            <Border Background="#FFFBEF"
+                                    CornerRadius="8"
+                                    Padding="10"
+                                    Margin="5">
+                                <TextBlock Text="{x:Bind ProductName}"
+                                           FontSize="18"
+                                           FontWeight="SemiBold"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Border>
+
+        <!-- PRODUCT DETAILS -->
+        <Border Background="#FFFFFFFF"
+                CornerRadius="10"
+                Margin="30"
+                Grid.Column="1">
+            <StackPanel Margin="30" Spacing="15">
+                <TextBlock Text="Productdetails"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           Foreground="Black"/>
+
+                <StackPanel>
+                    <TextBlock Text="Naam:"
+                               FontWeight="Bold"
+                               FontSize="16"/>
+                    <TextBlock x:Name="detailNameTextBlock"
+                               FontSize="18"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Ingredient:"
+                               FontWeight="Bold"
+                               FontSize="16"/>
+                    <TextBlock x:Name="detailIngredientTextBlock"
+                               FontSize="18"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Prijs:"
+                               FontWeight="Bold"
+                               FontSize="16"/>
+                    <TextBlock x:Name="detailPriceTextBlock"
+                               FontSize="18"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Voorraad:"
+                               FontWeight="Bold"
+                               FontSize="16"/>
+                    <TextBlock x:Name="detailStockTextBlock"
+                               FontSize="18"/>
+                </StackPanel>
+
+                <Button Content="Terug naar formulier"
+                        Background="Black"
+                        Foreground="Yellow"
+                        FontWeight="Bold"
+                        Width="200"
+                        Height="45"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Center"
+                        Click="BackButton_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
