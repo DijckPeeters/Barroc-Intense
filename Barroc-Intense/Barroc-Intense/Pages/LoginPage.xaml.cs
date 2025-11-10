@@ -25,4 +25,5 @@ namespace Barroc_Intense.Pages
                 this.InitializeComponent();
             }
     }
+
 }

@@ -8,13 +8,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Barroc-Intense">
+    <Frame x:Name="MainFrame">
+        <Frame.Content>
 
-    <Grid>
+            <Grid>
         <!-- Achtergrond gradient in huisstijlkleuren -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#003366" Offset="0.0"/>
-                <GradientStop Color="#FF6600" Offset="1.0"/>
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
             </LinearGradientBrush>
         </Grid.Background>
 
@@ -22,10 +24,10 @@
         <Border Background="#AAFFFFFF" CornerRadius="20" Margin="100" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
                 <!-- Header -->
-                <TextBlock Text="BARROC INTENS"
+                <TextBlock Text="BARROC INTENSE"
                            FontSize="64"
                            FontWeight="Bold"
-                           Foreground="#003366"
+                           Foreground="Yellow"
                            HorizontalAlignment="Center"
                            Margin="0,0,0,20"/>
 
@@ -33,21 +35,32 @@
                 <TextBlock Text="Sterk. Helder. Stimulerend."
                            FontSize="28"
                            FontStyle="Italic"
-                           Foreground="#FF6600"
+                           Foreground="Black"
                            HorizontalAlignment="Center"
                            Margin="0,0,0,30"/>
 
                 <!-- Ondertekst -->
                 <TextBlock Text="Groei, samenwerking en innovatie — de kern van Barroc Intens."
                            FontSize="18"
-                           Foreground="#333333"
+                           Foreground="Black"
                            TextAlignment="Center"
                            Width="600"
                            TextWrapping="Wrap"
                            Margin="0,0,0,30"/>
 
-               
+                <!-- Login knop -->
+                <Button Content="Login"
+                                    Width="200"
+                                    Height="50"
+                                    Background="Black"
+                                    Foreground="Yellow"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Click="LoginButton_Click"/>
             </StackPanel>
         </Border>
     </Grid>
+        </Frame.Content>
+    </Frame>
 </Window>
