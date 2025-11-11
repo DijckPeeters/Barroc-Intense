@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Barroc_Intense.Data;
+using Barroc_Intense.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,7 +27,7 @@ namespace Barroc_Intense
     {
         public MainWindow()
         {
-             
+            contentFrame.Navigate(typeof(LoginPage)); 
         }
 
 
