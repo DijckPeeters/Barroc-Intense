@@ -27,17 +27,10 @@ namespace Barroc_Intense.Pages
         public MaintenancePagee()
         {
             InitializeComponent();
-            LoadData();
+            
         }
 
-        private void LoadData()
-        {
-            _alleMeldingen = MeldingSeeder.Seed()
-                .Where(m => m.Afdeling == "Maintenance")
-                .ToList();
-
-            MaintenanceListView.ItemsSource = _alleMeldingen;
-        }
+       
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
