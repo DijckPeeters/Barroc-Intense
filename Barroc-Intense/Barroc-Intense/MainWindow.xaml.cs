@@ -42,6 +42,10 @@ namespace Barroc_Intense
         {
             MainFrame.Navigate(typeof(ProductPage));
         }
+        private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(MaintenancePagee));
+        }
     }
 
 }
