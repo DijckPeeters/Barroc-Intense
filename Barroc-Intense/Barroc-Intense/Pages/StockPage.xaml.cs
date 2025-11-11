@@ -24,6 +24,8 @@ namespace Barroc_Intense.Pages
     /// </summary>
     public sealed partial class StockPage : Page
     {
+        private Product chosenProduct = null;
+
         public StockPage()
         {
             InitializeComponent();
@@ -35,53 +37,119 @@ namespace Barroc_Intense.Pages
         }
 
 
-        // private void productListView_ItemClick(object sender, ItemClickEventArgs e)
-        //{
-        //    var product = (Product)e.ClickedItem;
-        //    var productId = product.Id;
+        private void ShowProductDetails(Product selectedProduct)
+        {
+            detailsPanel.Visibility = Visibility.Visible;
+            placeholderTextBlock.Visibility = Visibility.Collapsed;
 
-            //    using var db = new AppDbContext();
-
-            //    db.Entry(product)
-            //        .Collection(p => p.Stock)
-            //        .Load();
-
-            //    StocksListView.ItemSource = product.Stocks;
-
-            //}
-
-        
-
-        
-
+            detailNameTextBlock.Text = selectedProduct.ProductName;
+            detailIngredientTextBlock.Text = selectedProduct.ingredient;
+            detailPriceTextBlock.Text = $"€ {selectedProduct.Price}";
+            detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
+        }
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var product = (Product)e.ClickedItem;
-
             var productId = product.Id;
 
+            chosenProduct = product;
+
             using var db = new AppDbContext();
+            if (e.ClickedItem is Product selectedProduct)
+            {
+                chosenProduct = selectedProduct;
+                ShowProductDetails(selectedProduct);
+            }
 
             //if (e.ClickedItem is Product selectedProduct)
             //{
+            //    detailsPanel.Visibility = Visibility.Visible;
+            //    placeholderTextBlock.Visibility = Visibility.Collapsed;
+
             //    detailNameTextBlock.Text = selectedProduct.ProductName;
             //    detailIngredientTextBlock.Text = selectedProduct.ingredient;
             //    detailPriceTextBlock.Text = $"€ {selectedProduct.Price}";
             //    detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
             //}
 
-            //db.Entry(product)
-            //    .Collection(s => s.Products)
-            //    .Load();
+            productListView.ItemsSource = db.Products.ToList();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
 
+            using var db = new AppDbContext();
             productListView.ItemsSource = db.Products.ToList();
 
+            // Controleer of er een parameter is
+            if (e.Parameter != null)
+            {
+                // Probeer parameter als int te gebruiken
+                if (int.TryParse(e.Parameter.ToString(), out int productId))
+                {
+                    var product = db.Products.FirstOrDefault(p => p.Id == productId);
+                    if (product != null)
+                    {
+                        chosenProduct = product;
+
+                        detailsPanel.Visibility = Visibility.Visible;
+                        placeholderTextBlock.Visibility = Visibility.Collapsed;
+
+                        detailNameTextBlock.Text = product.ProductName;
+                        detailIngredientTextBlock.Text = product.ingredient;
+                        detailPriceTextBlock.Text = $"€ {product.Price}";
+                        detailStockTextBlock.Text = $"{product.Stock} op voorraad";
+                    }
+                }
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MainWindow));
+            Frame.Navigate(typeof(ProductPage));
         }
+
+        private void AddProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ProductPage));
+        }
+
+
+        private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            using var db = new AppDbContext();
+
+            var product = chosenProduct; 
+
+            if (product != null)
+            {
+                var productToRemove = db.Products.FirstOrDefault(p => p.Id == product.Id);
+                if (productToRemove != null)
+                {
+                    db.Products.Remove(productToRemove);
+                    db.SaveChanges();
+                }
+
+                productListView.ItemsSource = db.Products.ToList();
+
+                detailsPanel.Visibility = Visibility.Collapsed;
+                placeholderTextBlock.Visibility = Visibility.Visible;
+
+                chosenProduct = null;
+            }
+
+        }
+        private void EditProductButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (chosenProduct == null)
+                return;
+
+            // Navigeren naar ProductPage en product doorgeven
+            Frame.Navigate(typeof(ProductPage), chosenProduct);
+        }
+
+
+
 
 
     }

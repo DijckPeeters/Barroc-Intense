@@ -18,6 +18,8 @@ namespace Barroc_Intense.Data
                 "server=localhost;user=root;password=;database=Barrroc",
                 ServerVersion.Parse("8.0.30")
             );
+
+
         }
     }
 }

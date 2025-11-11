@@ -25,30 +25,64 @@ namespace Barroc_Intense.Pages
     /// </summary>
     public sealed partial class ProductPage : Page
     {
+        private Product editingProduct = null;
+
         public ProductPage()
         {
             this.InitializeComponent();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter is Product productToEdit)
+            {
+                editingProduct = productToEdit;
+
+                // Vul de velden met bestaande data
+                productNameTextBox.Text = editingProduct.ProductName;
+                ingredientTextBox.Text = editingProduct.ingredient;
+                priceTextBox.Text = editingProduct.Price.ToString();
+                stockTextBox.Text = editingProduct.Stock.ToString();
+            }
+        }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Maak een nieuw Product-object op basis van de ingevoerde gegevens
-            var product = new Product
+            if (editingProduct == null)
             {
-                ProductName = productNameTextBox.Text,
-                ingredient = ingredientTextBox.Text,
-                Price = int.TryParse(priceTextBox.Text, out var price) ? price : 0,
-                Stock = int.TryParse(stockTextBox.Text, out var stock) ? stock : 0
-            };
+                // Nieuw product
+                var product = new Product
+                {
+                    ProductName = productNameTextBox.Text,
+                    ingredient = ingredientTextBox.Text,
+                    Price = int.TryParse(priceTextBox.Text, out var price) ? price : 0,
+                    Stock = int.TryParse(stockTextBox.Text, out var stock) ? stock : 0
+                };
 
-            // Valideer het object met DataAnnotations
+                SaveProduct(product, isNew: true);
+            }
+            else
+            {
+                // Bestaand product aanpassen
+                editingProduct.ProductName = productNameTextBox.Text;
+                editingProduct.ingredient = ingredientTextBox.Text;
+                editingProduct.Price = int.TryParse(priceTextBox.Text, out var price) ? price : 0;
+                editingProduct.Stock = int.TryParse(stockTextBox.Text, out var stock) ? stock : 0;
+
+                SaveProduct(editingProduct, isNew: false);
+            }
+
+        }
+
+        private void SaveProduct(Product product, bool isNew)
+        {
             var context = new ValidationContext(product);
             var results = new List<ValidationResult>();
 
             if (!Validator.TryValidateObject(product, context, results, true))
             {
-                // Toon validatiefouten
                 var errors = results.Select(r => r.ErrorMessage).ToList();
                 validationResultsTextBlock.Text = string.Join(Environment.NewLine, errors);
             }
@@ -57,21 +91,32 @@ namespace Barroc_Intense.Pages
                 try
                 {
                     using var db = new AppDbContext();
-                    db.Products.Add(product);
+                    if (isNew)
+                        db.Products.Add(product);
+                    else
+                        db.Products.Update(product);
+
                     db.SaveChanges();
 
                     validationResultsTextBlock.Text = "✅ Product succesvol opgeslagen!";
 
-                    // NAVIGATIE NAAR StockPage
-                    Frame.Navigate(typeof(StockPage)); // StockPage moet je Page-class zijn
+                    // Navigeren en product direct selecteren
+                    Frame.Navigate(typeof(StockPage), product.Id);
                 }
                 catch (Exception ex)
                 {
                     errorsTextBlock.Text = $"❌ Fout bij opslaan: {ex.Message}";
                 }
             }
+            Frame.Navigate(typeof(StockPage), product.Id);
+
         }
 
 
+        private void goToStockButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(StockPage));
+        }
     }
+
 }
