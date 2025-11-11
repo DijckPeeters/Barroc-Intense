@@ -40,7 +40,6 @@ namespace Barroc_Intense.Pages
             {
                 editingProduct = productToEdit;
 
-                // Vul de velden met bestaande data
                 productNameTextBox.Text = editingProduct.ProductName;
                 ingredientTextBox.Text = editingProduct.ingredient;
                 priceTextBox.Text = editingProduct.Price.ToString();
@@ -52,7 +51,6 @@ namespace Barroc_Intense.Pages
         {
             if (editingProduct == null)
             {
-                // Nieuw product
                 var product = new Product
                 {
                     ProductName = productNameTextBox.Text,
@@ -65,7 +63,6 @@ namespace Barroc_Intense.Pages
             }
             else
             {
-                // Bestaand product aanpassen
                 editingProduct.ProductName = productNameTextBox.Text;
                 editingProduct.ingredient = ingredientTextBox.Text;
                 editingProduct.Price = int.TryParse(priceTextBox.Text, out var price) ? price : 0;
@@ -100,7 +97,6 @@ namespace Barroc_Intense.Pages
 
                     validationResultsTextBlock.Text = "✅ Product succesvol opgeslagen!";
 
-                    // Navigeren en product direct selecteren
                     Frame.Navigate(typeof(StockPage), product.Id);
                 }
                 catch (Exception ex)

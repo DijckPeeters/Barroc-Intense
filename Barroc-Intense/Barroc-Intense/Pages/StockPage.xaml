@@ -78,7 +78,28 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <Button Content="Terug naar dashboard"
+                         Click="BackButton_Click"
+                         Background="Black"
+                         Foreground="Yellow"
+                         FontWeight="Bold"
+                         Width="200"
+                         Height="45"
+                         Margin="0,20,0,0"
+                         HorizontalAlignment="Center"
+                         BorderThickness="0">
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#222222"/>
+                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFFF66"/>
+                        <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#444444"/>
+                        <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Yellow"/>
+                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#555555"/>
+                        <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#AAAAAA"/>
+                    </Button.Resources>
+                </Button>
+
             </StackPanel>
+            
         </Border>
 
         <!-- 📦 PRODUCT DETAILS -->
@@ -152,37 +173,19 @@
                     </StackPanel>
 
                     <!-- Terug naar formulier knop -->
-                    <Button Content="Terug naar dashboard"
-                            Click="BackButton_Click"
-                            Background="Black"
-                            Foreground="Yellow"
-                            FontWeight="Bold"
-                            Width="200"
-                            Height="45"
-                            Margin="0,20,0,0"
-                            HorizontalAlignment="Center"
-                            BorderThickness="0">
-                        <Button.Resources>
-                            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#222222"/>
-                            <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFFF66"/>
-                            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#444444"/>
-                            <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Yellow"/>
-                            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#555555"/>
-                            <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#AAAAAA"/>
-                        </Button.Resources>
-                    </Button>
+                   
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,10,0,0">
 
                         <!-- Aanpassen knop -->
                         <Button Content="✏️ Product aanpassen"
-            x:Name="editProductButton"
-            Click="EditProductButton_Click"
-            Background="DarkOrange"
-            Foreground="White"
-            FontWeight="Bold"
-            Width="150"
-            Height="45"
-            BorderThickness="0">
+                                x:Name="editProductButton"
+                                Click="EditProductButton_Click"
+                                Background="DarkOrange"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                Width="200"
+                                Height="45"
+                                BorderThickness="0">
                             <Button.Resources>
                                 <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#FFAA33"/>
                                 <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
@@ -193,14 +196,14 @@
 
                         <!-- Verwijder knop -->
                         <Button Content="❌ Product verwijderen"
-            x:Name="deleteProductButton"
-            Click="DeleteProductButton_Click"
-            Background="DarkRed"
-            Foreground="White"
-            FontWeight="Bold"
-            Width="150"
-            Height="45"
-            BorderThickness="0">
+                                x:Name="deleteProductButton"
+                                Click="DeleteProductButton_Click"
+                                Background="DarkRed"
+                                Foreground="White"
+                                FontWeight="Bold"
+                                Width="200"
+                                Height="45"
+                                BorderThickness="0">
                             <Button.Resources>
                                 <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#AA0000"/>
                                 <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>

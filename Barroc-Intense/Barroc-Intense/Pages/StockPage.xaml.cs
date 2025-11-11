@@ -61,16 +61,7 @@ namespace Barroc_Intense.Pages
                 ShowProductDetails(selectedProduct);
             }
 
-            //if (e.ClickedItem is Product selectedProduct)
-            //{
-            //    detailsPanel.Visibility = Visibility.Visible;
-            //    placeholderTextBlock.Visibility = Visibility.Collapsed;
-
-            //    detailNameTextBlock.Text = selectedProduct.ProductName;
-            //    detailIngredientTextBlock.Text = selectedProduct.ingredient;
-            //    detailPriceTextBlock.Text = $"€ {selectedProduct.Price}";
-            //    detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
-            //}
+           
 
             productListView.ItemsSource = db.Products.ToList();
         }
@@ -81,10 +72,8 @@ namespace Barroc_Intense.Pages
             using var db = new AppDbContext();
             productListView.ItemsSource = db.Products.ToList();
 
-            // Controleer of er een parameter is
             if (e.Parameter != null)
             {
-                // Probeer parameter als int te gebruiken
                 if (int.TryParse(e.Parameter.ToString(), out int productId))
                 {
                     var product = db.Products.FirstOrDefault(p => p.Id == productId);
@@ -144,13 +133,8 @@ namespace Barroc_Intense.Pages
             if (chosenProduct == null)
                 return;
 
-            // Navigeren naar ProductPage en product doorgeven
             Frame.Navigate(typeof(ProductPage), chosenProduct);
         }
-
-
-
-
 
     }
 }
