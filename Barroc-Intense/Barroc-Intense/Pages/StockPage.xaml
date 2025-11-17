@@ -179,6 +179,18 @@
                     </StackPanel>
 
                     <StackPanel>
+                        <TextBlock Text="Categorie:"
+               FontWeight="Bold"
+               Foreground="Black"
+               FontSize="16"/>
+                        <TextBlock x:Name="detailCategoryTextBlock"
+               Foreground="Black"
+               FontSize="18"/>
+                    </StackPanel>
+
+
+
+                    <StackPanel>
                         <TextBlock Text="Voorraad:"
                                    FontWeight="Bold"
                                    Foreground="Black"

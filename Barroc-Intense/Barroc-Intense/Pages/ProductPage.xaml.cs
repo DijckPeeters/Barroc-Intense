@@ -19,9 +19,14 @@ namespace Barroc_Intense.Pages
             this.InitializeComponent();
         }
 
+        private readonly string[] categories = { "Automaat", "Koffieboon" };
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            // Vul de ComboBox
+            categoryComboBox.ItemsSource = categories;
 
             if (e.Parameter is Product productToEdit)
             {
@@ -29,10 +34,17 @@ namespace Barroc_Intense.Pages
 
                 productNameTextBox.Text = editingProduct.ProductName;
                 leaseContractTextBox.Text = editingProduct.LeaseContract;
-                priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00"); // decimal met 2 cijfers
+                priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00");
                 stockTextBox.Text = editingProduct.Stock.ToString();
+
+                // Selecteer de juiste categorie
+                if (!string.IsNullOrWhiteSpace(editingProduct.Category))
+                {
+                    categoryComboBox.SelectedItem = editingProduct.Category;
+                }
             }
         }
+
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -54,6 +66,7 @@ namespace Barroc_Intense.Pages
                 {
                     ProductName = productNameTextBox.Text,
                     LeaseContract = leaseContractTextBox.Text,
+                    Category = categoryComboBox.SelectedItem?.ToString(),
                     PricePerKg = price,
                     Stock = stock
                 };
@@ -64,6 +77,7 @@ namespace Barroc_Intense.Pages
             {
                 editingProduct.ProductName = productNameTextBox.Text;
                 editingProduct.LeaseContract = leaseContractTextBox.Text;
+                editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
                 editingProduct.PricePerKg = price;
                 editingProduct.Stock = stock;
 

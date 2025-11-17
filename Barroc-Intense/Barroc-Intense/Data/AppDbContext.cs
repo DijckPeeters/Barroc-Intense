@@ -31,7 +31,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Barroc Intens Italian Light",
                     LeaseContract = "499,- excl. btw per maand",
                     PricePerKg = 289,
-                    Stock = 5
+                    Stock = 5,
+                    Category = "Automaat"
                 },
                 new Product
                 {
@@ -39,7 +40,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Barroc Intens Italian",
                     LeaseContract = "599,- excl. btw per maand",
                     PricePerKg = 289,
-                    Stock = 5
+                    Stock = 5,
+                    Category = "Automaat"
                 },
                 new Product
                 {
@@ -47,7 +49,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Barroc Intens Italian Deluxe",
                     LeaseContract = "799,- excl. btw per maand",
                     PricePerKg = 375,
-                    Stock = 3
+                    Stock = 3,
+                    Category = "Automaat"
                 },
                 new Product
                 {
@@ -55,7 +58,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Barroc Intens Italian Deluxe Special",
                     LeaseContract = "999,- excl. btw per maand",
                     PricePerKg = 375,
-                    Stock = 2
+                    Stock = 2,
+                    Category = "Automaat"
                 },
 
                 // KOFFIEBONEN
@@ -65,7 +69,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Espresso Beneficio",
                     LeaseContract = "",
                     PricePerKg = 22, // afgerond van 21.60
-                    Stock = 50
+                    Stock = 50,
+                    Category = "Koffieboon"
                 },
                 new Product
                 {
@@ -73,7 +78,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Yellow Bourbon Brasil",
                     LeaseContract = "",
                     PricePerKg = 23, // afgerond van 23.20
-                    Stock = 50
+                    Stock = 50,
+                    Category = "Koffieboon"
                 },
                 new Product
                 {
@@ -81,7 +87,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Espresso Roma",
                     LeaseContract = "",
                     PricePerKg = 21, // afgerond van 20.80
-                    Stock = 50
+                    Stock = 50,
+                    Category = "Koffieboon"
                 },
                 new Product
                 {
@@ -89,7 +96,8 @@ namespace Barroc_Intense.Data
                     ProductName = "Red Honey Honduras",
                     LeaseContract = "",
                     PricePerKg = 28, // afgerond van 27.80
-                    Stock = 50
+                    Stock = 50,
+                    Category = "Koffieboon"
                 }
             );
         }

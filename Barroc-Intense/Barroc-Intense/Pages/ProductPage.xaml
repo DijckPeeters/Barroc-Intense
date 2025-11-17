@@ -64,6 +64,17 @@
          Padding="8"
          InputScope="Number"/>
 
+                    <ComboBox x:Name="categoryComboBox"
+          Header="Categorie:"
+          FontSize="16"
+          BorderBrush="Black"
+          BorderThickness="1"
+          CornerRadius="10"
+          Padding="8"
+          Width="400"/>
+
+
+
                     <TextBox x:Name="stockTextBox"
          Header="Voorraad:"
          FontSize="16"

@@ -34,6 +34,10 @@ namespace Barroc_Intense.Pages
                 ? "Geen contract"
                 : selectedProduct.LeaseContract;
             detailPriceTextBlock.Text = $"€ {selectedProduct.PricePerKg:0.00}";
+            detailCategoryTextBlock.Text = string.IsNullOrWhiteSpace(selectedProduct.Category)
+                ? "Geen categorie"
+                : selectedProduct.Category;
+
 
             detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
         }

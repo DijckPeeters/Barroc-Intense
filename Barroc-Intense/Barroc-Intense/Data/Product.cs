@@ -27,6 +27,10 @@ namespace Barroc_Intense.Data
         public decimal PricePerKg { get; set; }
 
         public decimal? InstallationCost { get; set; }
+        [MaxLength(100)]
+
+        public string Category { get; set; }
+
 
 
 
