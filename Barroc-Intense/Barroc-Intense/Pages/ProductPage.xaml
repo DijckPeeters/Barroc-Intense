@@ -40,38 +40,39 @@
 
                     <!-- Productvelden -->
                     <TextBox x:Name="productNameTextBox"
-                             Header="Productnaam:"
-                             FontSize="16"
-                             BorderBrush="Black"
-                             BorderThickness="1"
-                             CornerRadius="10"
-                             Padding="8"/>
+         Header="Productnaam:"
+         FontSize="16"
+         BorderBrush="Black"
+         BorderThickness="1"
+         CornerRadius="10"
+         Padding="8"/>
 
-                    <TextBox x:Name="ingredientTextBox"
-                             Header="Ingrediënt:"
-                             FontSize="16"
-                             BorderBrush="Black"
-                             BorderThickness="1"
-                             CornerRadius="10"
-                             Padding="8"/>
+                    <TextBox x:Name="leaseContractTextBox"
+         Header="Lease Contract:"
+         FontSize="16"
+         BorderBrush="Black"
+         BorderThickness="1"
+         CornerRadius="10"
+         Padding="8"/>
 
                     <TextBox x:Name="priceTextBox"
-                             Header="Prijs:"
-                             FontSize="16"
-                             BorderBrush="Black"
-                             BorderThickness="1"
-                             CornerRadius="10"
-                             Padding="8"
-                             InputScope="Number"/>
+         Header="Prijs:"
+         FontSize="16"
+         BorderBrush="Black"
+         BorderThickness="1"
+         CornerRadius="10"
+         Padding="8"
+         InputScope="Number"/>
 
                     <TextBox x:Name="stockTextBox"
-                             Header="Voorraad:"
-                             FontSize="16"
-                             BorderBrush="Black"
-                             BorderThickness="1"
-                             CornerRadius="10"
-                             Padding="8"
-                             InputScope="Number"/>
+         Header="Voorraad:"
+         FontSize="16"
+         BorderBrush="Black"
+         BorderThickness="1"
+         CornerRadius="10"
+         Padding="8"
+         InputScope="Number"/>
+
 
                     <!-- Validatieresultaten -->
                     <TextBlock x:Name="validationResultsTextBlock"

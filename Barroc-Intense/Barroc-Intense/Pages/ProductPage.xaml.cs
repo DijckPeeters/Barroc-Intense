@@ -1,28 +1,15 @@
 ﻿using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
+using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
 
 namespace Barroc_Intense.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class ProductPage : Page
     {
         private Product editingProduct = null;
@@ -41,22 +28,34 @@ namespace Barroc_Intense.Pages
                 editingProduct = productToEdit;
 
                 productNameTextBox.Text = editingProduct.ProductName;
-                ingredientTextBox.Text = editingProduct.ingredient;
-                priceTextBox.Text = editingProduct.Price.ToString();
+                leaseContractTextBox.Text = editingProduct.LeaseContract;
+                priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00"); // decimal met 2 cijfers
                 stockTextBox.Text = editingProduct.Stock.ToString();
             }
         }
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
+            // Parse prijs als decimal
+            if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price))
+            {
+                price = 0;
+            }
+
+            // Parse voorraad als int
+            if (!int.TryParse(stockTextBox.Text, out var stock))
+            {
+                stock = 0;
+            }
+
             if (editingProduct == null)
             {
                 var product = new Product
                 {
                     ProductName = productNameTextBox.Text,
-                    ingredient = ingredientTextBox.Text,
-                    Price = int.TryParse(priceTextBox.Text, out var price) ? price : 0,
-                    Stock = int.TryParse(stockTextBox.Text, out var stock) ? stock : 0
+                    LeaseContract = leaseContractTextBox.Text,
+                    PricePerKg = price,
+                    Stock = stock
                 };
 
                 SaveProduct(product, isNew: true);
@@ -64,13 +63,12 @@ namespace Barroc_Intense.Pages
             else
             {
                 editingProduct.ProductName = productNameTextBox.Text;
-                editingProduct.ingredient = ingredientTextBox.Text;
-                editingProduct.Price = int.TryParse(priceTextBox.Text, out var price) ? price : 0;
-                editingProduct.Stock = int.TryParse(stockTextBox.Text, out var stock) ? stock : 0;
+                editingProduct.LeaseContract = leaseContractTextBox.Text;
+                editingProduct.PricePerKg = price;
+                editingProduct.Stock = stock;
 
                 SaveProduct(editingProduct, isNew: false);
             }
-
         }
 
         private void SaveProduct(Product product, bool isNew)
@@ -80,8 +78,7 @@ namespace Barroc_Intense.Pages
 
             if (!Validator.TryValidateObject(product, context, results, true))
             {
-                var errors = results.Select(r => r.ErrorMessage).ToList();
-                validationResultsTextBlock.Text = string.Join(Environment.NewLine, errors);
+                validationResultsTextBlock.Text = string.Join(Environment.NewLine, results.Select(r => r.ErrorMessage));
             }
             else
             {
@@ -96,7 +93,6 @@ namespace Barroc_Intense.Pages
                     db.SaveChanges();
 
                     validationResultsTextBlock.Text = "✅ Product succesvol opgeslagen!";
-
                     Frame.Navigate(typeof(StockPage), product.Id);
                 }
                 catch (Exception ex)
@@ -104,15 +100,11 @@ namespace Barroc_Intense.Pages
                     errorsTextBlock.Text = $"❌ Fout bij opslaan: {ex.Message}";
                 }
             }
-            Frame.Navigate(typeof(StockPage), product.Id);
-
         }
-
 
         private void goToStockButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(StockPage));
         }
     }
-
 }
