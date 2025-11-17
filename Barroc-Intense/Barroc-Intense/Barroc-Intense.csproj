@@ -16,6 +16,9 @@
     <None Remove="Pages\Dashboards\FinanceDashboardPage.xaml" />
     <None Remove="Pages\Dashboards\InkoopDashboardPage.xaml" />
     <None Remove="Pages\Dashboards\KlantenserviceDashboardPage.xaml" />
+    <None Remove="Pages\Dashboards\MaintenanceDashboardPage.xaml" />
+    <None Remove="Pages\Dashboards\ManagerDashboardPage.xaml" />
+    <None Remove="Pages\Dashboards\SalesDashboardPage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
   </ItemGroup>
 
@@ -65,6 +68,24 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Dashboards\FinanceDashboardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\ManagerDashboardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\MaintenanceDashboardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\SalesDashboardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
