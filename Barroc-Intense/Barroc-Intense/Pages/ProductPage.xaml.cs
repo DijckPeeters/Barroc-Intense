@@ -35,6 +35,8 @@ namespace Barroc_Intense.Pages
                 productNameTextBox.Text = editingProduct.ProductName;
                 leaseContractTextBox.Text = editingProduct.LeaseContract;
                 priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00");
+                installationCostTextBox.Text = editingProduct.InstallationCost.ToString("0.00");
+
                 stockTextBox.Text = editingProduct.Stock.ToString();
 
                 // Selecteer de juiste categorie
@@ -53,6 +55,11 @@ namespace Barroc_Intense.Pages
             {
                 price = 0;
             }
+            decimal? installationCost = null;
+            if (decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var tempCost))
+            {
+                installationCost = tempCost;
+            }
 
             // Parse voorraad als int
             if (!int.TryParse(stockTextBox.Text, out var stock))
@@ -68,6 +75,7 @@ namespace Barroc_Intense.Pages
                     LeaseContract = leaseContractTextBox.Text,
                     Category = categoryComboBox.SelectedItem?.ToString(),
                     PricePerKg = price,
+                    InstallationCost = (decimal)installationCost, // ✅ correct
                     Stock = stock
                 };
 
@@ -79,10 +87,13 @@ namespace Barroc_Intense.Pages
                 editingProduct.LeaseContract = leaseContractTextBox.Text;
                 editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
                 editingProduct.PricePerKg = price;
+                editingProduct.InstallationCost = (decimal)installationCost; // ✅ correct
                 editingProduct.Stock = stock;
 
                 SaveProduct(editingProduct, isNew: false);
             }
+
+
         }
 
         private void SaveProduct(Product product, bool isNew)
