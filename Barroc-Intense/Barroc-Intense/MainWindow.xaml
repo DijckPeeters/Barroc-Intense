@@ -76,7 +76,17 @@ FontSize="20"
 FontWeight="Bold"
 BorderThickness="0"
 Click="MaintenanceButton_Click"/>
+                        <Button Content="Klantenservice"
+Width="200"
+Height="50"
+Background="Black"
+Foreground="Yellow"
+FontSize="20"
+FontWeight="Bold"
+BorderThickness="0"
+Click="KlantButton_Click"/>
                     </StackPanel>
+            
         </Border>
     </Grid>
         </Frame.Content>
