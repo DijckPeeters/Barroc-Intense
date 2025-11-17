@@ -122,7 +122,9 @@ namespace Barroc_Intense.Pages
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.GoBack();
+            //Frame.GoBack();
+            Frame.Navigate(typeof(InkoopDashBoard));
+
         }
     }
 }
