@@ -8,10 +8,77 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Barroc-Intense">
+    <Frame x:Name="MainFrame">
+        <Frame.Content>
 
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
+            <Grid>
+        <!-- Achtergrond gradient in huisstijlkleuren -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-    
+        <!-- Half transparant vlak voor contrast -->
+        <Border Background="#AAFFFFFF" CornerRadius="20" Margin="100" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="40">
+                <!-- Header -->
+                <TextBlock Text="BARROC INTENSE"
+                           FontSize="64"
+                           FontWeight="Bold"
+                           Foreground="Yellow"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,20"/>
+
+                <!-- Slogan -->
+                <TextBlock Text="Sterk. Helder. Stimulerend."
+                           FontSize="28"
+                           FontStyle="Italic"
+                           Foreground="Black"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,30"/>
+
+                <!-- Ondertekst -->
+                <TextBlock Text="Groei, samenwerking en innovatie — de kern van Barroc Intens."
+                           FontSize="18"
+                           Foreground="Black"
+                           TextAlignment="Center"
+                           Width="600"
+                           TextWrapping="Wrap"
+                           Margin="0,0,0,30"/>
+
+                <!-- Login knop -->
+                <Button Content="Login"
+                                    Width="200"
+                                    Height="50"
+                                    Background="Black"
+                                    Foreground="Yellow"
+                                    FontSize="20"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    Click="LoginButton_Click"/>
+                        <Button Content="Tijdelijke knop naar vooraad"
+                    Width="200"
+                    Height="50"
+                    Background="Black"
+                    Foreground="Yellow"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    BorderThickness="0"
+                    Click="VooraadButton_Click"/>
+                        <Button Content="Maintenance"
+Width="200"
+Height="50"
+Background="Black"
+Foreground="Yellow"
+FontSize="20"
+FontWeight="Bold"
+BorderThickness="0"
+Click="MaintenanceButton_Click"/>
+                    </StackPanel>
+        </Border>
+    </Grid>
+        </Frame.Content>
+    </Frame>
 </Window>
