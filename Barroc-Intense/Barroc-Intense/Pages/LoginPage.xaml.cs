@@ -25,19 +25,10 @@ namespace Barroc_Intense.Pages
                 this.InitializeComponent();
             }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void UsernameTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Password_LostFocus(object sender, RoutedEventArgs e)
-        {
-
+            string user = UsernameBox.Text;
+            string pass = PasswordBox.Password;
         }
     }
 }

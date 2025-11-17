@@ -27,7 +27,7 @@ namespace Barroc_Intense
     {
         public MainWindow()
         {
-            contentFrame.Navigate(typeof(LoginPage)); 
+
         }
 
 
