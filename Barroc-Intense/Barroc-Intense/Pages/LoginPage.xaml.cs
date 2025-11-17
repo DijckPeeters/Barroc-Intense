@@ -24,6 +24,12 @@ namespace Barroc_Intense.Pages
             {
                 this.InitializeComponent();
             }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string user = UsernameBox.Text;
+            string pass = PasswordBox.Password;
+        }
     }
 
 }
