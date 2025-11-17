@@ -1,5 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Diagnostics;
 
 namespace Barroc_Intense.Pages
 {
@@ -24,5 +25,8 @@ namespace Barroc_Intense.Pages
         {
             Frame.Navigate(typeof(DeliveryPage)); 
         }
+       
+
+      
     }
 }

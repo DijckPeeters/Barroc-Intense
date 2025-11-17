@@ -7,34 +7,55 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="LightGray" Padding="50">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="30">
-            <Button Content="📦 Productvoorraad"
-                    Click="ViewStockButton_Click"
-                    FontSize="24"
-                    Width="300"
-                    Height="80"
-                    Background="Black"
-                    Foreground="Yellow"
-                    CornerRadius="15"/>
+    <Grid>
+        <!-- Achtergrond gradient zoals in MainWindow -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-            <Button Content="➕ Product toevoegen"
-                    Click="AddProductButton_Click"
-                    FontSize="24"
-                    Width="300"
-                    Height="80"
-                    Background="DarkBlue"
-                    Foreground="White"
-                    CornerRadius="15"/>
+        <!-- Half transparant vlak voor je knoppen -->
+        <Border Background="#AAFFFFFF" CornerRadius="20" Margin="100" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="30" Padding="50">
 
-            <Button Content="🚚 Levering"
-                    Click="GoToDeliveryButton_Click"
-                    FontSize="24"
-                    Width="300"
-                    Height="80"
-                    Background="DarkGreen"
-                    Foreground="White"
-                    CornerRadius="15"/>
-        </StackPanel>
+                <Button Content="📦 Productvoorraad"
+                        Click="ViewStockButton_Click"
+                        FontSize="24"
+                        Width="300"
+                        Height="80"
+                        Background="Black"
+                        Foreground="Yellow"
+                        CornerRadius="15"/>
+
+                <Button Content="➕ Product toevoegen"
+                        Click="AddProductButton_Click"
+                        FontSize="24"
+                        Width="300"
+                        Height="80"
+                        Background="DarkBlue"
+                        Foreground="White"
+                        CornerRadius="15"/>
+
+                <Button Content="🚚 Levering"
+                        Click="GoToDeliveryButton_Click"
+                        FontSize="24"
+                        Width="300"
+                        Height="80"
+                        Background="DarkGreen"
+                        Foreground="White"
+                        CornerRadius="15"/>
+
+                <!--<Button Content="⬅ Terug naar dashboard"
+                        Click="Button_Click"
+                        FontSize="24"
+                        Width="300"
+                        Height="80"
+                        Background="Black"
+                        Foreground="Yellow"
+                        CornerRadius="15"/>-->
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

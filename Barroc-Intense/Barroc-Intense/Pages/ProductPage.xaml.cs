@@ -122,8 +122,7 @@ namespace Barroc_Intense.Pages
         }
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
-            mainWindow.Activate();
+            Frame.GoBack();
         }
     }
 }
