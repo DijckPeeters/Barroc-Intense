@@ -72,8 +72,10 @@ namespace Barroc_Intense.Pages
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ProductPage));
+            var mainWindow = new MainWindow();
+            mainWindow.Activate();
         }
+
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {

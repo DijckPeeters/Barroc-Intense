@@ -120,5 +120,10 @@ namespace Barroc_Intense.Pages
         {
             Frame.Navigate(typeof(StockPage));
         }
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            var mainWindow = new MainWindow();
+            mainWindow.Activate();
+        }
     }
 }

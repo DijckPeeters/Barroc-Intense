@@ -134,6 +134,26 @@
                                 Height="40"
                                 CornerRadius="10"
                                 BorderThickness="0"/>
+                        <Button Grid.Row="3"
+                                Content="Terug naar dashboard"
+                                Click="BackButton_Click"
+                                Background="Black"
+                                Foreground="Yellow"
+                                FontWeight="Bold"
+                                Width="200"
+                                Height="45"
+                                Margin="0,20,0,0"
+                                HorizontalAlignment="Center"
+                                BorderThickness="0">
+                            <Button.Resources>
+                                <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#222222"/>
+                                <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#FFFF66"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#444444"/>
+                                <SolidColorBrush x:Key="ButtonForegroundPressed" Color="Yellow"/>
+                                <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#555555"/>
+                                <SolidColorBrush x:Key="ButtonForegroundDisabled" Color="#AAAAAA"/>
+                            </Button.Resources>
+                        </Button>
                     </StackPanel>
 
                 </StackPanel>
