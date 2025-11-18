@@ -1,4 +1,3 @@
-using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,20 +21,11 @@ namespace Barroc_Intense.Pages.Dashboards
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SalesDashboardPage : Page
+    public sealed partial class FinanceDashboard : Page
     {
-
-        private Employee _employee;
-
-        public SalesDashboardPage()
+        public FinanceDashboard()
         {
-            this.InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            _employee = e.Parameter as Employee;
+            InitializeComponent();
         }
     }
 }

@@ -21,9 +21,9 @@ namespace Barroc_Intense.Pages.Dashboards
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class InkoopDashboardPage : Page
+    public sealed partial class ManagerDashboard : Page
     {
-        public InkoopDashboardPage()
+        public ManagerDashboard()
         {
             InitializeComponent();
         }

@@ -13,12 +13,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Pages\Dashboards\FinanceDashboardPage.xaml" />
-    <None Remove="Pages\Dashboards\InkoopDashboardPage.xaml" />
-    <None Remove="Pages\Dashboards\KlantenserviceDashboardPage.xaml" />
-    <None Remove="Pages\Dashboards\MaintenanceDashboardPage.xaml" />
-    <None Remove="Pages\Dashboards\ManagerDashboardPage.xaml" />
-    <None Remove="Pages\Dashboards\SalesDashboardPage.xaml" />
+    <None Remove="Pages\Dashboards\FinanceDashboard.xaml" />
+    <None Remove="Pages\Dashboards\InkoopDashboard.xaml" />
+    <None Remove="Pages\Dashboards\KlantenserviceDashboard.xaml" />
+    <None Remove="Pages\Dashboards\MaintenanceDashboard.xaml" />
+    <None Remove="Pages\Dashboards\ManagerDashboard.xaml" />
+    <None Remove="Pages\Dashboards\SalesDashboard.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
   </ItemGroup>
 
@@ -52,12 +52,27 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Dashboards\KlantenserviceDashboardPage.xaml">
+    <Page Update="Pages\Dashboards\KlantenserviceDashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Dashboards\InkoopDashboardPage.xaml">
+    <Page Update="Pages\Dashboards\ManagerDashboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\MaintenanceDashboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\FinanceDashboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\Dashboards\InkoopDashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -67,22 +82,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Dashboards\FinanceDashboardPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Dashboards\ManagerDashboardPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Dashboards\MaintenanceDashboardPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Dashboards\SalesDashboardPage.xaml">
+    <Page Update="Pages\Dashboards\SalesDashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
