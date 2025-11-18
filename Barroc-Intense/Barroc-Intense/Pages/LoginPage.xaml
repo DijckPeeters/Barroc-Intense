@@ -12,6 +12,9 @@
 
 
         <Grid Padding="40" Background="#000000">
+            <Button x:Name="backButton"
+                    Click="backButton_Click"
+                    Content="Terug naar overzicht"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" Spacing="20">
                 <TextBlock Text="Login" Foreground="#FFD700" FontSize="32" HorizontalAlignment="Center"/>
 
@@ -21,7 +24,8 @@
 
                 <PasswordBox x:Name="PasswordBox" PlaceholderText="Wachtwoord" Background="#111111" Foreground="White" BorderBrush="#FFD700"/>
 
-
+                <TextBlock x:Name="errorsTextBlock"></TextBlock>
+                           
                 <Button Content="Inloggen" Click="Button_Click"
                     Background="#FFD700" Foreground="Black"/>
             </StackPanel>

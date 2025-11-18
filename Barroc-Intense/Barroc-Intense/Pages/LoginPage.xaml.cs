@@ -27,8 +27,33 @@ namespace Barroc_Intense.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var errors = new List<string>();
+
+            if (string.IsNullOrEmpty(UsernameBox.Text))
+            {
+                errors.Add("Name is required");
+            }
+
+            if (string.IsNullOrEmpty(PasswordBox.Password))
+            {
+                errors.Add("Password is required");
+            }
+
+            if (errors.Count > 0)
+            {
+                errorsTextBlock.Text = string.Join(Environment.NewLine, errors);
+                return;
+            }
+
+            errorsTextBlock.Text = "Validation succeded!";
+
             string user = UsernameBox.Text;
             string pass = PasswordBox.Password;
+        } 
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainWindow));
         }
     }
 
