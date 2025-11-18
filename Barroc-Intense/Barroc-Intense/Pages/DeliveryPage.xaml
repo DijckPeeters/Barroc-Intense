@@ -3,12 +3,213 @@
     x:Class="Barroc_Intense.Pages.DeliveryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Barroc_Intense.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid>
+        <!-- 📌 Gradient achtergrond -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- 📌 Twee delen: lijst links, details rechts -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ===================== -->
+        <!-- 📦 LEVERINGEN LIJST   -->
+        <!-- ===================== -->
+        <Border Background="#EEFFFFFF"
+                CornerRadius="20"
+                Margin="30">
+
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Titel -->
+                <TextBlock Text="Leveringen"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           Margin="0,0,0,10"/>
+
+                <!-- Nieuwe levering -->
+                <Button Grid.Row="1"
+                        Content="➕ Nieuwe levering"
+                        Background="Black"
+                        Foreground="Yellow"
+                        Width="220"
+                        Height="45"
+                        CornerRadius="10"
+                        BorderThickness="0"
+                        FontWeight="Bold"
+                        Margin="0,0,0,15"
+                        HorizontalAlignment="Left"
+                        Click="AddDeliveryButton_Click"/>
+
+                <!-- Scrollbare lijst -->
+                <ListView Grid.Row="2"
+                          x:Name="deliveryListView"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          SelectionMode="Single"
+                          IsItemClickEnabled="True"
+                          ItemClick="DeliveryListView_ItemClick">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#FFFBEF"
+                                    CornerRadius="10"
+                                    Padding="12"
+                                    Margin="5">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ProductName}"
+                                               FontWeight="Bold"
+                                               FontSize="18"
+                                               Foreground="Black"/>
+
+                                    <TextBlock Text="{Binding CustomerName}"
+                                               Foreground="Gray"
+                                               FontSize="14"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+            </Grid>
+        </Border>
+
+        <!-- ===================== -->
+        <!-- 📝 DETAILS RECHTS     -->
+        <!-- ===================== -->
+        <Border Grid.Column="1"
+                Background="#FFFFFFFF"
+                CornerRadius="20"
+                Margin="30">
+
+            <Grid>
+
+                <!-- Placeholder -->
+                <TextBlock x:Name="placeholderText"
+                           Text="Selecteer een levering voor details"
+                           Foreground="Gray"
+                           FontStyle="Italic"
+                           FontSize="20"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+
+                <!-- Scrollbare detailpagina -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="detailsPanel"
+                                Margin="30"
+                                Spacing="15"
+                                Visibility="Collapsed">
+
+                        <TextBlock Text="Leveringsdetails"
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Foreground="Black"
+                                   Margin="0,0,0,10"/>
+
+                        <!-- Product info -->
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Productnaam:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailProductName" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Aantal geleverd:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailQuantity" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Klantnaam:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailCustomerName" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Afleveradres:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailAddress" TextWrapping="Wrap" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Status:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailStatus" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Geplande leveringsdatum:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailPlannedDate" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Werkelijke leveringsdatum:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailActualDate" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Vervoerder:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailCarrier" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Naam chauffeur:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailDriver" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Trackingnummer:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailTrackingNumber" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <TextBlock Text="Opmerkingen:" FontWeight="Bold" Width="180" Foreground="Black"/>
+                            <TextBlock x:Name="detailNotes" TextWrapping="Wrap" Width="250" Foreground="Black"/>
+                        </StackPanel>
+
+
+                        <!-- Knoppen -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Spacing="10"
+                                    Margin="0,20,0,0">
+
+                            <Button Content="✏️ Aanpassen"
+                                    Width="180"
+                                    Height="45"
+                                    Background="DarkOrange"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    CornerRadius="10"
+                                    Click="EditDeliveryButton_Click"/>
+
+                            <Button Content="❌ Verwijderen"
+                                    Width="180"
+                                    Height="45"
+                                    Background="DarkRed"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    BorderThickness="0"
+                                    CornerRadius="10"
+                                    Click="DeleteDeliveryButton_Click"/>
+                        </StackPanel>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+        </Border>
 
     </Grid>
 </Page>
