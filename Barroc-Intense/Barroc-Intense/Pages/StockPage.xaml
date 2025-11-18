@@ -79,6 +79,8 @@
                                                FontSize="18"
                                                Foreground="Black"
                                                FontWeight="SemiBold"/>
+                                    
+                                    
                                 </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>

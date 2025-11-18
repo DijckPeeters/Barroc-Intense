@@ -80,6 +80,9 @@
                                     <TextBlock Text="{Binding CustomerName}"
                                                Foreground="Gray"
                                                FontSize="14"/>
+                                    <TextBlock Text="{Binding Status}"
+                                               Foreground="DarkOrange"
+                                               FontSize="14"/>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>

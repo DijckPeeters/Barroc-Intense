@@ -1,6 +1,7 @@
 using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace Barroc_Intense.Pages
             using var db = new AppDbContext();
             productListView.ItemsSource = db.Products.ToList();
         }
-
+        
         private void ShowProductDetails(Product selectedProduct)
         {
             detailsPanel.Visibility = Visibility.Visible;
