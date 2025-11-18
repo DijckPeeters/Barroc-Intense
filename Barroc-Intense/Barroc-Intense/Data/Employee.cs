@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Barroc_Intense.Pages.Dashboards;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,16 @@ namespace Barroc_Intense.Data
         public string Username { get; set; }
         public string Role { get; set; }
         public string Department { get; set; }
+    }
+
+    internal enum Department
+    {
+        Sales,
+        Inkoop,
+        Maintenance,
+        Klantenservice,
+        Finance,
+        Manager
     }
 }
 

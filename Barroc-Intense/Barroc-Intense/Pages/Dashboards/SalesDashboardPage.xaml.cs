@@ -1,3 +1,4 @@
+using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,9 +24,18 @@ namespace Barroc_Intense.Pages.Dashboards
     /// </summary>
     public sealed partial class SalesDashboardPage : Page
     {
+
+        private Employee _employee;
+
         public SalesDashboardPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            _employee = e.Parameter as Employee;
         }
     }
 }

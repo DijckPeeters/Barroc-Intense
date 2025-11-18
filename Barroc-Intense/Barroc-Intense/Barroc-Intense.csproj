@@ -72,9 +72,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Pages\Dashboards\ManagerDashboardPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
