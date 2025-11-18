@@ -48,24 +48,58 @@ namespace Barroc_Intense.Pages
         }
 
 
-        private void saveButton_Click(object sender, RoutedEventArgs e)
+        private async void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Parse prijs als decimal
+            string actie = editingProduct == null ? "toevoegen" : "aanpassen";
+
+            var dialog = new ContentDialog
+            {
+                Title = "Bevestiging",
+                Content = $"Weet u zeker dat u dit product wilt {actie}?",
+                PrimaryButtonText = "Ja",
+                CloseButtonText = "Nee",
+                DefaultButton = ContentDialogButton.Close,
+                XamlRoot = this.XamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result != ContentDialogResult.Primary)
+                return;
+
+
+
             if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price))
             {
-                price = 0;
-            }
-            decimal? installationCost = null;
-            if (decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var tempCost))
-            {
-                installationCost = tempCost;
+                validationResultsTextBlock.Text = "❌ Vul een geldig getal in bij 'Prijs'.";
+                return;
             }
 
-            // Parse voorraad als int
+            string installationInput = installationCostTextBox.Text;
+
+            var match = System.Text.RegularExpressions.Regex.Match(installationInput, @"\d+([.,]\d+)?");
+
+            decimal installationCost;
+
+            if (match.Success)
+            {
+                // parse matching number
+                decimal.TryParse(match.Value.Replace(",", "."), System.Globalization.NumberStyles.Number, CultureInfo.InvariantCulture, out installationCost);
+            }
+            else
+            {
+                validationResultsTextBlock.Text = "❌ Vul een geldige prijs in bij 'Reparatiekosten', bv: 100 per maand.";
+                return;
+            }
+
+
             if (!int.TryParse(stockTextBox.Text, out var stock))
             {
-                stock = 0;
+                validationResultsTextBlock.Text = "❌ Vul een geldig getal in bij 'Voorraad'.";
+                return;
             }
+
+
 
             if (editingProduct == null)
             {
@@ -75,7 +109,7 @@ namespace Barroc_Intense.Pages
                     LeaseContract = leaseContractTextBox.Text,
                     Category = categoryComboBox.SelectedItem?.ToString(),
                     PricePerKg = price,
-                    InstallationCost = (decimal)installationCost, // ✅ correct
+                    InstallationCost = (decimal)installationCost,
                     Stock = stock
                 };
 
@@ -87,14 +121,13 @@ namespace Barroc_Intense.Pages
                 editingProduct.LeaseContract = leaseContractTextBox.Text;
                 editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
                 editingProduct.PricePerKg = price;
-                editingProduct.InstallationCost = (decimal)installationCost; // ✅ correct
+                editingProduct.InstallationCost = (decimal)installationCost;
                 editingProduct.Stock = stock;
 
                 SaveProduct(editingProduct, isNew: false);
             }
-
-
         }
+
 
         private void SaveProduct(Product product, bool isNew)
         {

@@ -56,7 +56,7 @@
                              Padding="8"/>
 
                     <TextBox x:Name="installationCostTextBox"
-                             Header="Installatiekosten:"
+                             Header="Reperratie kosten :"
                              FontSize="16"
                              BorderBrush="Black"
                              BorderThickness="1"

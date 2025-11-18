@@ -38,6 +38,11 @@ namespace Barroc_Intense.Pages
                 ? "Geen categorie"
                 : selectedProduct.Category;
 
+            detailInstallationCostTextBlock.Text = selectedProduct.InstallationCost > 0
+    ? $"€ {selectedProduct.InstallationCost:0.00} per maand"
+    : "Geen maandelijkse reparatiekosten";
+
+
 
             detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
         }
@@ -82,27 +87,42 @@ namespace Barroc_Intense.Pages
             Frame.Navigate(typeof(ProductPage));
         }
 
-        private void DeleteProductButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteProductButton_Click(object sender, RoutedEventArgs e)
         {
             if (chosenProduct == null)
                 return;
 
-            using var db = new AppDbContext();
-            var productToRemove = db.Products.FirstOrDefault(p => p.Id == chosenProduct.Id);
-
-            if (productToRemove != null)
+            var dialog = new ContentDialog
             {
-                db.Products.Remove(productToRemove);
-                db.SaveChanges();
+                Title = "Weet u het zeker?",
+                Content = $"Weet u zeker dat u het product \"{chosenProduct.ProductName}\" wilt verwijderen?",
+                PrimaryButtonText = "Verwijderen",
+                CloseButtonText = "Annuleren",
+                DefaultButton = ContentDialogButton.Close,
+                XamlRoot = this.XamlRoot
+            };
+
+            var result = await dialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                using var db = new AppDbContext();
+                var productToRemove = db.Products.FirstOrDefault(p => p.Id == chosenProduct.Id);
+
+                if (productToRemove != null)
+                {
+                    db.Products.Remove(productToRemove);
+                    db.SaveChanges();
+                }
+
+                LoadProducts();
+                detailsPanel.Visibility = Visibility.Collapsed;
+                placeholderTextBlock.Visibility = Visibility.Visible;
+
+                chosenProduct = null;
             }
-
-            LoadProducts();
-
-            detailsPanel.Visibility = Visibility.Collapsed;
-            placeholderTextBlock.Visibility = Visibility.Visible;
-
-            chosenProduct = null;
         }
+
 
         private void EditProductButton_Click(object sender, RoutedEventArgs e)
         {
