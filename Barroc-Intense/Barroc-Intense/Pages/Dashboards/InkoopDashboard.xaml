@@ -8,7 +8,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Padding="40">
+        <StackPanel Spacing="15">
+            <TextBlock Text="Inkoop Dashboard" FontSize="28" FontWeight="Bold" Foreground="{StaticResource SecondaryColor}"/>
+            <TextBlock Text="Overzicht van producten en voorraad" Foreground="Gray"/>
 
+            <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="400">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product" Binding="{Binding Name}" Width="*"/>
+                    <DataGridTextColumn Header="Prijs (€)" Binding="{Binding Price}" Width="120"/>
+                    <DataGridTextColumn Header="Voorraad" Binding="{Binding Stock}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </Page>
