@@ -45,6 +45,7 @@
                         Height="80"
                         Background="DarkGreen"
                         Foreground="White"
+
                         CornerRadius="15"/>
 
                 <!--<Button Content="⬅ Terug naar dashboard"

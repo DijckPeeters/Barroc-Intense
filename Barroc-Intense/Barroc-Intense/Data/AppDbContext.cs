@@ -6,7 +6,9 @@ namespace Barroc_Intense.Data
     internal class AppDbContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
-        public DbSet<Delivery> Deliveries { get; set; } 
+        public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<Material> Materials { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -22,7 +24,8 @@ namespace Barroc_Intense.Data
             base.OnModelCreating(modelBuilder);
 
             SeedProducts(modelBuilder);
-            SeedDeliveries(modelBuilder); 
+            SeedDeliveries(modelBuilder);
+            SeedMaterials(modelBuilder); // <- Voeg dit toe
 
         }
 
@@ -279,7 +282,32 @@ namespace Barroc_Intense.Data
                     Notes = ""
                 }
             );
+
+        }
+
+            private void SeedMaterials(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Material>().HasData(
+                new Material { Id = 1, Name = "Rubber (10 mm)", Price = 0.39m },
+                new Material { Id = 2, Name = "Rubber (14 mm)", Price = 0.45m },
+                new Material { Id = 3, Name = "Slang", Price = 4.45m },
+                new Material { Id = 4, Name = "Voeding (elektra)", Price = 68.69m },
+                new Material { Id = 5, Name = "Ontkalker", Price = 4.00m },
+                new Material { Id = 6, Name = "Waterfilter", Price = 299.45m },
+                new Material { Id = 7, Name = "Reservoir sensor", Price = 89.99m },
+                new Material { Id = 8, Name = "Druppelstop", Price = 122.43m },
+                new Material { Id = 9, Name = "Electrische pomp", Price = 478.59m },
+                new Material { Id = 10, Name = "Tandwiel 110mm", Price = 5.45m },
+                new Material { Id = 11, Name = "Tandwiel 70mm", Price = 5.25m },
+                new Material { Id = 12, Name = "Maalmotor", Price = 119.20m },
+                new Material { Id = 13, Name = "Zeef", Price = 28.80m },
+                new Material { Id = 14, Name = "Reinigingstabletten", Price = 3.45m },
+                new Material { Id = 15, Name = "Reiningsborsteltjes", Price = 8.45m },
+                new Material { Id = 16, Name = "Ontkalkingspijp", Price = 21.70m }
+            );
         }
 
     }
+
 }
+

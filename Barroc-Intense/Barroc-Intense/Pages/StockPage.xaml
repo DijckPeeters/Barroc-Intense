@@ -245,6 +245,15 @@
                                     Width="200"
                                     Height="45"
                                     BorderThickness="0"/>
+                            <Button Content="📋 Materialenlijst"
+                                    x:Name="materialsListButton"
+                                    Click="MaterialsListButton_Click"
+                                    Background="DarkBlue"
+                                    Foreground="White"
+                                    FontWeight="Bold"
+                                    Width="200"
+                                    Height="45"
+                                    BorderThickness="0"/>
                         </StackPanel>
 
                     </StackPanel>

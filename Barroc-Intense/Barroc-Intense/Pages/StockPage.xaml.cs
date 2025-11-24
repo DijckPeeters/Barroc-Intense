@@ -144,6 +144,11 @@ namespace Barroc_Intense.Pages
             }
         }
 
+        private void MaterialsListButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigeer naar een nieuwe pagina die alle producten toont met materialen
+            Frame.Navigate(typeof(MaterialListPage));
+        }
 
 
     }
