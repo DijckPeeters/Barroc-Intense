@@ -19,7 +19,7 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="20" Spacing="15">
 
-                    <TextBlock Text="Materialenlijst"
+                    <TextBlock Text="Materialenlijst in een Product"
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="Black"
