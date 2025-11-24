@@ -79,24 +79,36 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="localData:Product">
                                 <Border Background="#FFFBEF"
-                CornerRadius="8"
-                Padding="10"
-                Margin="5">
-                                    <StackPanel>
-                                        <TextBlock Text="{x:Bind ProductName}"
-                           FontSize="18"
-                           Foreground="Black"
-                           FontWeight="SemiBold"/>
+                                            CornerRadius="8"
+                                            Padding="10"
+                                            Margin="5">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                                        <StackPanel Width="200">
+                                            <!-- breedte beperkt zodat de vrachtwagen zichtbaar blijft -->
+                                            <TextBlock Text="{x:Bind ProductName}"
+                                                   FontSize="16"  
+                                                   Foreground="Black"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis" /> 
+                                            <TextBlock Text="⚠️ Stock is laag"
+                                                       FontSize="14"
+                                                       Foreground="Red"
+                                                       Margin="0,5,0,0"
+                                                       Visibility="{x:Bind Stock, Converter={StaticResource LowStockConverter}}"/>
+                                         </StackPanel>
 
-                                        <!-- LOW STOCK INDICATOR -->
-                                        <TextBlock Text="⚠️ Stock is laag"
-                           FontSize="14"
-                           Foreground="Red"
-                           Margin="0,5,0,0"
-                           Visibility="{x:Bind Stock, Converter={StaticResource LowStockConverter}}"/>
+                                        <!-- Vrachtwagen knop -->
+                                        <Button Content="🚚"
+                                            FontSize="24"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Click="TruckButton_Click"
+                                            Tag="{x:Bind Id}"/>
                                     </StackPanel>
+
                                 </Border>
                             </DataTemplate>
+
                         </ListView.ItemTemplate>
 
                     </ListView>

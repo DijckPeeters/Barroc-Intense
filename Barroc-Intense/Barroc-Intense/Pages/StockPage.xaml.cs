@@ -132,8 +132,22 @@ namespace Barroc_Intense.Pages
 
             Frame.Navigate(typeof(ProductPage), chosenProduct);
         }
+        private void TruckButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null && button.Tag != null)
+            {
+                int productId = (int)button.Tag;
+
+                // Navigeer naar DeliveryPage en highlight dit product
+                Frame.Navigate(typeof(DeliveryPage), productId);
+            }
+        }
+
+
+
     }
-        public class LowStockConverter : Microsoft.UI.Xaml.Data.IValueConverter
+    public class LowStockConverter : Microsoft.UI.Xaml.Data.IValueConverter
         {
             public object Convert(object value, Type targetType, object parameter, string language)
             {
@@ -148,6 +162,8 @@ namespace Barroc_Intense.Pages
                 throw new NotImplementedException();
             }
         }
+
+
 
     
 }

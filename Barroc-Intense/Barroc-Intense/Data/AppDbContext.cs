@@ -36,7 +36,7 @@ namespace Barroc_Intense.Data
                     ProductName = "Barroc Intens Italian Light",
                     LeaseContract = "499,- excl. btw per maand",
                     PricePerKg = 289,
-                    Stock = 5,
+                    Stock = 2,
                     Category = "Automaat",
                     InstallationCost = 49.99m
                 },
@@ -88,7 +88,7 @@ namespace Barroc_Intense.Data
                     ProductName = "Yellow Bourbon Brasil",
                     LeaseContract = "",
                     PricePerKg = 23,
-                    Stock = 50,
+                    Stock = 1,
                     Category = "Koffieboon",
                     InstallationCost = 0m
                 },
@@ -98,7 +98,7 @@ namespace Barroc_Intense.Data
                     ProductName = "Espresso Roma",
                     LeaseContract = "",
                     PricePerKg = 21,
-                    Stock = 50,
+                    Stock = 5,
                     Category = "Koffieboon",
                     InstallationCost = 0m
                 },
@@ -108,7 +108,7 @@ namespace Barroc_Intense.Data
                     ProductName = "Red Honey Honduras",
                     LeaseContract = "",
                     PricePerKg = 28,
-                    Stock = 50,
+                    Stock = 3,
                     Category = "Koffieboon",
                     InstallationCost = 0m
                 }
@@ -122,10 +122,10 @@ namespace Barroc_Intense.Data
                 {
                     DeliveryID = 1,
                     OrderID = 101,
-                    ProductID = 2,
-                    ProductName = "Barroc Intens Italian",
-                    QuantityDelivered = 5,
-                    QuantityExpected = 5,
+                    ProductID = 1,
+                    ProductName = "Barroc Intens Italian Light",
+                    QuantityDelivered = 2,
+                    QuantityExpected = 2,
                     PlannedDeliveryDate = DateTime.Today.AddDays(1),
                     ActualDeliveryDate = null,
                     Status = "Underway",
@@ -142,10 +142,10 @@ namespace Barroc_Intense.Data
                 {
                     DeliveryID = 2,
                     OrderID = 102,
-                    ProductID = 5,
-                    ProductName = "Espresso Beneficio",
-                    QuantityDelivered = 10,
-                    QuantityExpected = 10,
+                    ProductID = 2,
+                    ProductName = "Barroc Intens Italian",
+                    QuantityDelivered = 5,
+                    QuantityExpected = 5,
                     PlannedDeliveryDate = DateTime.Today.AddDays(2),
                     ActualDeliveryDate = null,
                     Status = "Planned",
@@ -164,8 +164,8 @@ namespace Barroc_Intense.Data
                     OrderID = 103,
                     ProductID = 3,
                     ProductName = "Barroc Intens Italian Deluxe",
-                    QuantityDelivered = 2,
-                    QuantityExpected = 2,
+                    QuantityDelivered = 1,
+                    QuantityExpected = 1,
                     PlannedDeliveryDate = DateTime.Today,
                     ActualDeliveryDate = DateTime.Today,
                     Status = "Delivered",
@@ -177,8 +177,109 @@ namespace Barroc_Intense.Data
                     DriverName = "Kees de Boer",
                     TrackingNumber = "FDX789012",
                     Notes = "Laat bij receptie achter"
+                },
+                new Delivery
+                {
+                    DeliveryID = 4,
+                    OrderID = 104,
+                    ProductID = 4,
+                    ProductName = "Barroc Intens Italian Deluxe Special",
+                    QuantityDelivered = 2,
+                    QuantityExpected = 2,
+                    PlannedDeliveryDate = DateTime.Today.AddDays(1),
+                    ActualDeliveryDate = null,
+                    Status = "Underway",
+                    CustomerID = 4,
+                    CustomerName = "Klant D",
+                    DeliveryAddress = "Straat 4, Stad",
+                    CustomerContact = "0654321098",
+                    CarrierName = "DHL",
+                    DriverName = "Henk de Wit",
+                    TrackingNumber = "DHL654321",
+                    Notes = ""
+                },
+                new Delivery
+                {
+                    DeliveryID = 5,
+                    OrderID = 105,
+                    ProductID = 5,
+                    ProductName = "Espresso Beneficio",
+                    QuantityDelivered = 10,
+                    QuantityExpected = 10,
+                    PlannedDeliveryDate = DateTime.Today.AddDays(2),
+                    ActualDeliveryDate = null,
+                    Status = "Planned",
+                    CustomerID = 5,
+                    CustomerName = "Klant E",
+                    DeliveryAddress = "Straat 5, Stad",
+                    CustomerContact = "0611223344",
+                    CarrierName = "PostNL",
+                    DriverName = "Piet de Groot",
+                    TrackingNumber = "PN987654",
+                    Notes = ""
+                },
+                new Delivery
+                {
+                    DeliveryID = 6,
+                    OrderID = 106,
+                    ProductID = 6,
+                    ProductName = "Yellow Bourbon Brasil",
+                    QuantityDelivered = 1,
+                    QuantityExpected = 1,
+                    PlannedDeliveryDate = DateTime.Today.AddDays(3),
+                    ActualDeliveryDate = null,
+                    Status = "Planned",
+                    CustomerID = 6,
+                    CustomerName = "Klant F",
+                    DeliveryAddress = "Straat 6, Stad",
+                    CustomerContact = "0622334455",
+                    CarrierName = "DHL",
+                    DriverName = "Jan Smit",
+                    TrackingNumber = "DHL321654",
+                    Notes = ""
+                },
+                new Delivery
+                {
+                    DeliveryID = 7,
+                    OrderID = 107,
+                    ProductID = 7,
+                    ProductName = "Espresso Roma",
+                    QuantityDelivered = 5,
+                    QuantityExpected = 5,
+                    PlannedDeliveryDate = DateTime.Today.AddDays(4),
+                    ActualDeliveryDate = null,
+                    Status = "Underway",
+                    CustomerID = 7,
+                    CustomerName = "Klant G",
+                    DeliveryAddress = "Straat 7, Stad",
+                    CustomerContact = "0633445566",
+                    CarrierName = "FedEx",
+                    DriverName = "Kees van Dijk",
+                    TrackingNumber = "FDX654987",
+                    Notes = ""
+                },
+                new Delivery
+                {
+                    DeliveryID = 8,
+                    OrderID = 108,
+                    ProductID = 8,
+                    ProductName = "Red Honey Honduras",
+                    QuantityDelivered = 3,
+                    QuantityExpected = 3,
+                    PlannedDeliveryDate = DateTime.Today.AddDays(5),
+                    ActualDeliveryDate = null,
+                    Status = "Planned",
+                    CustomerID = 8,
+                    CustomerName = "Klant H",
+                    DeliveryAddress = "Straat 8, Stad",
+                    CustomerContact = "0644556677",
+                    CarrierName = "DHL",
+                    DriverName = "Henk de Vries",
+                    TrackingNumber = "DHL852963",
+                    Notes = ""
                 }
             );
         }
+
     }
 }

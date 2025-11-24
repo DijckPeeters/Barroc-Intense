@@ -32,64 +32,82 @@
             <Grid Margin="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <!-- Titel -->
                     <RowDefinition Height="Auto"/>
+                    <!-- Nieuwe levering knop -->
                     <RowDefinition Height="*"/>
+                    <!-- ListView vult rest -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Terug-knop -->
                 </Grid.RowDefinitions>
 
                 <!-- Titel -->
-                <TextBlock Text="Leveringen"
-                           FontSize="32"
-                           FontWeight="Bold"
-                           Foreground="Black"
-                           Margin="0,0,0,10"/>
+                <TextBlock Grid.Row="0"
+               Text="Leveringen"
+               FontSize="32"
+               FontWeight="Bold"
+               Foreground="Black"
+               Margin="0,0,0,10"/>
 
                 <!-- Nieuwe levering -->
                 <Button Grid.Row="1"
-                        Content="➕ Nieuwe levering"
-                        Background="Black"
-                        Foreground="Yellow"
-                        Width="220"
-                        Height="45"
-                        CornerRadius="10"
-                        BorderThickness="0"
-                        FontWeight="Bold"
-                        Margin="0,0,0,15"
-                        HorizontalAlignment="Left"
-                        Click="AddDeliveryButton_Click"/>
+            Content="➕ Nieuwe levering"
+            Background="Black"
+            Foreground="Yellow"
+            Width="220"
+            Height="45"
+            CornerRadius="10"
+            BorderThickness="0"
+            FontWeight="Bold"
+            Margin="0,0,0,15"
+            HorizontalAlignment="Left"
+            Click="AddDeliveryButton_Click"/>
 
                 <!-- Scrollbare lijst -->
-                <ListView Grid.Row="2"
-                          x:Name="deliveryListView"
-                          ScrollViewer.VerticalScrollBarVisibility="Auto"
-                          SelectionMode="Single"
-                          IsItemClickEnabled="True"
-                          ItemClick="DeliveryListView_ItemClick">
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                    <ListView x:Name="deliveryListView"
+                  SelectionMode="Single"
+                  IsItemClickEnabled="True"
+                  ItemClick="DeliveryListView_ItemClick">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#FFFBEF"
+                            CornerRadius="10"
+                            Padding="12"
+                            Margin="5">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding ProductName}"
+                                       FontWeight="Bold"
+                                       FontSize="18"
+                                       Foreground="Black"/>
+                                        <TextBlock Text="{Binding CustomerName}"
+                                       Foreground="Gray"
+                                       FontSize="14"/>
+                                        <TextBlock Text="{Binding Status}"
+                                       Foreground="DarkOrange"
+                                       FontSize="14"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Background="#FFFBEF"
-                                    CornerRadius="10"
-                                    Padding="12"
-                                    Margin="5">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding ProductName}"
-                                               FontWeight="Bold"
-                                               FontSize="18"
-                                               Foreground="Black"/>
-
-                                    <TextBlock Text="{Binding CustomerName}"
-                                               Foreground="Gray"
-                                               FontSize="14"/>
-                                    <TextBlock Text="{Binding Status}"
-                                               Foreground="DarkOrange"
-                                               FontSize="14"/>
-                                </StackPanel>
-                            </Border>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-
-                </ListView>
+                <!-- Terug naar dashboard knop -->
+                <Button Grid.Row="3"
+            Content="⬅️ Terug naar dashboard"
+            Background="Black"
+            Foreground="Yellow"
+            Width="220"
+            Height="45"
+            CornerRadius="10"
+            BorderThickness="0"
+            FontWeight="Bold"
+            Margin="0,15,0,0"
+            HorizontalAlignment="Left"
+            Click="BackToDashboardButton_Click"/>
             </Grid>
+
         </Border>
 
         <!-- ===================== -->
@@ -110,6 +128,7 @@
                            FontSize="20"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
+                
 
                 <!-- Scrollbare detailpagina -->
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -179,6 +198,8 @@
                             <TextBlock Text="Opmerkingen:" FontWeight="Bold" Width="180" Foreground="Black"/>
                             <TextBlock x:Name="detailNotes" TextWrapping="Wrap" Width="250" Foreground="Black"/>
                         </StackPanel>
+                       
+
 
 
                         <!-- Knoppen -->
