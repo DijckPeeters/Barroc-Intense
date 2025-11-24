@@ -7,7 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:localData="using:Barroc_Intense.Data"
+    xmlns:localConv="using:Barroc_Intense.Pages"
+
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <localConv:LowStockConverter x:Key="LowStockConverter"/>
+    </Page.Resources>
+
 
     <Grid>
         <!-- Achtergrond -->
@@ -72,18 +79,26 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="localData:Product">
                                 <Border Background="#FFFBEF"
-                                        CornerRadius="8"
-                                        Padding="10"
-                                        Margin="5">
-                                    <TextBlock Text="{x:Bind ProductName}"
-                                               FontSize="18"
-                                               Foreground="Black"
-                                               FontWeight="SemiBold"/>
-                                    
-                                    
+                CornerRadius="8"
+                Padding="10"
+                Margin="5">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Bind ProductName}"
+                           FontSize="18"
+                           Foreground="Black"
+                           FontWeight="SemiBold"/>
+
+                                        <!-- LOW STOCK INDICATOR -->
+                                        <TextBlock Text="⚠️ Stock is laag"
+                           FontSize="14"
+                           Foreground="Red"
+                           Margin="0,5,0,0"
+                           Visibility="{x:Bind Stock, Converter={StaticResource LowStockConverter}}"/>
+                                    </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+
                     </ListView>
 
                     <!-- Terug naar dashboard -->

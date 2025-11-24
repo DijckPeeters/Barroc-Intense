@@ -23,7 +23,7 @@ namespace Barroc_Intense.Pages
             using var db = new AppDbContext();
             productListView.ItemsSource = db.Products.ToList();
         }
-        
+
         private void ShowProductDetails(Product selectedProduct)
         {
             detailsPanel.Visibility = Visibility.Visible;
@@ -133,4 +133,21 @@ namespace Barroc_Intense.Pages
             Frame.Navigate(typeof(ProductPage), chosenProduct);
         }
     }
+        public class LowStockConverter : Microsoft.UI.Xaml.Data.IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, string language)
+            {
+                if (value is int stock && stock < 4)
+                    return Microsoft.UI.Xaml.Visibility.Visible;
+
+                return Microsoft.UI.Xaml.Visibility.Collapsed;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, string language)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+    
 }
