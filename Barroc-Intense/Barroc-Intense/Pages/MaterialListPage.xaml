@@ -51,7 +51,7 @@
                     </ListView>
 
 
-                    <Button Content="⬅️ Terug naar voorraad"
+                    <Button Content="⬅️ Terug naar de voorraad"
                             Click="BackToStockButton_Click"
                             Background="Black"
                             Foreground="Yellow"

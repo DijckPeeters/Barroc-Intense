@@ -150,7 +150,7 @@ namespace Barroc_Intense.Pages
             Frame.Navigate(typeof(MaterialListPage));
         }
 
-
+        
     }
     public class LowStockConverter : Microsoft.UI.Xaml.Data.IValueConverter
         {
