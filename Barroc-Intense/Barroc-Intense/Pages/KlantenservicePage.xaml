@@ -22,7 +22,7 @@
                 <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="30" Spacing="15">
 
                     <!-- Pagina header -->
-                    <TextBlock Text="KLANTENSERVICE"
+                    <TextBlock Text="Melding toevoegen"
                                FontSize="48"
                                FontWeight="Bold"
                                Foreground="Yellow"
@@ -35,11 +35,21 @@
                     <TextBox x:Name="ProductTextBox" Header="Product" Height="100" MinWidth="600"/>
                     <TextBox x:Name="ProbleemTextBox" Header="Probleemomschrijving" AcceptsReturn="True" Height="300" MinWidth="600"/>
 
-                    <ComboBox x:Name="StatusComboBox" Header="Status" Height="50" MinWidth="600">
+                    <ComboBox x:Name="StatusComboBox" Header="Status" Height="80" MinWidth="600">
                         <ComboBoxItem Content="Open"/>
                         <ComboBoxItem Content="In behandeling"/>
                         <ComboBoxItem Content="Gesloten"/>
                     </ComboBox>
+                    <TextBox x:Name="MachineTextBox" Header="Machine ID" Height="100" MinWidth="600"/>
+                    <ComboBox x:Name="PrioriteitCombo" Header="Prioriteit" Height="80" MinWidth="600">
+                        <ComboBoxItem Content="Laag"/>
+                        <ComboBoxItem Content="Middel"/>
+                        <ComboBoxItem Content="Hoog"/>
+                    </ComboBox>
+                    <DatePicker x:Name="DatumPicker" Header="Datum kiezen" MinWidth="600" />
+                    <TimePicker x:Name="TijdPicker" Header="Tijd kiezen" MinWidth="600"/>
+
+
 
                     <!-- Knop -->
                     <Button Content="Melding toevoegen"
@@ -52,6 +62,15 @@
                             BorderThickness="0"
                             Click="Toevoegen_Click"
                             HorizontalAlignment="Center"/>
+                    <Button Content="Maintenance"
+                        Width="200"
+                        Height="50"
+                        Background="Black"
+                        Foreground="Yellow"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="MaintenanceButton_Click"/>
                 </StackPanel>
             </ScrollViewer>
         </Border>
