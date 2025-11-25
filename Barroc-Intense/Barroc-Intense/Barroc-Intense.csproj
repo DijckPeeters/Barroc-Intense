@@ -51,12 +51,16 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\MaterialListPage.xaml">
-    <Page Update="Pages\KlantenservicePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Page Update="Pages\MaterialListPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		</ItemGroup>
+	<ItemGroup>
+		<Page Update="Pages\KlantenservicePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
   <ItemGroup>
     <Page Update="Pages\DeliveryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -67,12 +71,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\StockPage.xaml">
+	<ItemGroup>
+		<Page Update="Pages\StockPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
     <Page Update="Pages\MaintenancePagee.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
+	</ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ProductPage.xaml">
       <Generator>MSBuild:Compile</Generator>

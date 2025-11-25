@@ -31,7 +31,7 @@ namespace Barroc_Intense
                this.InitializeComponent();
 
             using var db = new AppDbContext();
-           
+            db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
            
         }
@@ -47,6 +47,7 @@ namespace Barroc_Intense
         private void InkoopDashboardButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(InkoopDashBoard));
+        }
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(MaintenancePagee));
