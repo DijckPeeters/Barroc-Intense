@@ -36,12 +36,12 @@
 
                     <!-- Zoekbalk -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-                        <TextBox x:Name="SearchBox" Width="420"
-                                 PlaceholderText="Zoeken op klant, product of afdeling..." />
+                        <TextBox x:Name="SearchBox" Width="420" Foreground="Black"
+                                 PlaceholderText="Zoeken op klant, product of afdeling..." Background="Black" />
                         <Button Content="Zoeken" Width="120" Click="OnSearchClick"
-                                Background="Black" Foreground="Yellow"/>
+                                Background="Black" Foreground="Yellow" />
                         <Button Content="Alles" Width="120" Click="OnResetClick"
-                                Background="Gray" Foreground="White"/>
+                                Background="Gray" Foreground="White" />
                     </StackPanel>
 
                     <!-- List View -->
@@ -54,7 +54,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{x:Bind Datum}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
                                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                                <TextBlock Text="  Prioriteit:" VerticalAlignment="Center"/>
+                                                <TextBlock Text="  Prioriteit:" VerticalAlignment="Center" Foreground="Black"/>
                                                 <TextBlock Text="{x:Bind Prioriteit}" FontWeight="Bold" Foreground="Black"/>
                                             </StackPanel>
                                         </StackPanel>
@@ -133,9 +133,9 @@
                                             <Border Background="White" CornerRadius="12" Padding="12" Margin="0,0,0,8">
                                                 <StackPanel>
                                                     <TextBlock Text="{x:Bind Naam}" FontWeight="Bold" FontSize="18" Foreground="Black"/>
-                                                    <TextBlock Text="Locatie:" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="Locatie:" FontWeight="SemiBold" Foreground="Black"/>
                                                     <TextBlock Text="{x:Bind Locatie}" Margin="0,0,0,4" Foreground="Black"/>
-                                                    <TextBlock Text="Status:" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="Status:" FontWeight="SemiBold" Foreground="Black"/>
                                                     <TextBlock Text="{x:Bind Status}" Foreground="Black"/>
                                                 </StackPanel>
                                             </Border>
@@ -177,13 +177,13 @@
 
                                                 <Border Background="White" CornerRadius="8" Padding="8" Margin="0,0,0,8">
                                                     <StackPanel>
-                                                        <TextBlock Text="Machine:" FontWeight="SemiBold"/>
+                                                        <TextBlock Text="Machine:" FontWeight="SemiBold" Foreground="Black"/>
                                                         <TextBlock Text="{x:Bind MachineId}" Margin="0,0,0,4" Foreground="Black"/>
 
-                                                        <TextBlock Text="Klant:" FontWeight="SemiBold"/>
+                                                        <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black"/>
                                                         <TextBlock Text="{x:Bind Klant}" Margin="0,0,0,4" Foreground="Black"/>
 
-                                                        <TextBlock Text="Omschrijving:" FontWeight="SemiBold"/>
+                                                        <TextBlock Text="Omschrijving:" FontWeight="SemiBold" Foreground="Black"/>
                                                         <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
                                                     </StackPanel>
                                                 </Border>
