@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    
     x:Class="Barroc_Intense.Pages.MaintenancePagee"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:Barroc_Intense.Data"
+    xmlns:local="using:Barroc_Intense.Data"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -18,12 +17,10 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-        <!-- 2 KOLommen -->
+        <!-- 2 Kolommen -->
         <Grid ColumnDefinitions="1*, 1*">
 
-            <!-- ========================= -->
-            <!-- LINKER KANT (Maintenance) -->
-            <!-- ========================= -->
+            <!-- LINKER KANT -->
             <Border Background="#CCFFFFFF"
                     CornerRadius="20"
                     Margin="20"
@@ -31,84 +28,81 @@
                     Grid.Column="0">
                 <StackPanel Spacing="16">
 
-
-                 
-                             
-    <TextBlock Text="Meldingen/Storingen"
+                    <TextBlock Text="Meldingen/Storingen"
                                FontSize="40"
                                FontWeight="Bold"
                                Foreground="Black"
                                HorizontalAlignment="Center"/>
 
-    <!-- Zoekbalk -->
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-        <TextBox x:Name="SearchBox" Width="420"
+                    <!-- Zoekbalk -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                        <TextBox x:Name="SearchBox" Width="420"
                                  PlaceholderText="Zoeken op klant, product of afdeling..." />
-        <Button Content="Zoeken" Width="120" Click="OnSearchClick"
+                        <Button Content="Zoeken" Width="120" Click="OnSearchClick"
                                 Background="Black" Foreground="Yellow"/>
-        <Button Content="Alles" Width="120" Click="OnResetClick"
+                        <Button Content="Alles" Width="120" Click="OnResetClick"
                                 Background="Gray" Foreground="White"/>
-    </StackPanel>
-
-    <!-- List View -->
-    <ListView x:Name="MaintenanceListView" Margin="0,10,0,0">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="local:Melding">
-                <Border CornerRadius="8" Background="White" Padding="12" Margin="0,0,0,12">
-                    <StackPanel>
-
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{x:Bind Datum, Mode=OneWay}" FontSize="16" FontWeight="Bold"/>
-                            <StackPanel Orientation="Horizontal" Spacing="8">
-                                <TextBlock Text="  Prioriteit:" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Bind Prioriteit}" FontWeight="Bold"/>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Spacing="18" Margin="0,8,0,0">
-                            <StackPanel>
-                                <TextBlock Text="Machine ID" FontWeight="SemiBold"/>
-                                <TextBlock Text="{x:Bind MachineId}"/>
-                            </StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="Afdeling" FontWeight="SemiBold"/>
-                                <TextBlock Text="{x:Bind Afdeling}"/>
-                            </StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="Klant" FontWeight="SemiBold"/>
-                                <TextBlock Text="{x:Bind Klant}"/>
-                            </StackPanel>
-                            <StackPanel>
-                                <TextBlock Text="Product" FontWeight="SemiBold"/>
-                                <TextBlock Text="{x:Bind Product}"/>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <TextBlock Text="Probleemomschrijving" FontWeight="SemiBold" Margin="0,8,0,0"/>
-                        <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap"/>
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0" Spacing="12">
-                            <TextBlock Text="{x:Bind Status}" FontStyle="Italic" VerticalAlignment="Center"/>
-                            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                                <TextBlock Text="Klaar:" VerticalAlignment="Center"/>
-                                <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}"/>
-                            </StackPanel>
-                        </StackPanel>
-
                     </StackPanel>
-                </Border>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
 
-    <Button Content="Opslaan wijzigingen"
+                    <!-- List View -->
+                    <ListView x:Name="MaintenanceListView" Margin="0,10,0,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:Melding">
+                                <Border CornerRadius="8" Background="White" Padding="12" Margin="0,0,0,12">
+                                    <StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{x:Bind Datum}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <TextBlock Text="  Prioriteit:" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{x:Bind Prioriteit}" FontWeight="Bold" Foreground="Black"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal" Spacing="18" Margin="0,8,0,0">
+                                            <StackPanel>
+                                                <TextBlock Text="Machine ID" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind MachineId}" Foreground="Black"/>
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Text="Afdeling" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind Afdeling}" Foreground="Black"/>
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Text="Klant" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind Klant}" Foreground="Black"/>
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Text="Product" FontWeight="SemiBold" Foreground="Black" />
+                                                <TextBlock Text="{x:Bind Product}" Foreground="Black"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                        <TextBlock Text="Probleemomschrijving" FontWeight="SemiBold" Margin="0,8,0,0" Foreground="Black"/>
+                                        <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
+
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0" Spacing="12">
+                                            <TextBlock Text="{x:Bind Status}" FontStyle="Italic" VerticalAlignment="Center" Foreground="Black"/>
+                                            <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                                <TextBlock Text="Klaar:" VerticalAlignment="Center"/>
+                                                <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <Button Content="Opslaan wijzigingen"
                             Width="220" Height="48"
                             HorizontalAlignment="Center"
                             Click="OnSaveClick"
                             Background="Black"
                             Foreground="Yellow"/>
 
-    <Button Content="Melding toevoegen"
+                    <Button Content="Melding toevoegen"
                             Width="200"
                             Height="50"
                             Background="Black"
@@ -117,19 +111,20 @@
                             FontWeight="Bold"
                             BorderThickness="0"
                             Click="KlantButton_Click"/>
-    </StackPanel>
-    </Border>
+                </StackPanel>
+            </Border>
 
+            <!-- RECHTERKANT -->
             <Border Grid.Column="1" Margin="20" Background="#33FFFFFF" CornerRadius="20" Padding="20">
                 <StackPanel Spacing="20">
 
-                    <!-- BOVEN: MACHINES -->
+                    <!-- Machines -->
                     <StackPanel>
                         <TextBlock Text="Machines"
-                       FontSize="30"
-                       FontWeight="Bold"
-                       Foreground="White"
-                       Margin="0,0,0,10"/>
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   Margin="0,0,0,10"/>
                         <ScrollViewer Height="250" VerticalScrollBarVisibility="Auto">
                             <StackPanel Spacing="12">
                                 <ItemsControl x:Name="MachinesListView">
@@ -137,11 +132,11 @@
                                         <DataTemplate x:DataType="local:Machine">
                                             <Border Background="White" CornerRadius="12" Padding="12" Margin="0,0,0,8">
                                                 <StackPanel>
-                                                    <TextBlock Text="{x:Bind Naam}" FontWeight="Bold" FontSize="18"/>
+                                                    <TextBlock Text="{x:Bind Naam}" FontWeight="Bold" FontSize="18" Foreground="Black"/>
                                                     <TextBlock Text="Locatie:" FontWeight="SemiBold"/>
-                                                    <TextBlock Text="{x:Bind Locatie}" Margin="0,0,0,4"/>
+                                                    <TextBlock Text="{x:Bind Locatie}" Margin="0,0,0,4" Foreground="Black"/>
                                                     <TextBlock Text="Status:" FontWeight="SemiBold"/>
-                                                    <TextBlock Text="{x:Bind Status}" Foreground="DarkGreen"/>
+                                                    <TextBlock Text="{x:Bind Status}" Foreground="Black"/>
                                                 </StackPanel>
                                             </Border>
                                         </DataTemplate>
@@ -154,47 +149,45 @@
                     <!-- WEEK AGENDA -->
                     <StackPanel Background="#33FFFFFF" Padding="10" CornerRadius="20">
                         <TextBlock Text="Planning – Deze Week"
-               FontSize="24"
-               FontWeight="Bold"
-               Foreground="White"
-               Margin="0,0,0,12"
-               HorizontalAlignment="Center"/>
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   Margin="0,0,0,12"
+                                   HorizontalAlignment="Center"/>
 
                         <ScrollViewer Height="260" VerticalScrollBarVisibility="Auto">
                             <ItemsControl x:Name="WeekAgendaControl">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <!-- Horizontale dagen -->
                                         <StackPanel Orientation="Horizontal" />
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
 
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="local:Melding">
-                                        <!-- Dagblok -->
                                         <Border Background="#55FFFFFF" CornerRadius="12" Padding="10" Margin="5">
                                             <StackPanel Width="180">
-                                                <!-- Datum bovenaan -->
-                                                <TextBlock Text="{x:Bind Datum, Mode=OneWay}" 
-                                       FontSize="18" 
-                                       FontWeight="Bold" 
-                                       Foreground="Black"
-                                       TextAlignment="Center"
-                                       Margin="0,0,0,6"/>
 
-                                                <!-- Item details -->
+                                                <TextBlock Text="{x:Bind Datum}" 
+                                                           FontSize="18" 
+                                                           FontWeight="Bold" 
+                                                           Foreground="Black"
+                                                           TextAlignment="Center"
+                                                           Margin="0,0,0,6"/>
+
                                                 <Border Background="White" CornerRadius="8" Padding="8" Margin="0,0,0,8">
                                                     <StackPanel>
                                                         <TextBlock Text="Machine:" FontWeight="SemiBold"/>
-                                                        <TextBlock Text="{x:Bind MachineId}" Margin="0,0,0,4"/>
+                                                        <TextBlock Text="{x:Bind MachineId}" Margin="0,0,0,4" Foreground="Black"/>
 
                                                         <TextBlock Text="Klant:" FontWeight="SemiBold"/>
-                                                        <TextBlock Text="{x:Bind Klant}" Margin="0,0,0,4"/>
+                                                        <TextBlock Text="{x:Bind Klant}" Margin="0,0,0,4" Foreground="Black"/>
 
                                                         <TextBlock Text="Omschrijving:" FontWeight="SemiBold"/>
-                                                        <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap"/>
+                                                        <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
                                                     </StackPanel>
                                                 </Border>
+
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
@@ -204,7 +197,6 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-
 
         </Grid>
     </Grid>
