@@ -68,7 +68,7 @@ namespace Barroc_Intense.Data
                     Status = "In behandeling",
                     IsOpgelost = false
                 },
-             
+
                  new Melding
                  {
                      Id = 4,
@@ -346,7 +346,7 @@ namespace Barroc_Intense.Data
 
         }
 
-            private void SeedMaterials(ModelBuilder modelBuilder)
+        private void SeedMaterials(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Material>().HasData(
                 new Material { Id = 1, Name = "Rubber (10 mm)", Price = 0.39m },
@@ -368,17 +368,17 @@ namespace Barroc_Intense.Data
             );
         }
 
+
+    }
+
+
+    // ==========================
+    //         SEED: PLANNING
+    // ==========================
+}   
         
-    }
+    
 
-
-            // ==========================
-            //         SEED: PLANNING
-            // ==========================
-         
-        }
-    }
-}
 
 
 
