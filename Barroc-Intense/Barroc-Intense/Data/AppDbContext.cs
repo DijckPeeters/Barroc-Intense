@@ -33,10 +33,12 @@ namespace Barroc_Intense.Data
             //      SEED: MACHINES
             // ==========================
             modelBuilder.Entity<Machine>().HasData(
-                new Machine { Id = 1, Naam = "Koffieautomaat A1", Locatie = "Hal 1", Status = "Operationeel" },
-                new Machine { Id = 2, Naam = "Koffieautomaat B2", Locatie = "Hal 3", Status = "Storend" },
-                new Machine { Id = 3, Naam = "Koffieautomaat C3", Locatie = "Kantine", Status = "Onderhoud" }
-            );
+                 new Machine { Id = 1, Locatie = "Hal 1", Status = "Operationeel", ProductId = 1 },
+                 new Machine { Id = 2, Locatie = "Hal 3", Status = "Storend", ProductId = 2 },
+                 new Machine { Id = 3, Locatie = "Kantine", Status = "Onderhoud", ProductId = 3 },
+                 new Machine { Id = 4, Locatie = "Kantoor", Status = "Operationeel", ProductId = 4 }
+             );
+
 
             // ==========================
             //         SEED: MELDINGEN
@@ -102,7 +104,8 @@ namespace Barroc_Intense.Data
                     PricePerKg = 289,
                     Stock = 2,
                     Category = "Automaat",
-                    InstallationCost = 49.99m
+                    InstallationCost = 49.99m,
+                    Used = 1
                 },
                 new Product
                 {
@@ -112,7 +115,9 @@ namespace Barroc_Intense.Data
                     PricePerKg = 289,
                     Stock = 5,
                     Category = "Automaat",
-                    InstallationCost = 59.99m
+                    InstallationCost = 59.99m,
+                                        Used = 2
+
                 },
                 new Product
                 {
@@ -122,7 +127,9 @@ namespace Barroc_Intense.Data
                     PricePerKg = 375,
                     Stock = 3,
                     Category = "Automaat",
-                    InstallationCost = 79.99m
+                    InstallationCost = 79.99m,
+                    Used = 0
+
                 },
                 new Product
                 {
@@ -132,7 +139,9 @@ namespace Barroc_Intense.Data
                     PricePerKg = 375,
                     Stock = 2,
                     Category = "Automaat",
-                    InstallationCost = 99.99m
+                    InstallationCost = 99.99m,
+                    Used = 0
+
                 },
 
                 // KOFFIEBONEN
@@ -144,7 +153,9 @@ namespace Barroc_Intense.Data
                     PricePerKg = 22,
                     Stock = 50,
                     Category = "Koffieboon",
-                    InstallationCost = 0m
+                    InstallationCost = 0m,
+                                        Used = 3
+
                 },
                 new Product
                 {
@@ -154,7 +165,9 @@ namespace Barroc_Intense.Data
                     PricePerKg = 23,
                     Stock = 1,
                     Category = "Koffieboon",
-                    InstallationCost = 0m
+                    InstallationCost = 0m,
+                    Used = 0
+
                 },
                 new Product
                 {
@@ -164,7 +177,8 @@ namespace Barroc_Intense.Data
                     PricePerKg = 21,
                     Stock = 5,
                     Category = "Koffieboon",
-                    InstallationCost = 0m
+                    InstallationCost = 0m, 
+                    Used = 0
                 },
                 new Product
                 {
@@ -174,7 +188,8 @@ namespace Barroc_Intense.Data
                     PricePerKg = 28,
                     Stock = 3,
                     Category = "Koffieboon",
-                    InstallationCost = 0m
+                    InstallationCost = 0m,
+                    Used = 2
                 }
             );
         }

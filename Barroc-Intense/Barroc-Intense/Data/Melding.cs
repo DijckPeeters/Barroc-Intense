@@ -20,7 +20,7 @@ namespace Barroc_Intense.Data
             public string Probleemomschrijving { get; set; }
             public string Status { get; set; } // Open / In behandeling / Gesloten
             public bool IsOpgelost { get; set; } = false;
-//public Machine Machine { get; set; }    
+            //public Machine Machine { get; set; }    
     }
 
     }

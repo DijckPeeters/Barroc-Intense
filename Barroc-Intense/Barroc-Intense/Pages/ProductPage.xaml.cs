@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Barroc_Intense.Pages
 {
@@ -25,7 +26,6 @@ namespace Barroc_Intense.Pages
         {
             base.OnNavigatedTo(e);
 
-            // Vul de ComboBox
             categoryComboBox.ItemsSource = categories;
 
             if (e.Parameter is Product productToEdit)
@@ -36,17 +36,16 @@ namespace Barroc_Intense.Pages
                 leaseContractTextBox.Text = editingProduct.LeaseContract;
                 priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00");
                 installationCostTextBox.Text = editingProduct.InstallationCost.ToString("0.00");
-
                 stockTextBox.Text = editingProduct.Stock.ToString();
 
-                // Selecteer de juiste categorie
                 if (!string.IsNullOrWhiteSpace(editingProduct.Category))
                 {
                     categoryComboBox.SelectedItem = editingProduct.Category;
                 }
+
+                // Used wordt NIET getoond – alleen behouden!
             }
         }
-
 
         private async void saveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -67,7 +66,9 @@ namespace Barroc_Intense.Pages
             if (result != ContentDialogResult.Primary)
                 return;
 
-
+            // ───────────────────────────────────────────────
+            // VALIDATIE
+            // ───────────────────────────────────────────────
 
             if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price))
             {
@@ -75,23 +76,25 @@ namespace Barroc_Intense.Pages
                 return;
             }
 
+            // Reparatie / installatiekosten
             string installationInput = installationCostTextBox.Text;
-
-            var match = System.Text.RegularExpressions.Regex.Match(installationInput, @"\d+([.,]\d+)?");
+            var match = Regex.Match(installationInput, @"\d+([.,]\d+)?");
 
             decimal installationCost;
 
             if (match.Success)
             {
-                // parse matching number
-                decimal.TryParse(match.Value.Replace(",", "."), System.Globalization.NumberStyles.Number, CultureInfo.InvariantCulture, out installationCost);
+                decimal.TryParse(
+                    match.Value.Replace(",", "."),
+                    NumberStyles.Number,
+                    CultureInfo.InvariantCulture,
+                    out installationCost);
             }
             else
             {
-                validationResultsTextBlock.Text = "❌ Vul een geldige prijs in bij 'Reparatiekosten', bv: 100 per maand.";
+                validationResultsTextBlock.Text = "❌ Vul een geldige prijs in bij 'Reparatiekosten'.";
                 return;
             }
-
 
             if (!int.TryParse(stockTextBox.Text, out var stock))
             {
@@ -99,35 +102,42 @@ namespace Barroc_Intense.Pages
                 return;
             }
 
-
+            // ───────────────────────────────────────────────
+            // OPSLAAN MET GEBRUIKTE WAARDE (Used integer)
+            // ───────────────────────────────────────────────
 
             if (editingProduct == null)
             {
+                // Nieuw product krijgt automatisch Used = 0
                 var product = new Product
                 {
                     ProductName = productNameTextBox.Text,
                     LeaseContract = leaseContractTextBox.Text,
                     Category = categoryComboBox.SelectedItem?.ToString(),
                     PricePerKg = price,
-                    InstallationCost = (decimal)installationCost,
-                    Stock = stock
+                    InstallationCost = installationCost,
+                    Stock = stock,
+                    Used = 0   // nieuwe producten zijn nog niet gebruikt
                 };
 
-                SaveProduct(product, isNew: true);
+                SaveProduct(product, true);
             }
             else
             {
+                // Bestaande product: Used gewoon behouden uit DB
                 editingProduct.ProductName = productNameTextBox.Text;
                 editingProduct.LeaseContract = leaseContractTextBox.Text;
                 editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
                 editingProduct.PricePerKg = price;
-                editingProduct.InstallationCost = (decimal)installationCost;
+                editingProduct.InstallationCost = installationCost;
                 editingProduct.Stock = stock;
 
-                SaveProduct(editingProduct, isNew: false);
+                // Used NIET aanpassen
+                // editingProduct.Used blijft hetzelfde
+
+                SaveProduct(editingProduct, false);
             }
         }
-
 
         private void SaveProduct(Product product, bool isNew)
         {
@@ -143,6 +153,7 @@ namespace Barroc_Intense.Pages
                 try
                 {
                     using var db = new AppDbContext();
+
                     if (isNew)
                         db.Products.Add(product);
                     else
@@ -164,11 +175,10 @@ namespace Barroc_Intense.Pages
         {
             Frame.Navigate(typeof(StockPage));
         }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            //Frame.GoBack();
             Frame.Navigate(typeof(InkoopDashBoard));
-
         }
     }
 }

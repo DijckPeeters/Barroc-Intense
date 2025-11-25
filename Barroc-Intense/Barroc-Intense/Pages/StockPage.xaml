@@ -218,6 +218,18 @@
                             <TextBlock x:Name="detailStockTextBlock"
                                        Foreground="Black"
                                        FontSize="18"/>
+                            
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="In gebruik:"
+                                   FontWeight="Bold"
+                                   Foreground="Black"
+                                   FontSize="16"/>
+                             <TextBlock x:Name="UsedTextBlock"
+                                   Foreground="Black"
+                                   FontSize="18"/>
+
                         </StackPanel>
 
                         <!-- Knoppen -->
@@ -254,6 +266,15 @@
                                     Width="200"
                                     Height="45"
                                     BorderThickness="0"/>
+                            <Button Content="📦 Gebruikte producten"
+                                        x:Name="usedProductsButton"
+                                        Click="UsedProductsButton_Click"
+                                        Background="DarkGreen"
+                                        Foreground="White"
+                                        FontWeight="Bold"
+                                        Width="220"
+                                        Height="45"
+                                        BorderThickness="0"/>
                         </StackPanel>
 
                     </StackPanel>

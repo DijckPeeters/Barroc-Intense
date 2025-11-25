@@ -30,22 +30,28 @@ namespace Barroc_Intense.Pages
             placeholderTextBlock.Visibility = Visibility.Collapsed;
 
             detailNameTextBlock.Text = selectedProduct.ProductName;
+
             detailLeaseContractTextBlock.Text =
                 string.IsNullOrWhiteSpace(selectedProduct.LeaseContract)
                 ? "Geen contract"
                 : selectedProduct.LeaseContract;
+
             detailPriceTextBlock.Text = $"€ {selectedProduct.PricePerKg:0.00}";
-            detailCategoryTextBlock.Text = string.IsNullOrWhiteSpace(selectedProduct.Category)
+
+            detailCategoryTextBlock.Text =
+                string.IsNullOrWhiteSpace(selectedProduct.Category)
                 ? "Geen categorie"
                 : selectedProduct.Category;
 
-            detailInstallationCostTextBlock.Text = selectedProduct.InstallationCost > 0
-    ? $"€ {selectedProduct.InstallationCost:0.00} per maand"
-    : "Geen maandelijkse reparatiekosten";
-
-
+            detailInstallationCostTextBlock.Text =
+                selectedProduct.InstallationCost > 0
+                ? $"€ {selectedProduct.InstallationCost:0.00} per maand"
+                : "Geen maandelijkse reparatiekosten";
 
             detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
+
+            // ? In gebruik weergeven
+            UsedTextBlock.Text = $"{selectedProduct.Used}× in gebruik";
         }
 
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -78,10 +84,8 @@ namespace Barroc_Intense.Pages
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            //Frame.GoBack();
             Frame.Navigate(typeof(InkoopDashBoard));
         }
-
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
@@ -124,7 +128,6 @@ namespace Barroc_Intense.Pages
             }
         }
 
-
         private void EditProductButton_Click(object sender, RoutedEventArgs e)
         {
             if (chosenProduct == null)
@@ -132,43 +135,44 @@ namespace Barroc_Intense.Pages
 
             Frame.Navigate(typeof(ProductPage), chosenProduct);
         }
+
         private void TruckButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             if (button != null && button.Tag != null)
             {
                 int productId = (int)button.Tag;
-
-                // Navigeer naar DeliveryPage en highlight dit product
                 Frame.Navigate(typeof(DeliveryPage), productId);
             }
         }
 
         private void MaterialsListButton_Click(object sender, RoutedEventArgs e)
         {
-            // Navigeer naar een nieuwe pagina die alle producten toont met materialen
             Frame.Navigate(typeof(MaterialListPage));
         }
-
-        
-    }
-    public class LowStockConverter : Microsoft.UI.Xaml.Data.IValueConverter
+        private void UsedProductsButton_Click(object sender, RoutedEventArgs e)
         {
-            public object Convert(object value, Type targetType, object parameter, string language)
-            {
-                if (value is int stock && stock < 4)
-                    return Microsoft.UI.Xaml.Visibility.Visible;
+            if (chosenProduct == null)
+                return;
 
-                return Microsoft.UI.Xaml.Visibility.Collapsed;
-            }
-
-            public object ConvertBack(object value, Type targetType, object parameter, string language)
-            {
-                throw new NotImplementedException();
-            }
+            Frame.Navigate(typeof(UsedProductPage), chosenProduct.Id);
         }
 
+    }
 
+    public class LowStockConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is int stock && stock < 4)
+                return Visibility.Visible;
 
-    
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -91,6 +91,15 @@
                              Padding="8"
                              InputScope="Number"/>
 
+                    <TextBox x:Name="UsedTextBox"
+                             Header="In Gebruik:"
+                             FontSize="16"
+                             BorderBrush="Black"
+                             BorderThickness="1"
+                             CornerRadius="10"
+                             Padding="8"
+                             InputScope="Number"/>
+
                     <!-- Validatieresultaten -->
                     <TextBlock x:Name="validationResultsTextBlock"
                                Foreground="DarkRed"

@@ -39,7 +39,9 @@ namespace Barroc_Intense.Pages
 
         private void LaadMachines()
         {
-            MachinesListView.ItemsSource = _db.Machines.ToList();
+            MachinesListView.ItemsSource = _db.Machines
+                .Include(m => m.Product)
+                .ToList();
         }
         private void LaadWeekAgenda()
         {

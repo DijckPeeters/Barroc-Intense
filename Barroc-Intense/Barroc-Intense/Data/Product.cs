@@ -33,6 +33,8 @@ namespace Barroc_Intense.Data
 
         public string Category { get; set; }
 
+        public int Used {  get; set; }
+
 
 
 
