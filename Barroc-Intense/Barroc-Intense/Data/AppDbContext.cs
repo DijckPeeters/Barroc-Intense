@@ -1,5 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Configuration;
+using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Barroc_Intense.Data
 {
@@ -14,7 +20,7 @@ namespace Barroc_Intense.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                "server=localhost;user=root;password=;database=Barroc",
+                ConfigurationManager.ConnectionStrings["BarrocIntense"].ConnectionString,
                 ServerVersion.Parse("8.0.30")
             );
         }
