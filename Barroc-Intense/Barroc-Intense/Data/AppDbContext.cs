@@ -11,6 +11,7 @@ namespace Barroc_Intense.Data
 
 
 
+        public DbSet<Melding> Meldingen { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
@@ -307,6 +308,7 @@ namespace Barroc_Intense.Data
             );
         }
 
+        
     }
 
 }
