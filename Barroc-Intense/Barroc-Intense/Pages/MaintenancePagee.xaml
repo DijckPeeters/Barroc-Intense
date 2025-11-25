@@ -22,13 +22,15 @@
 
             <!-- LINKER KANT -->
             <Border Background="#CCFFFFFF"
-                    CornerRadius="20"
-                    Margin="20"
-                    Padding="24"
-                    Grid.Column="0">
-                <StackPanel Spacing="16">
+                        CornerRadius="20"
+                        Margin="20"
+                        Padding="24"
+                        Grid.Column="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="16">
 
-                    <TextBlock Text="Meldingen/Storingen"
+
+                        <TextBlock Text="Meldingen/Storingen"
                                FontSize="40"
                                FontWeight="Bold"
                                Foreground="Black"
@@ -111,8 +113,10 @@
                             FontWeight="Bold"
                             BorderThickness="0"
                             Click="KlantButton_Click"/>
-                </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
+
 
             <!-- RECHTERKANT -->
             <Border Grid.Column="1" Margin="20" Background="#33FFFFFF" CornerRadius="20" Padding="20">
