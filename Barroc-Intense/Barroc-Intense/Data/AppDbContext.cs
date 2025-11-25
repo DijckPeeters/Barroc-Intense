@@ -15,12 +15,12 @@ namespace Barroc_Intense.Data
         public DbSet<Melding> Meldingen { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<PlanningItem> PlanningItems { get; set; }
-       
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                "server=localhost;user=root;password=;database=Barrroc",
+                ConfigurationManager.ConnectionStrings["BarrocIntense"].ConnectionString,
                 ServerVersion.Parse("8.0.30")
             );
         }
