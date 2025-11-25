@@ -96,6 +96,7 @@ namespace Barroc_Intense.Pages
                     Status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content.ToString() ?? "Open",
                     Datum = gekozenDatum,
                     IsOpgelost = false
+
                 };
 
                 db.Meldingen.Add(melding);
@@ -114,6 +115,7 @@ namespace Barroc_Intense.Pages
                 // reset date/time naar nu (optioneel)
                 DatumPicker.Date = DateTimeOffset.Now;
                 TijdPicker.Time = DateTime.Now.TimeOfDay;
+
             }
 
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)

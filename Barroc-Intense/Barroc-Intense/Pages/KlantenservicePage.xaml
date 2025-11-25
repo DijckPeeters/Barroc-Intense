@@ -48,6 +48,7 @@
                     </ComboBox>
                     <DatePicker x:Name="DatumPicker" Header="Datum kiezen" MinWidth="600" />
                     <TimePicker x:Name="TijdPicker" Header="Tijd kiezen" MinWidth="600"/>
+                    
 
 
 

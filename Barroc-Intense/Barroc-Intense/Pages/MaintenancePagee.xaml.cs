@@ -1,5 +1,4 @@
 using Barroc_Intense.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -9,12 +8,12 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using static Barroc_Intense.Data.AppDbContext;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -100,5 +99,19 @@ namespace Barroc_Intense.Pages
         {
             Frame.Navigate(typeof(KlantenservicePage));
         }
+        private void OpenForm_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+
+            if (button.Tag == null)
+                return;
+
+            int id = (int)button.Tag;
+
+            // Open detailpagina van melding
+            Frame.Navigate(typeof(FormulierPage), id);
+        }
+
+
     }
 }

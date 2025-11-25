@@ -53,7 +53,18 @@ namespace Barroc_Intense.Data
                     Product = "Koffieautomaat",
                     Probleemomschrijving = "Machine lekt water",
                     Status = "Open",
-                    IsOpgelost = false
+                    IsOpgelost = false,
+
+                    // nieuwe velden
+                    IsKeuring = false,
+                    Storingscode = "E201",
+                    StoringVerholpen = false,
+                    Vervolgafspraak = "Monteur komt morgen langs",
+                    KorteBeschrijving = "Lekkage bij pomp",
+                    GebruikteOnderdelen = "Pomp, Slang",
+                    ChecklistVolledig = false,
+                    KeuringGoedgekeurd = false,
+                    KeuringOpmerkingen = ""
                 },
                 new Melding
                 {
@@ -66,22 +77,47 @@ namespace Barroc_Intense.Data
                     Product = "Koffieautomaat",
                     Probleemomschrijving = "Maalt niet goed",
                     Status = "In behandeling",
-                    IsOpgelost = false
+                    IsOpgelost = false,
+
+                    // nieuwe velden
+                    IsKeuring = false,
+                    Storingscode = "F122",
+                    StoringVerholpen = false,
+                    Vervolgafspraak = "Onderdeel moet besteld worden",
+                    KorteBeschrijving = "Maalschijven defect",
+                    GebruikteOnderdelen = "Maalschijven",
+                    ChecklistVolledig = false,
+                    KeuringGoedgekeurd = false,
+                    KeuringOpmerkingen = ""
                 },
 
-                 new Melding
-                 {
-                     Id = 4,
-                     MachineId = "3",
-                     Prioriteit = "Laag",
-                     Afdeling = "Service",
-                     Datum = DateTime.Now.AddDays(0),
-                     Klant = "NS",
-                     Product = "Koffieautomaat",
-                     Probleemomschrijving = "Periodieke controle",
-                     Status = "Gesloten",
-                     IsOpgelost = true
-                 }
+                // ========== KEURING ==========
+                new Melding
+                {
+                    Id = 4,
+                    MachineId = "3",
+                    Prioriteit = "Laag",
+                    Afdeling = "Service",
+                    Datum = DateTime.Now.AddDays(0),
+                    Klant = "NS",
+                    Product = "Koffieautomaat",
+                    Probleemomschrijving = "Periodieke controle",
+                    Status = "Gesloten",
+                    IsOpgelost = true,
+
+                    // dit is een keuring
+                    IsKeuring = true,
+                    ChecklistVolledig = true,
+                    KeuringGoedgekeurd = true,
+                    KeuringOpmerkingen = "Alles in orde",
+
+                    // melding-velden leeg
+                    Storingscode = "",
+                    StoringVerholpen = true,
+                    Vervolgafspraak = "",
+                    KorteBeschrijving = "",
+                    GebruikteOnderdelen = ""
+                }
             );
 
             SeedProducts(modelBuilder);
