@@ -34,8 +34,8 @@ namespace Barroc_Intense.Pages
             { "Inkoop", typeof(InkoopDashboard) },  
             { "Sales", typeof(SalesDashboard) },
             { "Finance", typeof(FinanceDashboard) },
-            { "Maintenance", typeof(MaintenanceDashboard) },
-            { "Klantenservice", typeof(KlantenserviceDashboard) },
+            { "Maintenance", typeof(MaintenancePagee) },
+            { "Klantenservice", typeof(KlantenservicePage) },
             { "Manager", typeof(ManagerDashboard) }
         };
 
