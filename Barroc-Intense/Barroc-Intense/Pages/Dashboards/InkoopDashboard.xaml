@@ -8,18 +8,77 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Padding="40">
-        <StackPanel Spacing="15">
-            <TextBlock Text="Inkoop Dashboard" FontSize="28" FontWeight="Bold" Foreground="{StaticResource SecondaryColor}"/>
-            <TextBlock Text="Overzicht van producten en voorraad" Foreground="Gray"/>
+    <Grid>
 
-            <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" Height="400">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Product" Binding="{Binding Name}" Width="*"/>
-                    <DataGridTextColumn Header="Prijs (€)" Binding="{Binding Price}" Width="120"/>
-                    <DataGridTextColumn Header="Voorraad" Binding="{Binding Stock}" Width="120"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+        <!-- Background -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Border Background="#AAFFFFFF" CornerRadius="10" Margin="20"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="30" Spacing="20">
+
+                    <TextBlock Text="INKOOP DASHBOARD"
+                               FontSize="48"
+                               FontWeight="Bold"
+                               Foreground="Yellow"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,30"/>
+
+                    <TextBlock Text="Onderstaande lijst toont alle onderdelen en hun voorraad."
+                               FontSize="18"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"/>
+
+                    <!-- PRODUCT TABLE -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Headers -->
+                        <TextBlock Text="Product" FontWeight="Bold" Grid.Column="0"/>
+                        <TextBlock Text="Prijs (€)" FontWeight="Bold" Grid.Column="1"/>
+                        <TextBlock Text="Voorraad" FontWeight="Bold" Grid.Column="2"/>
+                        <TextBlock Text="Aantal bestellen" FontWeight="Bold" Grid.Column="3"/>
+                    </Grid>
+
+                    <StackPanel x:Name="ProductRows" Spacing="10"/>
+
+                    <TextBlock x:Name="TotalPriceText"
+                               Text="Totaal: €0.00"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,20,0,10"/>
+
+                    <TextBlock x:Name="ApprovalWarning"
+                               Text=""
+                               FontSize="20"
+                               Foreground="Red"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"/>
+
+                    <Button Content="Bestelling plaatsen"
+                            Height="70"
+                            Width="300"
+                            Background="Black"
+                            Foreground="Yellow"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Click="PlaceOrder_Click"
+                            HorizontalAlignment="Center"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>
