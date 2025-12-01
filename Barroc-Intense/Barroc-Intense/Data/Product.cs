@@ -17,13 +17,23 @@ namespace Barroc_Intense.Data
 
         [Required]
         [MaxLength(100)]
-        public string ingredient { get; set; }
-
-        [Required]
-        public int Price { get; set; }
+        public string LeaseContract { get; set; }
 
         [Required]
         public int Stock { get; set; }
+
+
+        [Required]
+        public decimal PricePerKg { get; set; }
+
+        [Required]
+        public decimal InstallationCost { get; set; }
+
+        [MaxLength(100)]
+
+        public string Category { get; set; }
+
+
 
 
     }

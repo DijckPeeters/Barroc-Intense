@@ -17,9 +17,13 @@
     <None Remove="Pages\Dashboards\InkoopDashboard.xaml" />
     <None Remove="Pages\Dashboards\ManagerDashboard.xaml" />
     <None Remove="Pages\Dashboards\SalesDashboard.xaml" />
+    <None Remove="Pages\DeliveryPage.xaml" />
+    <None Remove="Pages\InkoopDashBoard.xaml" />
     <None Remove="Pages\KlantenservicePage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
+    <None Remove="Pages\MaterialListPage.xaml" />
     <None Remove="Pages\ProductPage.xaml" />
+    <None Remove="Pages\StockPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,8 +55,18 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
   </ItemGroup>
+	<ItemGroup>
+		<Page Update="Pages\MaterialListPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		</ItemGroup>
+	<ItemGroup>
+		<Page Update="Pages\KlantenservicePage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\KlantenservicePage.xaml">
+    <Page Update="Pages\DeliveryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -63,9 +77,20 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\MaintenancePagee.xaml">
+    <Page Update="Pages\InkoopDashBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+	<ItemGroup>
+		<Page Update="Pages\StockPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+    <Page Update="Pages\MaintenancePagee.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+	</ItemGroup>
   <ItemGroup>
     <Page Update="Pages\Dashboards\FinanceDashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
