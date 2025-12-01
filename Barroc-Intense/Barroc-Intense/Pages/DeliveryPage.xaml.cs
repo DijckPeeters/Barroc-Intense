@@ -1,5 +1,4 @@
 using Barroc_Intense.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -20,15 +19,12 @@ namespace Barroc_Intense.Pages
             this.InitializeComponent();
         }
 
-        // Haal het productId mee als parameter van StockPage
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             if (e.Parameter is int id)
-            {
                 productIdFilter = id;
-            }
 
             LoadDeliveries();
         }
@@ -36,14 +32,9 @@ namespace Barroc_Intense.Pages
         private void LoadDeliveries()
         {
             using var db = new AppDbContext();
-
-            // Haal alle leveringen uit de database
             deliveries = db.Deliveries.ToList();
-
-            // Vul de ListView
             deliveryListView.ItemsSource = deliveries;
 
-            // Highlight de levering(s) van het meegegeven productId
             if (productIdFilter.HasValue)
             {
                 var deliveryToSelect = deliveries.FirstOrDefault(d => d.ProductID == productIdFilter.Value);
@@ -54,12 +45,6 @@ namespace Barroc_Intense.Pages
                 }
             }
         }
-        private void BackToDashboardButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Navigeer terug naar InkoopDashboardPage
-            Frame.Navigate(typeof(InkoopDashBoard));
-        }
-
 
         private void DeliveryListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -88,15 +73,9 @@ namespace Barroc_Intense.Pages
             detailNotes.Text = delivery.Notes;
         }
 
-        private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)
+        private void BackToDashboardButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Nieuwe levering",
-                Content = "Hier kun je later een nieuwe levering toevoegen.",
-                CloseButtonText = "Ok"
-            };
-            _ = dialog.ShowAsync();
+            Frame.Navigate(typeof(InkoopDashBoard));
         }
 
         private void EditDeliveryButton_Click(object sender, RoutedEventArgs e)
@@ -129,22 +108,32 @@ namespace Barroc_Intense.Pages
             {
                 if (t.Result == ContentDialogResult.Primary)
                 {
-                    // Verwijder uit de lokale lijst
+                    using var db = new AppDbContext();
+                    var deliveryToRemove = db.Deliveries.FirstOrDefault(d => d.DeliveryID == selectedDelivery.DeliveryID);
+                    if (deliveryToRemove != null)
+                    {
+                        db.Deliveries.Remove(deliveryToRemove);
+                        db.SaveChanges();
+                    }
+
                     deliveries.Remove(selectedDelivery);
                     selectedDelivery = null;
 
-                    // Update ListView op UI thread
                     _ = DispatcherQueue.TryEnqueue(() =>
                     {
                         deliveryListView.ItemsSource = null;
                         deliveryListView.ItemsSource = deliveries;
-
-                        // Reset details
                         detailsPanel.Visibility = Visibility.Collapsed;
                         placeholderText.Visibility = Visibility.Visible;
                     });
                 }
             });
+        }
+
+        private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigeer naar NewDeliveryPage
+            Frame.Navigate(typeof(NewDeliveryPage));
         }
     }
 }

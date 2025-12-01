@@ -50,11 +50,11 @@ namespace Barroc_Intense.Pages
             var weekEnd = weekStart.AddDays(7);
 
             WeekAgendaControl.ItemsSource = _db.Meldingen
-     .Include(m => m.Machine)
-         .ThenInclude(mc => mc.Product)
-     .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
-     .OrderBy(m => m.Datum)
-     .ToList();
+                 .Include(m => m.Machine)
+                     .ThenInclude(mc => mc.Product)
+                 .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
+                 .OrderBy(m => m.Datum)
+                 .ToList();
 
         }
 

@@ -49,5 +49,10 @@ namespace Barroc_Intense.Pages
             // Navigeer naar materialenlijst van dit product
             Frame.Navigate(typeof(MaterialListPage), loadedProduct.Id);
         }
+
+        private void BackToStockButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(StockPage));
+        }
     }
 }

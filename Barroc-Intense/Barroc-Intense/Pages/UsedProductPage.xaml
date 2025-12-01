@@ -16,6 +16,14 @@
                        FontSize="30"
                        FontWeight="Bold"
                        Foreground="Black"/>
+            <Button Content="⬅️ Terug naar voorraad"
+                    Click="BackToStockButton_Click"
+                    Width="220"
+                    Height="40"
+                    Background="Black"
+                    Foreground="Yellow"
+                    FontWeight="Bold"/>
+
 
             <ItemsControl x:Name="UsedBoxesList">
                 <ItemsControl.ItemTemplate>
@@ -42,6 +50,8 @@
                                         Height="40"
                                         HorizontalAlignment="Left"/>
                             </StackPanel>
+                            
+                            
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
