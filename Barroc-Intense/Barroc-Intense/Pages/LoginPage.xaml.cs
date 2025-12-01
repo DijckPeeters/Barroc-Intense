@@ -1,3 +1,5 @@
+using Barroc_Intense.Data;
+using Barroc_Intense.Pages.Dashboards;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -13,17 +15,34 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Barroc_Intense.Pages 
 {
-        public sealed partial class LoginPage : Page
+    public sealed partial class LoginPage : Page
+    {
+        private readonly List<Employee> _employees = new()
         {
-            public LoginPage()
-            {
-                this.InitializeComponent();
-            }
+            new Employee { Id = 1, Username = "sarah", Role = "Sales" },
+            new Employee { Id = 2, Username = "john", Role = "Inkoop" },
+            new Employee { Id = 3, Username = "emma", Role = "Finance" },
+            new Employee { Id = 4, Username = "mike", Role = "Maintenance" },
+            new Employee { Id = 5, Username = "anna", Role = "Klantenservice" },
+            new Employee { Id = 6, Username = "marc", Role = "Manager" }
+        };
+
+        private readonly Dictionary<string, Type> dashboards = new Dictionary<string, Type>
+        {
+            { "Inkoop", typeof(InkoopDashboard) },  
+            { "Sales", typeof(SalesDashboard) },
+            { "Finance", typeof(FinanceDashboard) },
+            { "Maintenance", typeof(MaintenancePagee) },
+            { "Klantenservice", typeof(KlantenservicePage) },
+            { "Manager", typeof(ManagerDashboard) }
+        };
+
+        public LoginPage()
+        {
+            this.InitializeComponent();
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -49,12 +68,11 @@ namespace Barroc_Intense.Pages
 
             string user = UsernameBox.Text;
             string pass = PasswordBox.Password;
-        } 
+        }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainWindow));
         }
     }
-
 }
