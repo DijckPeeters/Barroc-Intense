@@ -27,16 +27,23 @@ namespace Barroc_Intense.Pages.Dashboards
         private List<Product> _products = new();
         private Dictionary<Product, TextBox> _orderInputs = new();
 
+        // List of invoices for delivery tracking
+        private List<Invoice> _invoices = new();
+
         public InkoopDashboard()
         {
             this.InitializeComponent();
             LoadProducts();
+            LoadInvoices();
             GenerateProductRows();
+            GenerateInvoiceRows();
         }
 
+        // ----------------------------
+        // Load simple starting product list
+        // ----------------------------
         private void LoadProducts()
         {
-            // Simpele beginvoorraad (kan later uit DB komen)
             _products = new List<Product>
             {
                 new("Rubber (10 mm)", 0.39, 2),
@@ -58,6 +65,22 @@ namespace Barroc_Intense.Pages.Dashboards
             };
         }
 
+        // ----------------------------
+        // Load example invoices
+        // ----------------------------
+        private void LoadInvoices()
+        {
+            _invoices = new List<Invoice>
+            {
+                new Invoice("FACT-2025-001", "Maandelijkse koffielevering", false),
+                new Invoice("FACT-2025-002", "Nieuwe koffiemachine (Model X)", true),
+                new Invoice("FACT-2025-003", "Reinigingsmiddelen pakket", false)
+            };
+        }
+
+        // ----------------------------
+        // Generate product table rows
+        // ----------------------------
         private void GenerateProductRows()
         {
             ProductRows.Children.Clear();
@@ -71,14 +94,14 @@ namespace Barroc_Intense.Pages.Dashboards
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-                // Productnaam
+                // Product name
                 row.Children.Add(new TextBlock
                 {
                     Text = p.Name,
                     VerticalAlignment = VerticalAlignment.Center
                 });
 
-                // Prijs
+                // Price
                 var price = new TextBlock
                 {
                     Text = $"{p.Price:0.00}",
@@ -87,13 +110,14 @@ namespace Barroc_Intense.Pages.Dashboards
                 Grid.SetColumn(price, 1);
                 row.Children.Add(price);
 
-                // Voorraad
+                // Stock
                 var stockText = new TextBlock
                 {
                     Text = p.Stock.ToString(),
                     VerticalAlignment = VerticalAlignment.Center
                 };
 
+                // Low stock warning color
                 if (p.Stock < 3)
                 {
                     stockText.Foreground = new SolidColorBrush(Colors.Red);
@@ -102,7 +126,7 @@ namespace Barroc_Intense.Pages.Dashboards
                 Grid.SetColumn(stockText, 2);
                 row.Children.Add(stockText);
 
-                // Aantal bestellen
+                // Order amount textbox
                 var orderBox = new TextBox
                 {
                     PlaceholderText = "0",
@@ -117,6 +141,9 @@ namespace Barroc_Intense.Pages.Dashboards
             }
         }
 
+        // ----------------------------
+        // Handle "Place order" button
+        // ----------------------------
         private void PlaceOrder_Click(object sender, RoutedEventArgs e)
         {
             double total = 0;
@@ -129,7 +156,7 @@ namespace Barroc_Intense.Pages.Dashboards
                 if (int.TryParse(textbox.Text, out int amount) && amount > 0)
                 {
                     total += amount * product.Price;
-                    product.Stock += amount; // voorraad aangevuld
+                    product.Stock += amount; // add stock after ordering
                 }
             }
 
@@ -145,12 +172,51 @@ namespace Barroc_Intense.Pages.Dashboards
                 ApprovalWarning.Text = "";
             }
 
-            // UI verversen
             GenerateProductRows();
+        }
+
+        // ----------------------------
+        // Generate invoice status section
+        // ----------------------------
+        private void GenerateInvoiceRows()
+        {
+            InvoicesPanel.Children.Clear();
+
+            foreach (var invoice in _invoices)
+            {
+                var row = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    Spacing = 10
+                };
+
+                // Invoice info
+                row.Children.Add(new TextBlock
+                {
+                    Text = $"{invoice.Id} - {invoice.Description}",
+                    Width = 400
+                });
+
+                // Delivered checkbox
+                var checkbox = new CheckBox
+                {
+                    Content = "Geleverd?",
+                    IsChecked = invoice.IsDelivered
+                };
+
+                checkbox.Checked += (s, e) => invoice.IsDelivered = true;
+                checkbox.Unchecked += (s, e) => invoice.IsDelivered = false;
+
+                row.Children.Add(checkbox);
+
+                InvoicesPanel.Children.Add(row);
+            }
         }
     }
 
-    // Simple product model
+    // ----------------------------
+    // Product model
+    // ----------------------------
     public class Product
     {
         public string Name { get; }
@@ -162,6 +228,23 @@ namespace Barroc_Intense.Pages.Dashboards
             Name = name;
             Price = price;
             Stock = stock;
+        }
+    }
+
+    // ----------------------------
+    // Invoice model
+    // ----------------------------
+    public class Invoice
+    {
+        public string Id { get; }
+        public string Description { get; }
+        public bool IsDelivered { get; set; }
+
+        public Invoice(string id, string description, bool isDelivered)
+        {
+            Id = id;
+            Description = description;
+            IsDelivered = isDelivered;
         }
     }
 }

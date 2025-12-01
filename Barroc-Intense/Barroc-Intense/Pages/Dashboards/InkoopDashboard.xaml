@@ -77,6 +77,17 @@
                             FontWeight="Bold"
                             Click="PlaceOrder_Click"
                             HorizontalAlignment="Center"/>
+                    <!-- FACTUUR LEVERSTATUS -->
+                    <TextBlock Text="Facturen en Leverstatus"
+                               FontSize="32"
+                               FontWeight="Bold"
+                               Margin="0,40,0,10"
+                               HorizontalAlignment="Center"/>
+                    <TextBlock Text="Hier kunt u bijhouden welke facturen volledig geleverd zijn."
+                               FontSize="18"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,20"/>
+                    <StackPanel x:Name="InvoicesPanel" Spacing="10"/>
                 </StackPanel>
             </ScrollViewer>
         </Border>
