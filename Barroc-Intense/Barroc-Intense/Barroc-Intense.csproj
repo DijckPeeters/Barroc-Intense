@@ -15,8 +15,6 @@
   <ItemGroup>
     <None Remove="Pages\Dashboards\FinanceDashboard.xaml" />
     <None Remove="Pages\Dashboards\InkoopDashboard.xaml" />
-    <None Remove="Pages\Dashboards\KlantenserviceDashboard.xaml" />
-    <None Remove="Pages\Dashboards\MaintenanceDashboard.xaml" />
     <None Remove="Pages\Dashboards\ManagerDashboard.xaml" />
     <None Remove="Pages\Dashboards\SalesDashboard.xaml" />
     <None Remove="Pages\KlantenservicePage.xaml" />
@@ -54,11 +52,6 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Dashboards\KlantenserviceDashboard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Pages\KlantenservicePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -70,11 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\MaintenancePagee.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Dashboards\MaintenanceDashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
