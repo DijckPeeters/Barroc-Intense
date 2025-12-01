@@ -10,5 +10,53 @@
 
     <Grid>
 
+        <!-- Background -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Border Background="#AAFFFFFF" CornerRadius="10" Margin="20"
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="30" Spacing="20">
+
+                    <TextBlock Text="FINANCE DASHBOARD"
+                               FontSize="48"
+                               FontWeight="Bold"
+                               Foreground="Yellow"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,30"/>
+
+                    <TextBlock Text="Overzicht van leasecontracten en facturen"
+                               FontSize="20"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"/>
+
+                    <!-- Contractlist -->
+                    <StackPanel x:Name="ContractListPanel" Spacing="10" Margin="0,20,0,20"/>
+
+                    <!-- Total income -->
+                    <TextBlock x:Name="TotalIncomeText"
+                               Text="Totale inkomsten: €0.00"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"
+                               Margin="0,20,0,10"/>
+
+                    <!-- Paid button explanation -->
+                    <TextBlock Text="Klik op 'Betaald' om een factuur als voldaan te markeren."
+                               FontSize="16"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,10"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>
