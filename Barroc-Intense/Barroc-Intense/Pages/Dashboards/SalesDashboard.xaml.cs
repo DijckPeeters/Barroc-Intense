@@ -1,3 +1,4 @@
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -26,6 +27,41 @@ namespace Barroc_Intense.Pages.Dashboards
         public SalesDashboard()
         {
             InitializeComponent();
+        }
+
+        private void CalculateQuote_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(QuoteQuantity.Text, out int quantity) &&
+                double.TryParse(QuotePricePerUnit.Text, out double price))
+            {
+                double total = quantity * price;
+
+                QuoteResult.Text =
+                    $"Offerte voor {QuoteClient.Text}:\n" +
+                    $"{QuoteProduct.Text} x {quantity}\n\n" +
+                    $"Totaalprijs: €{total:0.00}";
+            }
+            else
+            {
+                QuoteResult.Text = "Voer geldige getallen in!";
+            }
+        }
+
+        private void SaveProspect_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(ProspectCompany.Text) ||
+                string.IsNullOrWhiteSpace(ProspectNote.Text))
+            {
+                ProspectMessage.Text = "Vul alle velden in!";
+                ProspectMessage.Foreground = new SolidColorBrush(Colors.Red);
+                return;
+            }
+
+            // Later add database logic here
+            ProspectMessage.Text = $"Notitie opgeslagen voor {ProspectCompany.Text}.";
+            ProspectMessage.Foreground = new SolidColorBrush(Colors.Green);
+
+            ProspectNote.Text = "";
         }
     }
 }
