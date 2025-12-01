@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intense.Data
 {
-    internal class Employee
+    public class Employee
     {
         public int Id { get; set; }
         public string Username { get; set; }
