@@ -87,7 +87,7 @@ namespace Barroc_Intense.Pages
 
                 var melding = new Melding
                 {
-                    MachineId = MachineTextBox.Text ?? string.Empty,
+                    MachineId = int.Parse(MachineTextBox.Text),
                     Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
                     Afdeling = AfdelingTextBox.Text,
                     Klant = KlantTextBox.Text,

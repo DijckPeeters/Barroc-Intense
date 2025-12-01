@@ -47,7 +47,7 @@ namespace Barroc_Intense.Data
                 new Melding
                 {
                     Id = 1,
-                    MachineId = "2",
+                    MachineId = 2,
                     Prioriteit = "Hoog",
                     Afdeling = "Productie",
                     Datum = DateTime.Now.AddDays(-1),
@@ -60,7 +60,7 @@ namespace Barroc_Intense.Data
                 new Melding
                 {
                     Id = 2,
-                    MachineId = "1",
+                    MachineId = 1,
                     Prioriteit = "Middel",
                     Afdeling = "Logistiek",
                     Datum = DateTime.Now.AddDays(-4),
@@ -74,7 +74,7 @@ namespace Barroc_Intense.Data
                  new Melding
                  {
                      Id = 4,
-                     MachineId = "3",
+                     MachineId = 3,
                      Prioriteit = "Laag",
                      Afdeling = "Service",
                      Datum = DateTime.Now.AddDays(0),

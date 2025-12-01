@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intense.Data
 {
-    internal class Product
+    public class Product
     {
         public int Id { get; set; }
 

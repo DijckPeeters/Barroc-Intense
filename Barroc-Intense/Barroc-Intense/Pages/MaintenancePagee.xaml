@@ -64,8 +64,8 @@
                                         <StackPanel Orientation="Horizontal" Spacing="18" Margin="0,8,0,0">
                                             <StackPanel>
                                                 <TextBlock Text="Machine ID" FontWeight="SemiBold" Foreground="Black"/>
-                                                <TextBlock Text="{x:Bind MachineId}" Foreground="Black"/>
-                                            </StackPanel>
+                                                    <TextBlock Text="{x:Bind Machine.Product.ProductName}" Foreground="Black"/>
+                                                </StackPanel>
                                             <StackPanel>
                                                 <TextBlock Text="Afdeling" FontWeight="SemiBold" Foreground="Black"/>
                                                 <TextBlock Text="{x:Bind Afdeling}" Foreground="Black"/>
@@ -182,7 +182,7 @@
                                                 <Border Background="White" CornerRadius="8" Padding="8" Margin="0,0,0,8">
                                                     <StackPanel>
                                                         <TextBlock Text="Machine:" FontWeight="SemiBold" Foreground="Black"/>
-                                                        <TextBlock Text="{x:Bind MachineId}" Margin="0,0,0,4" Foreground="Black"/>
+                                                        <TextBlock Text="{x:Bind Machine.Product.ProductName}" Margin="0,0,0,4" Foreground="Black"/>
 
                                                         <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black"/>
                                                         <TextBlock Text="{x:Bind Klant}" Margin="0,0,0,4" Foreground="Black"/>

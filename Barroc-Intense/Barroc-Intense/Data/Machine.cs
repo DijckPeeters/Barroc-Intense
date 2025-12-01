@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intense.Data
 {
-    class Machine
+    public class Machine
     {
         public int Id { get; set; }
         public string Locatie { get; set; }

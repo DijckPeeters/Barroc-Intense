@@ -50,9 +50,12 @@ namespace Barroc_Intense.Pages
             var weekEnd = weekStart.AddDays(7);
 
             WeekAgendaControl.ItemsSource = _db.Meldingen
-                .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
-                .OrderBy(m => m.Datum)
-                .ToList();
+     .Include(m => m.Machine)
+         .ThenInclude(mc => mc.Product)
+     .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
+     .OrderBy(m => m.Datum)
+     .ToList();
+
         }
 
 
@@ -60,15 +63,20 @@ namespace Barroc_Intense.Pages
         private void LaadMeldingen()
         {
             MaintenanceListView.ItemsSource = _db.Meldingen
+                .Include(m => m.Machine)
+                .ThenInclude(mc => mc.Product)
                 .OrderByDescending(m => m.Datum)
                 .ToList();
         }
+
+
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
             string zoekterm = (SearchBox.Text ?? string.Empty).ToLower();
 
             MaintenanceListView.ItemsSource = _db.Meldingen
+                .Include(m => m.Product)
                 .Where(m => (m.Klant ?? string.Empty).ToLower().Contains(zoekterm)
                          || (m.Product ?? string.Empty).ToLower().Contains(zoekterm)
                          || (m.Afdeling ?? string.Empty).ToLower().Contains(zoekterm))
