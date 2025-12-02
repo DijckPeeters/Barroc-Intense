@@ -68,6 +68,9 @@ namespace Barroc_Intense.Pages
 
             string user = UsernameBox.Text;
             string pass = PasswordBox.Password;
+
+
+        } 
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
