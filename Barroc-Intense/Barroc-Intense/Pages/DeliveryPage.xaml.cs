@@ -91,7 +91,7 @@ namespace Barroc_Intense.Pages
             _ = dialog.ShowAsync();
         }
 
-        private void DeleteDeliveryButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteDeliveryButton_Click(object sender, RoutedEventArgs e)
         {
             if (selectedDelivery == null) return;
 
@@ -100,35 +100,34 @@ namespace Barroc_Intense.Pages
                 Title = "Weet je het zeker?",
                 Content = $"Weet je zeker dat je levering {selectedDelivery.DeliveryID} wilt verwijderen?",
                 PrimaryButtonText = "Ja",
-                CloseButtonText = "Nee"
+                CloseButtonText = "Nee",
+                XamlRoot = this.XamlRoot   // << BELANGRIJK IN WINUI 3
             };
 
-            var result = confirm.ShowAsync();
-            result.AsTask().ContinueWith(t =>
+            var result = await confirm.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
             {
-                if (t.Result == ContentDialogResult.Primary)
+                using var db = new AppDbContext();
+                var deliveryToRemove = db.Deliveries.FirstOrDefault(d => d.DeliveryID == selectedDelivery.DeliveryID);
+
+                if (deliveryToRemove != null)
                 {
-                    using var db = new AppDbContext();
-                    var deliveryToRemove = db.Deliveries.FirstOrDefault(d => d.DeliveryID == selectedDelivery.DeliveryID);
-                    if (deliveryToRemove != null)
-                    {
-                        db.Deliveries.Remove(deliveryToRemove);
-                        db.SaveChanges();
-                    }
-
-                    deliveries.Remove(selectedDelivery);
-                    selectedDelivery = null;
-
-                    _ = DispatcherQueue.TryEnqueue(() =>
-                    {
-                        deliveryListView.ItemsSource = null;
-                        deliveryListView.ItemsSource = deliveries;
-                        detailsPanel.Visibility = Visibility.Collapsed;
-                        placeholderText.Visibility = Visibility.Visible;
-                    });
+                    db.Deliveries.Remove(deliveryToRemove);
+                    db.SaveChanges();
                 }
-            });
+
+                deliveries.Remove(selectedDelivery);
+                selectedDelivery = null;
+
+                deliveryListView.ItemsSource = null;
+                deliveryListView.ItemsSource = deliveries;
+
+                detailsPanel.Visibility = Visibility.Collapsed;
+                placeholderText.Visibility = Visibility.Visible;
+            }
         }
+
 
         private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)
         {
