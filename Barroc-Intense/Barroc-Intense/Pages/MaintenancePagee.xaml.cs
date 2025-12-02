@@ -1,4 +1,5 @@
 using Barroc_Intense.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,49 +19,86 @@ using static Barroc_Intense.Data.AppDbContext;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
+
+
 namespace Barroc_Intense.Pages
 {
     public sealed partial class MaintenancePagee : Page
     {
-        private List<Melding> _alleMeldingen;
+        private AppDbContext _db = new AppDbContext();
 
         public MaintenancePagee()
         {
-            InitializeComponent();
-            
+            this.InitializeComponent();
+            _db.Database.EnsureCreated();
+            LaadMeldingen();
+            LaadMachines();  // Rechterkolom Machines
+            LaadWeekAgenda();
+
         }
 
-       
+        private void LaadMachines()
+        {
+            MachinesListView.ItemsSource = _db.Machines.ToList();
+        }
+        private void LaadWeekAgenda()
+        {
+            var vandaag = DateTime.Today;
+            var weekStart = vandaag.AddDays(-(int)vandaag.DayOfWeek + (int)DayOfWeek.Monday);
+            var weekEnd = weekStart.AddDays(7);
+
+            WeekAgendaControl.ItemsSource = _db.Meldingen
+                .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
+                .OrderBy(m => m.Datum)
+                .ToList();
+        }
+
+
+
+        private void LaadMeldingen()
+        {
+            MaintenanceListView.ItemsSource = _db.Meldingen
+                .OrderByDescending(m => m.Datum)
+                .ToList();
+        }
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
-            string zoekterm = SearchBox.Text.ToLower();
+            string zoekterm = (SearchBox.Text ?? string.Empty).ToLower();
 
-            var gefilterd = _alleMeldingen.Where(m =>
-                m.Klant.ToLower().Contains(zoekterm) ||
-                m.Product.ToLower().Contains(zoekterm)).ToList();
-
-            MaintenanceListView.ItemsSource = gefilterd;
+            MaintenanceListView.ItemsSource = _db.Meldingen
+                .Where(m => (m.Klant ?? string.Empty).ToLower().Contains(zoekterm)
+                         || (m.Product ?? string.Empty).ToLower().Contains(zoekterm)
+                         || (m.Afdeling ?? string.Empty).ToLower().Contains(zoekterm))
+                .OrderByDescending(m => m.Datum)
+                .ToList();
         }
 
-        private void OnSaveClick(object sender, RoutedEventArgs e)
+        private void OnResetClick(object sender, RoutedEventArgs e)
         {
-            // Verwijder alle opgeloste meldingen
-            _alleMeldingen.RemoveAll(m => m.IsOpgelost);
+            SearchBox.Text = "";
+            LaadMeldingen();
+        }
 
-            // Herlaad lijst
-            MaintenanceListView.ItemsSource = null;
-            MaintenanceListView.ItemsSource = _alleMeldingen;
+        private async void OnSaveClick(object sender, RoutedEventArgs e)
+        {
+            // Save changes (bijv. IsOpgelost checkbox changes)
+            _db.SaveChanges();
 
-            // Meld gebruiker
             var dialog = new ContentDialog
             {
                 Title = "Opgeslagen",
-                Content = "Opgeloste meldingen zijn verwijderd.",
+                Content = "Wijzigingen zijn opgeslagen.",
                 CloseButtonText = "OK",
                 XamlRoot = this.XamlRoot
             };
-            _ = dialog.ShowAsync();
+
+            await dialog.ShowAsync();
+            LaadMeldingen();
+        }
+        private void KlantButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(KlantenservicePage));
         }
     }
 }

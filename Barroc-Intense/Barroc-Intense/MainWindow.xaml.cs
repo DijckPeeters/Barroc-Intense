@@ -25,26 +25,37 @@ namespace Barroc_Intense
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+
         public MainWindow()
         {
                this.InitializeComponent();
 
             using var db = new AppDbContext();
+
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
+           
         }
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(LoginPage));
         }
 
-        private void VooraadButton_Click(object sender, RoutedEventArgs e)
+        private void VoorraadButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(ProductPage));
+        }
+        private void InkoopDashboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(InkoopDashBoard));
         }
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(MaintenancePagee));
+        }
+        private void KlantButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(KlantenservicePage));
         }
     }
 
