@@ -82,14 +82,9 @@ namespace Barroc_Intense.Pages
         {
             if (selectedDelivery == null) return;
 
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Aanpassen levering",
-                Content = $"Je gaat levering {selectedDelivery.DeliveryID} aanpassen (nog niet geïmplementeerd).",
-                CloseButtonText = "Ok"
-            };
-            _ = dialog.ShowAsync();
+            Frame.Navigate(typeof(NewDeliveryPage), selectedDelivery);
         }
+
 
         private async void DeleteDeliveryButton_Click(object sender, RoutedEventArgs e)
         {

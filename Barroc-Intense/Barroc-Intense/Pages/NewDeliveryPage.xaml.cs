@@ -8,10 +8,42 @@ namespace Barroc_Intense.Pages
 {
     public sealed partial class NewDeliveryPage : Page
     {
+        private Delivery editingDelivery = null;
+
         public NewDeliveryPage()
         {
             this.InitializeComponent();
         }
+        protected override void OnNavigatedTo(Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (e.Parameter is Delivery d)
+            {
+                editingDelivery = d;
+                LoadFieldsForEditing();
+            }
+        }
+
+        private void LoadFieldsForEditing()
+        {
+            newProductId.Text = editingDelivery.ProductID.ToString();
+            newOrderId.Text = editingDelivery.OrderID.ToString();
+            newCustomerId.Text = editingDelivery.CustomerID.ToString();
+            newCustomerContact.Text = editingDelivery.CustomerContact;
+            newProductName.Text = editingDelivery.ProductName;
+            newQuantity.Text = editingDelivery.QuantityDelivered.ToString();
+            newExpectedQuantity.Text = editingDelivery.QuantityExpected.ToString();
+            newCustomerName.Text = editingDelivery.CustomerName;
+            newAddress.Text = editingDelivery.DeliveryAddress;
+            newPlannedDate.Date = editingDelivery.PlannedDeliveryDate;
+            newStatus.Text = editingDelivery.Status;
+            newCarrier.Text = editingDelivery.CarrierName;
+            newDriver.Text = editingDelivery.DriverName;
+            newTrackingNumber.Text = editingDelivery.TrackingNumber;
+            newNotes.Text = editingDelivery.Notes;
+        }
+
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -39,20 +71,62 @@ namespace Barroc_Intense.Pages
 
                 // Haal productnaam op uit database
                 var product = db.Products.FirstOrDefault(p => p.Id == productId);
+
                 if (product == null)
                 {
                     validationResultsTextBlock.Text = "? Ongeldig Product ID!";
                     return;
                 }
+
                 var productName = product.ProductName;
+                newProductName.Text = productName; // automatisch invullen
 
-                // Optioneel: laat ProductName zien in de TextBox
-                newProductName.Text = productName;
+                // ---------------------------------------------------------
+                // ?? BEWERKEN (bestehende levering wijzigen)
+                // ---------------------------------------------------------
+                if (editingDelivery != null)
+                {
+                    var d = db.Deliveries.FirstOrDefault(x => x.DeliveryID == editingDelivery.DeliveryID);
 
-                // Maak nieuwe Delivery
+                    if (d != null)
+                    {
+                        d.ProductID = productId;
+                        d.ProductName = productName;
+                        d.OrderID = orderId;
+                        d.CustomerID = customerId;
+                        d.CustomerName = newCustomerName.Text;
+                        d.CustomerContact = newCustomerContact.Text;
+                        d.DeliveryAddress = newAddress.Text;
+                        d.QuantityDelivered = quantityDelivered;
+                        d.QuantityExpected = quantityExpected;
+                        d.PlannedDeliveryDate = newPlannedDate.Date.DateTime;
+                        d.Status = string.IsNullOrWhiteSpace(newStatus.Text) ? "Planned" : newStatus.Text;
+                        d.CarrierName = newCarrier.Text;
+                        d.DriverName = newDriver.Text;
+                        d.TrackingNumber = newTrackingNumber.Text;
+                        d.Notes = newNotes.Text;
+                    }
+
+                    db.SaveChanges();
+
+                    var dialog = new ContentDialog
+                    {
+                        Title = "Succes",
+                        Content = "Levering succesvol bijgewerkt! ?",
+                        CloseButtonText = "Ok",
+                        XamlRoot = this.XamlRoot
+                    };
+
+                    await dialog.ShowAsync();
+                    Frame.GoBack();
+                    return;
+                }
+
+                // ---------------------------------------------------------
+                // ?? TOEVOEGEN (nieuwe levering)
+                // ---------------------------------------------------------
                 var delivery = new Delivery
                 {
-                    // EF zal DeliveryID automatisch genereren als identity
                     DeliveryID = 0,
                     OrderID = orderId,
                     ProductID = productId,
@@ -64,29 +138,26 @@ namespace Barroc_Intense.Pages
                     Status = string.IsNullOrWhiteSpace(newStatus.Text) ? "Planned" : newStatus.Text,
                     CustomerID = customerId,
                     CustomerName = newCustomerName.Text,
+                    CustomerContact = newCustomerContact.Text,
                     DeliveryAddress = newAddress.Text,
-                    CustomerContact = string.IsNullOrWhiteSpace(newCustomerContact.Text) ? "" : newCustomerContact.Text,
-                    CarrierName = string.IsNullOrWhiteSpace(newCarrier.Text) ? "Onbekend" : newCarrier.Text,
-                    DriverName = string.IsNullOrWhiteSpace(newDriver.Text) ? "Onbekend" : newDriver.Text,
-                    TrackingNumber = string.IsNullOrWhiteSpace(newTrackingNumber.Text) ? "" : newTrackingNumber.Text,
-                    Notes = string.IsNullOrWhiteSpace(newNotes.Text) ? "" : newNotes.Text
+                    CarrierName = newCarrier.Text,
+                    DriverName = newDriver.Text,
+                    TrackingNumber = newTrackingNumber.Text,
+                    Notes = newNotes.Text
                 };
 
-                // Voeg toe aan database
                 db.Deliveries.Add(delivery);
                 db.SaveChanges();
 
-                // Succesmelding
-                var dialog = new ContentDialog
+                var addDialog = new ContentDialog
                 {
                     Title = "Succes",
-                    Content = "Nieuwe levering is succesvol toegevoegd!",
+                    Content = "Nieuwe levering is succesvol toegevoegd! ?",
                     CloseButtonText = "Ok",
                     XamlRoot = this.XamlRoot
                 };
-                await dialog.ShowAsync();
 
-                // Terug naar overzicht
+                await addDialog.ShowAsync();
                 Frame.GoBack();
             }
             catch (Exception ex)
@@ -94,6 +165,7 @@ namespace Barroc_Intense.Pages
                 validationResultsTextBlock.Text = $"? Fout bij opslaan: {ex.Message}";
             }
         }
+
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
