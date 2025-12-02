@@ -21,8 +21,19 @@ namespace Barroc_Intense.Pages
         private void LoadProducts()
         {
             using var db = new AppDbContext();
-            productListView.ItemsSource = db.Products.ToList();
+            var products = db.Products.ToList();
+
+            // ?? Bereken hoeveel keer een product geleverd is
+            foreach (var p in products)
+            {
+                p.UsedCount = db.Deliveries
+                    .Count(d => d.ProductID == p.Id && d.Status == "Delivered");
+            }
+
+            productListView.ItemsSource = products;
         }
+
+
 
         private void ShowProductDetails(Product selectedProduct)
         {
@@ -51,7 +62,9 @@ namespace Barroc_Intense.Pages
             detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
 
             // ? In gebruik weergeven
-            UsedTextBlock.Text = $"{selectedProduct.Used}× in gebruik";
+            UsedTextBlock.Text = $"{selectedProduct.UsedCount}× in gebruik";
+
+
         }
 
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)

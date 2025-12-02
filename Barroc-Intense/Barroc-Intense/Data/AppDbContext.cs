@@ -105,7 +105,6 @@ namespace Barroc_Intense.Data
                     Stock = 2,
                     Category = "Automaat",
                     InstallationCost = 49.99m,
-                    Used = 1
                 },
                 new Product
                 {
@@ -116,7 +115,6 @@ namespace Barroc_Intense.Data
                     Stock = 5,
                     Category = "Automaat",
                     InstallationCost = 59.99m,
-                                        Used = 2
 
                 },
                 new Product
@@ -128,7 +126,6 @@ namespace Barroc_Intense.Data
                     Stock = 3,
                     Category = "Automaat",
                     InstallationCost = 79.99m,
-                    Used = 0
 
                 },
                 new Product
@@ -140,7 +137,6 @@ namespace Barroc_Intense.Data
                     Stock = 2,
                     Category = "Automaat",
                     InstallationCost = 99.99m,
-                    Used = 0
 
                 },
 
@@ -154,7 +150,6 @@ namespace Barroc_Intense.Data
                     Stock = 50,
                     Category = "Koffieboon",
                     InstallationCost = 0m,
-                                        Used = 3
 
                 },
                 new Product
@@ -166,7 +161,6 @@ namespace Barroc_Intense.Data
                     Stock = 1,
                     Category = "Koffieboon",
                     InstallationCost = 0m,
-                    Used = 0
 
                 },
                 new Product
@@ -178,7 +172,6 @@ namespace Barroc_Intense.Data
                     Stock = 5,
                     Category = "Koffieboon",
                     InstallationCost = 0m, 
-                    Used = 0
                 },
                 new Product
                 {
@@ -189,7 +182,6 @@ namespace Barroc_Intense.Data
                     Stock = 3,
                     Category = "Koffieboon",
                     InstallationCost = 0m,
-                    Used = 2
                 }
             );
         }

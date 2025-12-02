@@ -117,7 +117,7 @@ namespace Barroc_Intense.Pages
                     PricePerKg = price,
                     InstallationCost = installationCost,
                     Stock = stock,
-                    Used = 0   // nieuwe producten zijn nog niet gebruikt
+                    UsedCount = 0   // nieuwe producten zijn nog niet gebruikt
                 };
 
                 SaveProduct(product, true);

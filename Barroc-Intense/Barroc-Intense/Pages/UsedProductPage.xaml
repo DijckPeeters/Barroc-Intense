@@ -35,10 +35,19 @@
                                 BorderBrush="Black"
                                 BorderThickness="1">
                             <StackPanel>
-                                <TextBlock Text="{Binding}"
+                                <TextBlock Text="{Binding ProductName}"
                                            FontSize="20"
-                                           FontWeight="Bold"
-                                           Foreground="Black"/>
+                                           FontWeight="Bold"/>
+
+                                <TextBlock Text="Adresse:" FontWeight="Bold" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding DeliveryAddress}" />
+
+                                <TextBlock Text="Klant:" FontWeight="Bold" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding CustomerName}" />
+
+                                <TextBlock Text="Geleverd:" FontWeight="Bold" Margin="0,5,0,0"/>
+                                <TextBlock Text="{Binding ActualDeliveryDate}" />
+
 
                                 <Button Content="📋 Bekijk materialen"
                                         Tag="{Binding}"

@@ -27,17 +27,35 @@ namespace Barroc_Intense.Pages
                 if (loadedProduct == null)
                     return;
 
-                // Zet productnaam bovenaan
-                ProductTitleText.Text = $"{loadedProduct.ProductName} (Gebruikt: {loadedProduct.Used}x)";
+                // ?? Bereken hier het aantal geleverde producten
+                loadedProduct.UsedCount = db.Deliveries
+                    .Count(d => d.ProductID == loadedProduct.Id && d.Status == "Delivered");
 
-                // Maak een lijst van placeholder items (1 per "Used" aantal)
-                var usedList = Enumerable.Range(1, loadedProduct.Used)
-                                         .Select(i => $"{loadedProduct.ProductName} #{i}")
-                                         .ToList();
+                // Zet productnaam bovenaan
+                ProductTitleText.Text = $"{loadedProduct.ProductName} (Gebruikt: {loadedProduct.UsedCount}x)";
+
+                // Genereer "gebruikte product instanties"
+                var usedList = db.Deliveries
+                     .Where(d => d.ProductID == loadedProduct.Id && d.Status == "Delivered")
+                     .Select(d => new
+                     {
+                         ProductName = loadedProduct.ProductName,
+                         d.CustomerName,
+                         d.DeliveryAddress,
+                         d.PlannedDeliveryDate,
+                         d.ActualDeliveryDate,
+                         d.DeliveryID
+                     })
+                     .ToList();
 
                 UsedBoxesList.ItemsSource = usedList;
+
             }
         }
+
+
+
+
 
         private void MaterialButton_Click(object sender, RoutedEventArgs e)
         {
