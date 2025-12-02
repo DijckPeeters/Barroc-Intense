@@ -87,7 +87,7 @@ namespace Barroc_Intense.Pages
             {
                 KeuringPanel.Visibility = Visibility.Collapsed;
                 KlantBox.Text = _melding.Klant;
-                DatumBox.Text = _melding.Datum.ToString("dd-MM-yyyy HH:mm");
+                //DatumBox.Text = _melding.Datum.ToString("dd-MM-yyyy HH:mm");
                 InitieleBox.Text = _melding.Probleemomschrijving;
                 MachineBox.Text = _melding.Product;
                 StoringscodeBox.Text = _melding.Storingscode;

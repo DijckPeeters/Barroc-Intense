@@ -12,7 +12,7 @@ namespace Barroc_Intense.Data
         public string MachineId { get; set; } = string.Empty;
         public string Prioriteit { get; set; } = "Laag"; // Laag / Middel / Hoog
         public string Afdeling { get; set; } = string.Empty;
-        public DateTime Datum { get; set; }
+        public DateTime? Datum { get; set; }
         public string Klant { get; set; } = string.Empty;
         public string Product { get; set; } = string.Empty;
         public string Probleemomschrijving { get; set; } = string.Empty;
