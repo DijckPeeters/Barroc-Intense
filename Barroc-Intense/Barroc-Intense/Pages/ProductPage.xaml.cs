@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
@@ -14,13 +15,12 @@ namespace Barroc_Intense.Pages
     public sealed partial class ProductPage : Page
     {
         private Product editingProduct = null;
+        private readonly string[] categories = { "Automaat", "Koffieboon" };
 
         public ProductPage()
         {
             this.InitializeComponent();
         }
-
-        private readonly string[] categories = { "Automaat", "Koffieboon" };
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -37,19 +37,36 @@ namespace Barroc_Intense.Pages
                 priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00");
                 installationCostTextBox.Text = editingProduct.InstallationCost.ToString("0.00");
                 stockTextBox.Text = editingProduct.Stock.ToString();
-
                 if (!string.IsNullOrWhiteSpace(editingProduct.Category))
                 {
                     categoryComboBox.SelectedItem = editingProduct.Category;
+
+                    // Forceer een update van de zichtbaarheid
+                    ingredientsPanel.Visibility = editingProduct.Category == "Koffieboon" ? Visibility.Visible : Visibility.Collapsed;
+                    ingredientsListControl.ItemsSource = editingProduct.Ingredients;
                 }
 
-                // Used wordt NIET getoond – alleen behouden!
+
+                if (editingProduct.Ingredients == null)
+                    editingProduct.Ingredients = new ObservableCollection<Ingredient>();
+
+                ingredientsListControl.ItemsSource = editingProduct.Ingredients;
+
+                // Zet meteen juiste zichtbaarheid
+                categoryComboBox_SelectionChanged(null, null);
+            }
+            else
+            {
+                editingProduct = new Product
+                {
+                    Ingredients = new ObservableCollection<Ingredient>()
+                };
             }
         }
 
         private async void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            string actie = editingProduct == null ? "toevoegen" : "aanpassen";
+            string actie = editingProduct.Id == 0 ? "toevoegen" : "aanpassen";
 
             var dialog = new ContentDialog
             {
@@ -62,35 +79,17 @@ namespace Barroc_Intense.Pages
             };
 
             var result = await dialog.ShowAsync();
-
             if (result != ContentDialogResult.Primary)
                 return;
 
-            // ───────────────────────────────────────────────
             // VALIDATIE
-            // ───────────────────────────────────────────────
-
             if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price))
             {
                 validationResultsTextBlock.Text = "❌ Vul een geldig getal in bij 'Prijs'.";
                 return;
             }
 
-            // Reparatie / installatiekosten
-            string installationInput = installationCostTextBox.Text;
-            var match = Regex.Match(installationInput, @"\d+([.,]\d+)?");
-
-            decimal installationCost;
-
-            if (match.Success)
-            {
-                decimal.TryParse(
-                    match.Value.Replace(",", "."),
-                    NumberStyles.Number,
-                    CultureInfo.InvariantCulture,
-                    out installationCost);
-            }
-            else
+            if (!decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var installationCost))
             {
                 validationResultsTextBlock.Text = "❌ Vul een geldige prijs in bij 'Reparatiekosten'.";
                 return;
@@ -102,72 +101,72 @@ namespace Barroc_Intense.Pages
                 return;
             }
 
-            // ───────────────────────────────────────────────
-            // OPSLAAN MET GEBRUIKTE WAARDE (Used integer)
-            // ───────────────────────────────────────────────
+            // VUL PRODUCTVELDEN
+            editingProduct.ProductName = productNameTextBox.Text;
+            editingProduct.LeaseContract = leaseContractTextBox.Text;
+            editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
+            editingProduct.PricePerKg = price;
+            editingProduct.InstallationCost = installationCost;
+            editingProduct.Stock = stock;
 
-            if (editingProduct == null)
+            if (editingProduct.Category != "Koffieboon")
             {
-                // Nieuw product krijgt automatisch Used = 0
-                var product = new Product
-                {
-                    ProductName = productNameTextBox.Text,
-                    LeaseContract = leaseContractTextBox.Text,
-                    Category = categoryComboBox.SelectedItem?.ToString(),
-                    PricePerKg = price,
-                    InstallationCost = installationCost,
-                    Stock = stock,
-                    UsedCount = 0   // nieuwe producten zijn nog niet gebruikt
-                };
-
-                SaveProduct(product, true);
+                editingProduct.Ingredients.Clear();
             }
-            else
+
+            // VALIDATIE OBJECT
+            var context = new ValidationContext(editingProduct);
+            var results = new List<ValidationResult>();
+
+            if (!Validator.TryValidateObject(editingProduct, context, results, true))
             {
-                // Bestaande product: Used gewoon behouden uit DB
-                editingProduct.ProductName = productNameTextBox.Text;
-                editingProduct.LeaseContract = leaseContractTextBox.Text;
-                editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
-                editingProduct.PricePerKg = price;
-                editingProduct.InstallationCost = installationCost;
-                editingProduct.Stock = stock;
+                validationResultsTextBlock.Text = string.Join(Environment.NewLine, results.Select(r => r.ErrorMessage));
+                return;
+            }
 
-                // Used NIET aanpassen
-                // editingProduct.Used blijft hetzelfde
+            // OPSLAAN IN DB
+            try
+            {
+                using var db = new AppDbContext();
 
-                SaveProduct(editingProduct, false);
+                if (editingProduct.Id == 0)
+                    db.Products.Add(editingProduct);
+                else
+                    db.Products.Update(editingProduct);
+
+                db.SaveChanges();
+
+                validationResultsTextBlock.Text = "✅ Product succesvol opgeslagen!";
+                Frame.Navigate(typeof(StockPage), editingProduct.Id);
+            }
+            catch (Exception ex)
+            {
+                validationResultsTextBlock.Text = $"❌ Fout bij opslaan: {ex.Message}";
             }
         }
 
-        private void SaveProduct(Product product, bool isNew)
+        private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
         {
-            var context = new ValidationContext(product);
-            var results = new List<ValidationResult>();
+            if (editingProduct.Ingredients == null)
+                editingProduct.Ingredients = new ObservableCollection<Ingredient>();
 
-            if (!Validator.TryValidateObject(product, context, results, true))
+            editingProduct.Ingredients.Add(new Ingredient { Name = "", AmountInKg = 0.2m });
+
+            ingredientsPanel.Visibility = Visibility.Visible;
+        }
+
+        private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (categoryComboBox.SelectedItem?.ToString() == "Koffieboon")
             {
-                validationResultsTextBlock.Text = string.Join(Environment.NewLine, results.Select(r => r.ErrorMessage));
+                ingredientsPanel.Visibility = Visibility.Visible;
+                ingredientsListControl.ItemsSource = editingProduct?.Ingredients;
             }
             else
             {
-                try
-                {
-                    using var db = new AppDbContext();
-
-                    if (isNew)
-                        db.Products.Add(product);
-                    else
-                        db.Products.Update(product);
-
-                    db.SaveChanges();
-
-                    validationResultsTextBlock.Text = "✅ Product succesvol opgeslagen!";
-                    Frame.Navigate(typeof(StockPage), product.Id);
-                }
-                catch (Exception ex)
-                {
-                    errorsTextBlock.Text = $"❌ Fout bij opslaan: {ex.Message}";
-                }
+                ingredientsPanel.Visibility = Visibility.Collapsed;
+                editingProduct?.Ingredients.Clear();
+                ingredientsListControl.ItemsSource = null;
             }
         }
 

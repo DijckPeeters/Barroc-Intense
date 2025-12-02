@@ -123,6 +123,38 @@ namespace Barroc_Intense.Pages
             }
         }
 
+        private void FilterMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuFlyoutItem item)
+            {
+                string status = item.Text;
+
+                using var db = new AppDbContext();
+                var query = db.Deliveries.AsQueryable();
+
+                // Product filter, indien van toepassing
+                if (productIdFilter.HasValue)
+                    query = query.Where(d => d.ProductID == productIdFilter.Value);
+
+                // Status filter
+                if (status != "Alle")
+                    query = query.Where(d => d.Status == status);
+
+                deliveries = query.ToList();
+                deliveryListView.ItemsSource = deliveries;
+
+                // Reset selectie
+                selectedDelivery = null;
+                detailsPanel.Visibility = Visibility.Collapsed;
+                placeholderText.Visibility = Visibility.Visible;
+
+                // Update knoptekst zodat gebruiker weet welke filter actief is
+                filterButton.Content = $" {status}";
+            }
+        }
+
+
+
 
         private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)
         {

@@ -1,21 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Barroc_Intense.Data
 {
-    public class Ingredient
+    public class Ingredient : INotifyPropertyChanged
     {
         public int Id { get; set; }
-        public int ProductId { get; set; } // Voor welke koffieboon dit ingrediënt hoort
+        public int ProductId { get; set; }
         public string Name { get; set; }
-        public decimal AmountInKg { get; set; }
+
+        private decimal _amountInKg;
+        public decimal AmountInKg
+        {
+            get => _amountInKg;
+            set
+            {
+                if (_amountInKg != value)
+                {
+                    _amountInKg = value;
+                    OnPropertyChanged(nameof(AmountInKg));
+                    OnPropertyChanged(nameof(AmountText)); // Zorg dat UI ook updated
+                }
+            }
+        }
+
+        // Property voor TwoWay binding naar TextBox
+        [NotMapped]
+        public string AmountText
+        {
+            get => AmountInKg.ToString("0.##");
+            set
+            {
+                if (decimal.TryParse(value, out var result))
+                {
+                    AmountInKg = result;
+                }
+            }
+        }
 
         public string AmountFormatted => $"{AmountInKg:0.##} kg";
-    }
 
+        public virtual Product Product { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }

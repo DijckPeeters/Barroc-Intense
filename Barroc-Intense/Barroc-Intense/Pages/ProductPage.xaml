@@ -1,10 +1,10 @@
-<Page
+﻿<Page
     x:Class="Barroc_Intense.Pages.ProductPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Barroc_Intense.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:localData="using:Barroc_Intense.Data"
     mc:Ignorable="d">
 
     <Grid>
@@ -76,11 +76,40 @@
                     <ComboBox x:Name="categoryComboBox"
                               Header="Categorie:"
                               FontSize="16"
+                              SelectionChanged="categoryComboBox_SelectionChanged"
                               BorderBrush="Black"
                               BorderThickness="1"
                               CornerRadius="10"
                               Padding="8"
                               Width="400"/>
+                    <!-- Ingrediënten sectie, alleen zichtbaar bij Koffiebonen -->
+                    <StackPanel x:Name="ingredientsPanel" Visibility="Collapsed" Spacing="10">
+                        <TextBlock Text="Ingrediënten" FontWeight="Bold" FontSize="18" Foreground="Black"/>
+
+                        <!-- ItemsControl voor bestaande ingredienten -->
+                        <ItemsControl x:Name="ingredientsListControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="localData:Ingredient">
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBox Text="{x:Bind Name, Mode=TwoWay}" Width="200" PlaceholderText="Naam ingredient"/>
+                                        <TextBox Text="{x:Bind AmountText, Mode=TwoWay}" Width="80" PlaceholderText="Kg"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+
+                        <!-- Knop om nieuwe ingredient toe te voegen -->
+                        <Button Content="➕ Voeg ingredient toe"
+                                Click="AddIngredientButton_Click"
+                                Background="Black"
+                                Foreground="Yellow"
+                                FontWeight="Bold"
+                                Width="200"
+                                Height="40"
+                                BorderThickness="0"
+                                CornerRadius="10"/>
+                    </StackPanel>
 
                     <TextBox x:Name="stockTextBox"
                              Header="Voorraad:"
@@ -121,6 +150,9 @@
                             CornerRadius="10"
                             HorizontalAlignment="Center"
                             Width="200"/>
+                    
+
+
 
                     <!-- Foutmelding -->
                     <TextBlock x:Name="errorsTextBlock"
