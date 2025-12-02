@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="Barroc_Intense.Pages.UsedProductPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,66 +6,89 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="#FFF2F2F2" Padding="30">
+    <Grid>
+        <!-- Achtergrond gradient -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="Yellow" Offset="0.0"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
-        <StackPanel Spacing="20">
+        <Border Background="#EEFFFFFF"
+                CornerRadius="10"
+                Margin="30">
 
-            <TextBlock x:Name="ProductTitleText"
-                       Text="Product naam"
-                       FontSize="30"
-                       FontWeight="Bold"
-                       Foreground="Black"/>
-            <Button Content="⬅️ Terug naar voorraad"
-                    Click="BackToStockButton_Click"
-                    Width="220"
-                    Height="40"
-                    Background="Black"
-                    Foreground="Yellow"
-                    FontWeight="Bold"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10" Spacing="20">
 
+                    <!-- Titel -->
+                    <TextBlock x:Name="ProductTitleText"
+                               Text="Geleverde producten"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="Black"
+                               HorizontalAlignment="Center"/>
 
-            <ItemsControl x:Name="UsedBoxesList">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Background="White"
-                                CornerRadius="10"
-                                Margin="0,10"
-                                Padding="20"
-                                BorderBrush="Black"
-                                BorderThickness="1">
-                            <StackPanel>
-                                <TextBlock Text="{Binding ProductName}"
-                                           FontSize="20"
-                                           FontWeight="Bold"/>
+                    <!-- Terug knop -->
+                    <Button Content="⬅️ Terug naar voorraad"
+                            Click="BackToStockButton_Click"
+                            Background="Black"
+                            Foreground="Yellow"
+                            FontWeight="Bold"
+                            Width="220"
+                            Height="40"
+                            HorizontalAlignment="Center"
+                            CornerRadius="10"
+                            BorderThickness="0"/>
 
-                                <TextBlock Text="Adresse:" FontWeight="Bold" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding DeliveryAddress}" />
+                    <!-- Gebruikte producten -->
+                    <ItemsControl x:Name="UsedBoxesList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="White"
+                                        CornerRadius="10"
+                                        Margin="0,10"
+                                        Padding="15"
+                                        BorderBrush="Black"
+                                        BorderThickness="1">
+                                    <StackPanel Spacing="8">
 
-                                <TextBlock Text="Klant:" FontWeight="Bold" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding CustomerName}" />
+                                        <!-- Productnaam -->
+                                        <TextBlock Text="{Binding ProductName}"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"
+                                                   Foreground="Black"/>
 
-                                <TextBlock Text="Geleverd:" FontWeight="Bold" Margin="0,5,0,0"/>
-                                <TextBlock Text="{Binding ActualDeliveryDate}" />
+                                        <!-- Klant en adres -->
+                                        <TextBlock Text="Klant:" FontWeight="Bold" Foreground="Black"/>
+                                        <TextBlock Text="{Binding CustomerName}" Foreground="Black"/>
 
+                                        <TextBlock Text="Adres:" FontWeight="Bold" Foreground="Black"/>
+                                        <TextBlock Text="{Binding DeliveryAddress}" Foreground="Black"/>
 
-                                <Button Content="📋 Bekijk materialen"
-                                        Tag="{Binding}"
-                                        Click="MaterialButton_Click"
-                                        Background="Black"
-                                        Foreground="Yellow"
-                                        Margin="0,10,0,0"
-                                        Width="200"
-                                        Height="40"
-                                        HorizontalAlignment="Left"/>
-                            </StackPanel>
-                            
-                            
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                        <TextBlock Text="Geleverd op:" FontWeight="Bold" Foreground="Black"/>
+                                        <TextBlock Text="{Binding ActualDeliveryDate}" Foreground="Black"/>
 
-        </StackPanel>
+                                        <!-- Bekijk materialen knop -->
+                                        <Button Content="📋 Gebruikte materialen"
+                                                Tag="{Binding DeliveryID}"
+                                                Click="MaterialButton_Click"
+                                                Background="Black"
+                                                Foreground="Yellow"
+                                                FontWeight="Bold"
+                                                Height="40"
+                                                Width="200"
+                                                HorizontalAlignment="Left"
+                                                CornerRadius="10"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Page>

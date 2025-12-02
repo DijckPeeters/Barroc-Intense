@@ -59,13 +59,20 @@ namespace Barroc_Intense.Pages
                 ? $"€ {selectedProduct.InstallationCost:0.00} per maand"
                 : "Geen maandelijkse reparatiekosten";
 
-            detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
+            // ? Voorraad aanpassen per categorie
+            if (selectedProduct.Category == "Koffieboon")
+            {
+                detailStockTextBlock.Text = $"{selectedProduct.Stock} kg op voorraad";
+            }
+            else
+            {
+                detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
+            }
 
-            // ? In gebruik weergeven
+            // In gebruik weergeven
             UsedTextBlock.Text = $"{selectedProduct.UsedCount}× in gebruik";
-
-
         }
+
 
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)
         {
