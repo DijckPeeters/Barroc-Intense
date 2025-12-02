@@ -41,37 +41,31 @@ namespace Barroc_Intense.Pages
             placeholderTextBlock.Visibility = Visibility.Collapsed;
 
             detailNameTextBlock.Text = selectedProduct.ProductName;
-
             detailLeaseContractTextBlock.Text =
-                string.IsNullOrWhiteSpace(selectedProduct.LeaseContract)
-                ? "Geen contract"
-                : selectedProduct.LeaseContract;
-
+                string.IsNullOrWhiteSpace(selectedProduct.LeaseContract) ? "Geen contract" : selectedProduct.LeaseContract;
             detailPriceTextBlock.Text = $"€ {selectedProduct.PricePerKg:0.00}";
-
             detailCategoryTextBlock.Text =
-                string.IsNullOrWhiteSpace(selectedProduct.Category)
-                ? "Geen categorie"
-                : selectedProduct.Category;
-
+                string.IsNullOrWhiteSpace(selectedProduct.Category) ? "Geen categorie" : selectedProduct.Category;
             detailInstallationCostTextBlock.Text =
-                selectedProduct.InstallationCost > 0
-                ? $"€ {selectedProduct.InstallationCost:0.00} per maand"
-                : "Geen maandelijkse reparatiekosten";
+                selectedProduct.InstallationCost > 0 ? $"€ {selectedProduct.InstallationCost:0.00} per maand" : "Geen maandelijkse reparatiekosten";
 
-            // ? Voorraad aanpassen per categorie
-            if (selectedProduct.Category == "Koffieboon")
-            {
-                detailStockTextBlock.Text = $"{selectedProduct.Stock} kg op voorraad";
-            }
-            else
-            {
-                detailStockTextBlock.Text = $"{selectedProduct.Stock} op voorraad";
-            }
+            detailStockTextBlock.Text = selectedProduct.Category == "Koffieboon"
+                ? $"{selectedProduct.Stock} kg op voorraad"
+                : $"{selectedProduct.Stock} op voorraad";
 
-            // In gebruik weergeven
             UsedTextBlock.Text = $"{selectedProduct.UsedCount}× in gebruik";
+
+            // Knop tekst
+            materialsListButton.Content = selectedProduct.Category == "Koffieboon"
+                ? "Ingrediënten"   // Koffiebonen -> ingrediënten
+                : "Materialenlijst"; // Machines -> materialenlijst
+
+            // Gebruikte producten altijd zichtbaar
+            usedProductsButton.Visibility = Visibility.Visible;
         }
+
+
+
 
 
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -168,8 +162,21 @@ namespace Barroc_Intense.Pages
 
         private void MaterialsListButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MaterialListPage));
+            if (chosenProduct == null)
+                return;
+
+            if (chosenProduct.Category == "Koffieboon")
+            {
+                // Ingrediënten pagina navigeren
+                Frame.Navigate(typeof(IngredientListPage), chosenProduct.Id);
+            }
+            else
+            {
+                // Materialen pagina
+                Frame.Navigate(typeof(MaterialListPage), chosenProduct.Id);
+            }
         }
+
         private void UsedProductsButton_Click(object sender, RoutedEventArgs e)
         {
             if (chosenProduct == null)

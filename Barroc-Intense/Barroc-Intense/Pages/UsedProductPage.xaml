@@ -71,7 +71,7 @@
                                         <TextBlock Text="{Binding ActualDeliveryDate}" Foreground="Black"/>
 
                                         <!-- Bekijk materialen knop -->
-                                        <Button Content="📋 Gebruikte materialen"
+                                        <Button Content="{Binding ButtonText}"
                                                 Tag="{Binding DeliveryID}"
                                                 Click="MaterialButton_Click"
                                                 Background="Black"
@@ -81,6 +81,7 @@
                                                 Width="200"
                                                 HorizontalAlignment="Left"
                                                 CornerRadius="10"/>
+
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

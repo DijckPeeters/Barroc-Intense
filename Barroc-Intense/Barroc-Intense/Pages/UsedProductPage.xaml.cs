@@ -1,4 +1,4 @@
-using Barroc_Intense.Data;
+﻿using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -27,7 +27,7 @@ namespace Barroc_Intense.Pages
                 if (loadedProduct == null)
                     return;
 
-                // ?? Bereken hier het aantal geleverde producten
+                // Aantal keer gebruikt
                 loadedProduct.UsedCount = db.Deliveries
                     .Count(d => d.ProductID == loadedProduct.Id && d.Status == "Delivered");
 
@@ -44,14 +44,20 @@ namespace Barroc_Intense.Pages
                          d.DeliveryAddress,
                          d.PlannedDeliveryDate,
                          d.ActualDeliveryDate,
-                         d.DeliveryID
+                         d.DeliveryID,
+                         // ✅ button text afhankelijk van categorie
+                         ButtonText = loadedProduct.Category == "Koffieboon"
+                             ? "📋 Gebruikte ingrediënten"
+                             : "📋 Gebruikte materialen"
                      })
                      .ToList();
 
                 UsedBoxesList.ItemsSource = usedList;
-
             }
         }
+
+        
+
 
 
 
@@ -64,9 +70,22 @@ namespace Barroc_Intense.Pages
             // productnaam/instance doorgeven
             string selectedInstance = button.Tag.ToString();
 
-            // Navigeer naar materialenlijst van dit product
-            Frame.Navigate(typeof(MaterialListPage), loadedProduct.Id);
+            if (loadedProduct == null)
+                return;
+
+            // Check categorie
+            if (loadedProduct.Category == "Koffieboon")
+            {
+                // Navigeren naar ingrediëntenpagina
+                Frame.Navigate(typeof(IngredientListPage), loadedProduct.Id);
+            }
+            else
+            {
+                // Navigeren naar materialenpagina
+                Frame.Navigate(typeof(MaterialListPage), loadedProduct.Id);
+            }
         }
+
 
         private void BackToStockButton_Click(object sender, RoutedEventArgs e)
         {

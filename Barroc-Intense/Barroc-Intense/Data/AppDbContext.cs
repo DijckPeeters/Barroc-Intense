@@ -9,6 +9,8 @@ namespace Barroc_Intense.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Material> Materials { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; }
+
 
 
 
@@ -88,7 +90,8 @@ namespace Barroc_Intense.Data
 
             SeedProducts(modelBuilder);
             SeedDeliveries(modelBuilder);
-            SeedMaterials(modelBuilder); // <- Voeg dit toe
+            SeedMaterials(modelBuilder);
+            SeedIngredients(modelBuilder);
 
         }
 
@@ -319,7 +322,7 @@ namespace Barroc_Intense.Data
                     QuantityExpected = 5,
                     PlannedDeliveryDate = DateTime.Today.AddDays(4),
                     ActualDeliveryDate = null,
-                    Status = "Underway",
+                    Status = "Delivered",
                     CustomerID = 7,
                     CustomerName = "Klant G",
                     DeliveryAddress = "Straat 7, Stad",
@@ -372,6 +375,24 @@ namespace Barroc_Intense.Data
                 new Material { Id = 14, Name = "Reinigingstabletten", Price = 3.45m },
                 new Material { Id = 15, Name = "Reiningsborsteltjes", Price = 8.45m },
                 new Material { Id = 16, Name = "Ontkalkingspijp", Price = 21.70m }
+            );
+        }
+        private void SeedIngredients(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Ingredient>().HasData(
+                // Espresso Beneficio
+                new Ingredient { Id = 1, ProductId = 5, Name = "Arabica Bonen", AmountInKg = 0.5m },
+                new Ingredient { Id = 2, ProductId = 5, Name = "Robusta Bonen", AmountInKg = 0.2m },
+
+                // Yellow Bourbon Brasil
+                new Ingredient { Id = 3, ProductId = 6, Name = "100% Arabica Yellow Bourbon", AmountInKg = 0.5m },
+
+                // Espresso Roma
+                new Ingredient { Id = 4, ProductId = 7, Name = "Arabica Bonen", AmountInKg = 0.6m },
+                new Ingredient { Id = 5, ProductId = 7, Name = "Robusta Bonen", AmountInKg = 0.1m },
+
+                // Red Honey Honduras
+                new Ingredient { Id = 6, ProductId = 8, Name = "Arabica Red Honey", AmountInKg = 0.7m }
             );
         }
 

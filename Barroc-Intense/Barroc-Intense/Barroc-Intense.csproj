@@ -14,6 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pages\DeliveryPage.xaml" />
+    <None Remove="Pages\IngredientListPage.xaml" />
     <None Remove="Pages\InkoopDashBoard.xaml" />
     <None Remove="Pages\KlantenservicePage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
@@ -52,6 +53,11 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\IngredientListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\NewDeliveryPage.xaml">
