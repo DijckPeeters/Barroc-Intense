@@ -39,8 +39,17 @@
                             <ComboBoxItem Content="In behandeling"/>
                             <ComboBoxItem Content="Gesloten"/>
                         </ComboBox>
+                    <DatePicker x:Name="DatumPicker"
+            Header="Datum"
+            HorizontalAlignment="Stretch"/>
 
-                        <Button Content="Opslaan"
+                    <TimePicker x:Name="TijdPicker"
+            Header="Tijd"
+            ClockIdentifier="24HourClock"
+            MinuteIncrement="5"
+            HorizontalAlignment="Stretch"/>
+
+                    <Button Content="Opslaan"
                             Background="Black"
                             Foreground="Yellow"
                             Click="Opslaan_Click"

@@ -40,6 +40,9 @@ namespace Barroc_Intense.Pages
         {
             MachinesListView.ItemsSource = _db.Machines.ToList();
         }
+
+
+        
         private void LaadWeekAgenda()
         {
             var vandaag = DateTime.Today;
@@ -47,17 +50,15 @@ namespace Barroc_Intense.Pages
             var weekEnd = weekStart.AddDays(7);
 
             WeekAgendaControl.ItemsSource = _db.Meldingen
-                .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
+                .Where(m => m.Datum.HasValue && m.Datum.Value >= weekStart && m.Datum.Value < weekEnd)
                 .OrderBy(m => m.Datum)
                 .ToList();
         }
 
-
-
         private void LaadMeldingen()
         {
             MaintenanceListView.ItemsSource = _db.Meldingen
-                .OrderByDescending(m => m.Datum)
+                .OrderByDescending(m => m.Datum ?? DateTime.MinValue) // nulls onderaan
                 .ToList();
         }
 

@@ -1,4 +1,4 @@
-using Barroc_Intense.Data;
+﻿using Barroc_Intense.Data;
 using Barroc_Intense.Pages;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -41,6 +41,17 @@ namespace Barroc_Intense
             ProductBox.Text = _melding.Product;
             ProbleemBox.Text = _melding.Probleemomschrijving;
             StatusCombo.SelectedIndex = 0;
+
+            if (_melding.Datum.HasValue)
+            {
+                DatumPicker.Date = _melding.Datum.Value;
+                TijdPicker.Time = _melding.Datum.Value.TimeOfDay;
+            }
+            else
+            {
+                DatumPicker.Date = DateTime.Now;
+                TijdPicker.Time = DateTime.Now.TimeOfDay;
+            }
         }
 
         private async void Opslaan_Click(object sender, RoutedEventArgs e)
@@ -52,17 +63,21 @@ namespace Barroc_Intense
             _melding.Probleemomschrijving = ProbleemBox.Text;
             _melding.Status = ((ComboBoxItem)StatusCombo.SelectedItem).Content.ToString();
 
+            var nieuweDatum = DatumPicker.Date.Date + TijdPicker.Time;
+            _melding.Datum = nieuweDatum;
+
             _db.SaveChanges();
 
             await new ContentDialog
             {
                 Title = "Succes",
-                Content = "Melding bijgewerkt.",
+                Content = $"Melding opgeslagen op {nieuweDatum:dd MMM yyyy HH:mm}.",
                 CloseButtonText = "OK",
                 XamlRoot = this.XamlRoot
             }.ShowAsync();
 
             Frame.Navigate(typeof(MaintenancePagee));
         }
+
     }
 }
