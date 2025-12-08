@@ -100,6 +100,19 @@
                                                 Click="OpenForm_Click"
                                                 Tag="{x:Bind Id}"
                                                 Margin="0,10,0,0"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                                                <Button Content="Aanpassen"
+            Background="Black"
+            Foreground="Yellow"
+            Tag="{x:Bind Id}"
+            Click="BewerkMelding_Click"/>
+
+                                                <Button Content="Verwijderen"
+            Background="DarkRed"
+            Foreground="White"
+            Tag="{x:Bind Id}"
+            Click="VerwijderMelding_Click"/>
+                                            </StackPanel>
 
 
                                         </StackPanel>
@@ -154,6 +167,7 @@
                                                     <TextBlock Text="{x:Bind Locatie}" Margin="0,0,0,4" Foreground="Black"/>
                                                     <TextBlock Text="Status:" FontWeight="SemiBold" Foreground="Black"/>
                                                     <TextBlock Text="{x:Bind Status}" Foreground="Black"/>
+                                                    
                                                 </StackPanel>
                                             </Border>
                                         </DataTemplate>
@@ -202,6 +216,8 @@
 
                                                         <TextBlock Text="Omschrijving:" FontWeight="SemiBold" Foreground="Black"/>
                                                         <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
+
+
                                                     </StackPanel>
                                                 </Border>
 

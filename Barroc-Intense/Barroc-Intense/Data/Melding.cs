@@ -34,6 +34,10 @@ namespace Barroc_Intense.Data
         public bool IsKeuring { get; set; } = false; // true = keuring, false = storing
         public string? Handtekening { get; set; }
 
+
+        public bool IsKeuringVoltooid { get; set; }
+
+
     }
 
 

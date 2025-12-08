@@ -1,4 +1,4 @@
-using Barroc_Intense.Data;
+﻿using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -78,23 +78,74 @@ namespace Barroc_Intense.Pages
             SearchBox.Text = "";
             LaadMeldingen();
         }
-
         private async void OnSaveClick(object sender, RoutedEventArgs e)
         {
-            // Save changes (bijv. IsOpgelost checkbox changes)
+            // Check of er nog open keuringen zijn
+            bool heeftOpenKeuringen = _db.Meldingen.Any(m => m.IsKeuring && !m.IsKeuringVoltooid);
+
+            if (heeftOpenKeuringen)
+            {
+                var dialog = new ContentDialog
+                {
+                    Title = "Keuring nog niet afgerond",
+                    Content = "Je kunt niet opslaan/verwijderen want er staan keuringen open die nog niet volledig zijn afgerond.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                };
+
+                await dialog.ShowAsync();
+                return;
+            }
+
+            // 🟢 Alle keuringen afgerond → nu mag verwijderen & her-inplannen
+            var Meldingen = _db.Meldingen
+                .Where(m =>  m.IsKeuringVoltooid)
+                .ToList();
+
+            foreach (var oud in Meldingen)
+            {
+                // Nieuwe her-inplanning
+                var nieuwe = new Melding
+                {
+                    MonteurId = oud.MonteurId,
+                    MachineId = oud.MachineId,
+                    Prioriteit = oud.Prioriteit,
+                    Afdeling = oud.Afdeling,
+                    Datum = oud.Datum.Value.AddMonths(1),
+                    Klant = oud.Klant,
+                    Product = oud.Product,
+                    Probleemomschrijving = oud.Probleemomschrijving,
+                    Status = "Open",
+                    IsOpgelost = false,
+                    IsKeuring = oud.IsKeuring,
+                    ChecklistVolledig = null,
+                    KeuringGoedgekeurd = null,
+                    KeuringOpmerkingen = null,
+                    IsKeuringVoltooid = false,
+                    Handtekening = null
+                };
+
+                _db.Meldingen.Add(nieuwe);
+                _db.Meldingen.Remove(oud);
+            }
+
             _db.SaveChanges();
 
-            var dialog = new ContentDialog
+            var success = new ContentDialog
             {
                 Title = "Opgeslagen",
-                Content = "Wijzigingen zijn opgeslagen.",
+                Content = $"{Meldingen.Count} melding(en) opnieuw ingepland voor volgende maand.",
                 CloseButtonText = "OK",
                 XamlRoot = this.XamlRoot
             };
 
-            await dialog.ShowAsync();
+            await success.ShowAsync();
+
             LaadMeldingen();
+            LaadWeekAgenda();
         }
+
+
         private void KlantButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(KlantenservicePage));
@@ -111,6 +162,48 @@ namespace Barroc_Intense.Pages
             // Open detailpagina van melding
             Frame.Navigate(typeof(FormulierPage), id);
         }
+        private async void VerwijderMelding_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            int id = (int)button.Tag;
+
+            var melding = _db.Meldingen.FirstOrDefault(m => m.Id == id);
+
+            if (melding == null) return;
+
+            var confirm = new ContentDialog
+            {
+                Title = "Weet je het zeker?",
+                Content = $"Melding van {melding.Klant} verwijderen?",
+                PrimaryButtonText = "Ja, verwijderen",
+                CloseButtonText = "Nee",
+                XamlRoot = this.XamlRoot
+            };
+
+            var result = await confirm.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                _db.Meldingen.Remove(melding);
+                _db.SaveChanges();
+                LaadMeldingen();
+                await new ContentDialog
+                {
+                    Title = "Verwijderd",
+                    Content = "Melding succesvol verwijderd.",
+                    CloseButtonText = "OK",
+                    XamlRoot = this.XamlRoot
+                }.ShowAsync();
+            }
+        }
+        private void BewerkMelding_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            int id = (int)button.Tag;
+            Frame.Navigate(typeof(MeldingBewerkenPage), id);
+        }
+
+
 
 
     }

@@ -35,8 +35,7 @@
                 <TextBlock Text="Klantnaam (automatisch)" />
                 <TextBox x:Name="KlantBox" IsReadOnly="True"/>
 
-                <TextBlock Text="Datum" />
-                <TextBox x:Name="DatumBox" IsReadOnly="True"/>
+               
 
                 <TextBlock Text="Initiële melding" />
                 <TextBox x:Name="InitieleBox" IsReadOnly="True"/>

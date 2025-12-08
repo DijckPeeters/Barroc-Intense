@@ -238,11 +238,13 @@ namespace Barroc_Intense.Pages
                 m.Handtekening = base64Signature;
                 await LoadSavedSignature(base64Signature);
             }
-
-            db.SaveChanges();
+            m.IsKeuringVoltooid = true;
             db.SaveChanges();
 
             // Navigeren naar MaintenancePage
+     
+
+
             Frame?.Navigate(typeof(MaintenancePagee));
 
         }

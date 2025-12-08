@@ -60,9 +60,9 @@ namespace Barroc_Intense.Data
                     IsKeuring = false,
                     Storingscode = "E201",
                     StoringVerholpen = false,
-                    Vervolgafspraak = "Monteur komt morgen langs",
-                    KorteBeschrijving = "Lekkage bij pomp",
-                    GebruikteOnderdelen = "Pomp, Slang",
+                    Vervolgafspraak = "",
+                    KorteBeschrijving = "",
+                    GebruikteOnderdelen = "",
                     ChecklistVolledig = false,
                     KeuringGoedgekeurd = false,
                     KeuringOpmerkingen = ""
@@ -78,16 +78,15 @@ namespace Barroc_Intense.Data
                     Klant = "Bol.com",
                     Product = "Koffieautomaat",
                     Probleemomschrijving = "Maalt niet goed",
-                    Status = "In behandeling",
+                    Status = "Open",
                     IsOpgelost = false,
-
                     // nieuwe velden
                     IsKeuring = false,
-                    Storingscode = "F122",
+                    Storingscode = "E201",
                     StoringVerholpen = false,
-                    Vervolgafspraak = "Onderdeel moet besteld worden",
-                    KorteBeschrijving = "Maalschijven defect",
-                    GebruikteOnderdelen = "Maalschijven",
+                    Vervolgafspraak = "",
+                    KorteBeschrijving = "",
+                    GebruikteOnderdelen = "",
                     ChecklistVolledig = false,
                     KeuringGoedgekeurd = false,
                     KeuringOpmerkingen = ""
@@ -100,19 +99,19 @@ namespace Barroc_Intense.Data
                     MonteurId = "2",
                     MachineId = "3",
                     Prioriteit = "Laag",
-                    Afdeling = "Service",
+                    Afdeling = "Maintenance",
                     Datum = DateTime.Now.AddDays(0),
                     Klant = "NS",
                     Product = "Koffieautomaat",
                     Probleemomschrijving = "Periodieke controle",
-                    Status = "Gesloten",
+                    Status = "Open",
                     IsOpgelost = true,
 
                     // dit is een keuring
                     IsKeuring = true,
                     ChecklistVolledig = true,
                     KeuringGoedgekeurd = true,
-                    KeuringOpmerkingen = "Alles in orde",
+                    KeuringOpmerkingen = "",
 
                     // melding-velden leeg
                     Storingscode = "",
