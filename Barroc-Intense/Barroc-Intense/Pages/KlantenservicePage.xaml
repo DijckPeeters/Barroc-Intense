@@ -31,6 +31,7 @@
 
                     <!-- Formulier velden vullen de breedte van de pagina -->
                     <TextBox x:Name="AfdelingTextBox" Header="Afdeling" Height="100" MinWidth="600"/>
+                    <TextBox x:Name="MonteurTextBox" Header="Monteur" Height="100" MinWidth="600"/>
                     <TextBox x:Name="KlantTextBox" Header="Klant" Height="100" MinWidth="600"/>
                     <TextBox x:Name="ProductTextBox" Header="Product" Height="100" MinWidth="600"/>
                     <TextBox x:Name="ProbleemTextBox" Header="Probleemomschrijving" AcceptsReturn="True" Height="300" MinWidth="600"/>

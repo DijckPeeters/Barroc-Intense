@@ -45,6 +45,7 @@ namespace Barroc_Intense.Data
                 new Melding
                 {
                     Id = 1,
+                   
                     MachineId = "2",
                     Prioriteit = "Hoog",
                     Afdeling = "Productie",
@@ -69,6 +70,7 @@ namespace Barroc_Intense.Data
                 new Melding
                 {
                     Id = 2,
+                    MonteurId = "1",
                     MachineId = "1",
                     Prioriteit = "Middel",
                     Afdeling = "Logistiek",
@@ -95,6 +97,7 @@ namespace Barroc_Intense.Data
                 new Melding
                 {
                     Id = 4,
+                    MonteurId = "2",
                     MachineId = "3",
                     Prioriteit = "Laag",
                     Afdeling = "Service",

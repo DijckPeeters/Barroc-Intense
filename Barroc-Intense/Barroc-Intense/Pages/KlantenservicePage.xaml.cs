@@ -88,6 +88,7 @@ namespace Barroc_Intense.Pages
                 var melding = new Melding
                 {
                     MachineId = MachineTextBox.Text ?? string.Empty,
+                    MonteurId = MonteurTextBox.Text ?? string.Empty,
                     Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
                     Afdeling = AfdelingTextBox.Text,
                     Klant = KlantTextBox.Text,
@@ -106,17 +107,18 @@ namespace Barroc_Intense.Pages
 
                 // velden legen
                 AfdelingTextBox.Text = "";
-                KlantTextBox.Text = "";
+            MonteurTextBox.Text = "";
+            KlantTextBox.Text = "";
                 ProductTextBox.Text = "";
                 ProbleemTextBox.Text = "";
                 StatusComboBox.SelectedIndex = 0;
                 PrioriteitCombo.SelectedIndex = 0;
                 MachineTextBox.Text = "";
-                // reset date/time naar nu (optioneel)
-                DatumPicker.Date = DateTimeOffset.Now;
-                TijdPicker.Time = DateTime.Now.TimeOfDay;
+            // reset date/time naar nu (optioneel)
+            DatumPicker.Date = DateTimeOffset.Now;
+            TijdPicker.Time = DateTime.Now.TimeOfDay;
 
-            }
+        }
 
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
         {

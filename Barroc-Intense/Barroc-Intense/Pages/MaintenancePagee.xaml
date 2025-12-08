@@ -66,7 +66,11 @@
                                                 <TextBlock Text="Machine ID" FontWeight="SemiBold" Foreground="Black"/>
                                                 <TextBlock Text="{x:Bind MachineId}" Foreground="Black"/>
                                             </StackPanel>
-                                            <StackPanel>
+                                                <StackPanel>
+                                                    <TextBlock Text="Monteur ID" FontWeight="SemiBold" Foreground="Black"/>
+                                                    <TextBlock Text="{x:Bind MonteurId}" Foreground="Black"/>
+                                                </StackPanel>
+                                                <StackPanel>
                                                 <TextBlock Text="Afdeling" FontWeight="SemiBold" Foreground="Black"/>
                                                 <TextBlock Text="{x:Bind Afdeling}" Foreground="Black"/>
                                             </StackPanel>
