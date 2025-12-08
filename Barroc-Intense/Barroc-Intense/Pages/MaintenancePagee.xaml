@@ -48,7 +48,7 @@
 
                     <!-- List View -->
                     <ListView x:Name="MaintenanceListView" Margin="0,10,0,0">
-                        <ListView.ItemTemplate>
+                        <!--<ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:Melding">
                                 <Border CornerRadius="8" Background="White" Padding="12" Margin="0,0,0,12">
                                     <StackPanel>
@@ -94,8 +94,50 @@
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
-                        </ListView.ItemTemplate>
+                        </ListView.ItemTemplate>-->
+                            <ListView x:Name="UsedProductsListView">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="local:UsedProductViewModel">
+                                        <Border CornerRadius="8" Background="White" Padding="12" Margin="0,0,0,12">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                                    <TextBlock Text="{x:Bind Datum}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
+                                                    <TextBlock Text="Status:" VerticalAlignment="Center" Foreground="Black"/>
+                                                    <TextBlock Text="{x:Bind Status}" FontWeight="Bold" Foreground="Black"/>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Horizontal" Spacing="18" Margin="0,8,0,0">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Klant" FontWeight="SemiBold" Foreground="Black"/>
+                                                        <TextBlock Text="{x:Bind Klant}" Foreground="Black"/>
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock Text="Product" FontWeight="SemiBold" Foreground="Black"/>
+                                                        <TextBlock Text="{x:Bind ProductName}" Foreground="Black"/>
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock Text="Afdeling" FontWeight="SemiBold" Foreground="Black"/>
+                                                        <TextBlock Text="{x:Bind Afdeling}" Foreground="Black"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+
+                                                <TextBlock Text="Extra info" FontWeight="SemiBold" Margin="0,8,0,0" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
+
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+                                                    <TextBlock Text="Opgelost:" VerticalAlignment="Center"/>
+                                                    <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}" Margin="5,0,0,0"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
                     </ListView>
+
+
+                       
 
                     <Button Content="Opslaan wijzigingen"
                             Width="220" Height="48"
@@ -125,10 +167,10 @@
                     <!-- Machines -->
                     <StackPanel>
                         <TextBlock Text="Machines"
-                                   FontSize="30"
-                                   FontWeight="Bold"
-                                   Foreground="White"
-                                   Margin="0,0,0,10"/>
+                               FontSize="30"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,10"/>
                         <ScrollViewer Height="250" VerticalScrollBarVisibility="Auto">
                             <StackPanel Spacing="12">
                                 <ItemsControl x:Name="MachinesListView">
@@ -136,9 +178,22 @@
                                         <DataTemplate x:DataType="local:Machine">
                                             <Border Background="White" CornerRadius="12" Padding="12" Margin="0,0,0,8">
                                                 <StackPanel>
-                                                    <TextBlock Text="{x:Bind Product.ProductName}" FontWeight="Bold" FontSize="18" Foreground="Black"/>
-                                                    <TextBlock Text="Locatie:" FontWeight="SemiBold" Foreground="Black"/>
+                                                    <TextBlock Text="Product:" FontWeight="SemiBold" Foreground="Black"/>
+                                                    <TextBlock Text="{x:Bind FirstDeliveryProductName}" 
+                                                                   Margin="0,0,0,4" 
+                                                                   Foreground="Black"
+                                                                   FontWeight="Bold" 
+                                                                   FontSize="18"/>
+
+                                                    <TextBlock Text="Machine-locatie:" FontWeight="SemiBold" Foreground="Black"/>
                                                     <TextBlock Text="{x:Bind Locatie}" Margin="0,0,0,4" Foreground="Black"/>
+
+                                                    <TextBlock Text="Delivery-adres:" FontWeight="SemiBold" Foreground="Black"/>
+                                                    <TextBlock Text="{x:Bind FirstDeliveryAddress}" Margin="0,0,0,4" Foreground="Black"/>
+
+                                                    <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black"/>
+                                                    <TextBlock Text="{x:Bind FirstDeliveryCustomerName}" Margin="0,0,0,4" Foreground="Black"/>
+
                                                     <TextBlock Text="Status:" FontWeight="SemiBold" Foreground="Black"/>
                                                     <TextBlock Text="{x:Bind Status}" Foreground="Black"/>
                                                 </StackPanel>
@@ -146,9 +201,13 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+
+
+
                             </StackPanel>
                         </ScrollViewer>
                     </StackPanel>
+
 
                     <!-- WEEK AGENDA -->
                     <StackPanel Background="#33FFFFFF" Padding="10" CornerRadius="20">
@@ -182,7 +241,7 @@
                                                 <Border Background="White" CornerRadius="8" Padding="8" Margin="0,0,0,8">
                                                     <StackPanel>
                                                         <TextBlock Text="Machine:" FontWeight="SemiBold" Foreground="Black"/>
-                                                        <TextBlock Text="{x:Bind Machine.Product.ProductName}" Margin="0,0,0,4" Foreground="Black"/>
+                                                        <TextBlock Text="{x:Bind Delivery.ProductName}" Margin="0,0,0,4" Foreground="Black"/>
 
                                                         <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black"/>
                                                         <TextBlock Text="{x:Bind Klant}" Margin="0,0,0,4" Foreground="Black"/>

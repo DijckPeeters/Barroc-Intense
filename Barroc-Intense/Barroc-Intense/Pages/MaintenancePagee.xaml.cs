@@ -34,15 +34,21 @@ namespace Barroc_Intense.Pages
             LaadMeldingen();
             LaadMachines();  // Rechterkolom Machines
             LaadWeekAgenda();
+            LaadGebruikteProducten();  
+
 
         }
 
         private void LaadMachines()
         {
             MachinesListView.ItemsSource = _db.Machines
-                .Include(m => m.Product)
+                .Include(m => m.Deliveries)
                 .ToList();
         }
+
+
+
+
         private void LaadWeekAgenda()
         {
             var vandaag = DateTime.Today;
@@ -51,7 +57,7 @@ namespace Barroc_Intense.Pages
 
             WeekAgendaControl.ItemsSource = _db.Meldingen
                  .Include(m => m.Machine)
-                     .ThenInclude(mc => mc.Product)
+                     .ThenInclude(mc => mc.Deliveries)
                  .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
                  .OrderBy(m => m.Datum)
                  .ToList();
@@ -63,11 +69,42 @@ namespace Barroc_Intense.Pages
         private void LaadMeldingen()
         {
             MaintenanceListView.ItemsSource = _db.Meldingen
-                .Include(m => m.Machine)
-                .ThenInclude(mc => mc.Product)
+                .Include(m => m.Machine)       // laad de machine van de melding
+                .Include(m => m.Delivery)      // laad de delivery van de melding
                 .OrderByDescending(m => m.Datum)
                 .ToList();
         }
+
+        private void LaadGebruikteProducten()
+        {
+            var usedProducts = _db.Deliveries
+                .Include(d => d.Product)
+                .Include(d => d.Machine)
+                    .ThenInclude(m => m.Meldingen)
+                .ToList()
+                .Select(d =>
+                {
+                    var melding = d.Machine?.Meldingen
+                        .FirstOrDefault(m => m.DeliveryID == d.DeliveryID);
+
+                    return new UsedProductViewModel
+                    {
+                        DeliveryID = d.DeliveryID,
+                        ProductName = d.Product?.ProductName ?? d.ProductName,
+                        Klant = d.CustomerName,
+                        Datum = d.PlannedDeliveryDate,
+                        Status = d.Status,
+                        Afdeling = melding?.Afdeling ?? "Onderhoud",
+                        Probleemomschrijving = melding?.Probleemomschrijving ?? "",
+                        IsOpgelost = melding?.IsOpgelost ?? false
+                    };
+                })
+                .ToList();
+
+            UsedProductsListView.ItemsSource = usedProducts;
+        }
+
+        
 
 
 

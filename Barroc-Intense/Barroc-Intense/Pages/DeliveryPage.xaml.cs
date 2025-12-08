@@ -154,6 +154,28 @@ namespace Barroc_Intense.Pages
         }
 
 
+        //private void LoadUsedProducts()
+        //{
+        //    using var db = new AppDbContext();
+
+        //    var usedProducts = (from d in db.Deliveries
+        //                        where d.ActualDeliveryDate != null
+        //                        orderby d.ActualDeliveryDate descending
+        //                        select new UsedProductMeldingViewModel
+        //                        {
+        //                            Id = d.DeliveryID,
+        //                            MachineId = d.ProductID, // als je machine info wilt aanpassen
+        //                            Afdeling = "Algemeen",    // vul in als je een mapping hebt
+        //                            Datum = d.ActualDeliveryDate.Value,
+        //                            Klant = d.CustomerName,
+        //                            Product = d.ProductName,
+        //                            Probleemomschrijving = $"Aantal geleverd: {d.QuantityDelivered}. Notities: {d.Notes}",
+        //                            Status = d.Status,
+        //                            IsOpgelost = true
+        //                        }).ToList();
+
+        //    usedProductsListView.ItemsSource = usedProducts;
+        //}
 
 
         private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)

@@ -10,14 +10,9 @@ namespace Barroc_Intense.Data
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
-
-
-
-
         public DbSet<Melding> Meldingen { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<PlanningItem> PlanningItems { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,332 +27,56 @@ namespace Barroc_Intense.Data
             base.OnModelCreating(modelBuilder);
 
             // ==========================
-            //      SEED: MACHINES
+            // SEED: PRODUCTS
+            // ==========================
+            modelBuilder.Entity<Product>().HasData(
+                new Product { Id = 1, ProductName = "Barroc Intens Italian Light", LeaseContract = "499,- excl. btw per maand", PricePerKg = 289, Stock = 2, Category = "Automaat", InstallationCost = 49.99m },
+                new Product { Id = 2, ProductName = "Barroc Intens Italian", LeaseContract = "599,- excl. btw per maand", PricePerKg = 289, Stock = 5, Category = "Automaat", InstallationCost = 59.99m },
+                new Product { Id = 3, ProductName = "Barroc Intens Italian Deluxe", LeaseContract = "799,- excl. btw per maand", PricePerKg = 375, Stock = 3, Category = "Automaat", InstallationCost = 79.99m },
+                new Product { Id = 4, ProductName = "Barroc Intens Italian Deluxe Special", LeaseContract = "999,- excl. btw per maand", PricePerKg = 375, Stock = 2, Category = "Automaat", InstallationCost = 99.99m },
+                new Product { Id = 5, ProductName = "Espresso Beneficio", LeaseContract = "", PricePerKg = 22, Stock = 50, Category = "Koffieboon", InstallationCost = 0m },
+                new Product { Id = 6, ProductName = "Yellow Bourbon Brasil", LeaseContract = "", PricePerKg = 23, Stock = 1, Category = "Koffieboon", InstallationCost = 0m },
+                new Product { Id = 7, ProductName = "Espresso Roma", LeaseContract = "", PricePerKg = 21, Stock = 5, Category = "Koffieboon", InstallationCost = 0m },
+                new Product { Id = 8, ProductName = "Red Honey Honduras", LeaseContract = "", PricePerKg = 28, Stock = 3, Category = "Koffieboon", InstallationCost = 0m }
+            );
+
+            // ==========================
+            // SEED: MACHINES
+            // ==========================
+            // ==========================
+            // SEED: MACHINES
             // ==========================
             modelBuilder.Entity<Machine>().HasData(
-                 new Machine { Id = 1, Locatie = "Hal 1", Status = "Operationeel", ProductId = 1 },
-                 new Machine { Id = 2, Locatie = "Hal 3", Status = "Storend", ProductId = 2 },
-                 new Machine { Id = 3, Locatie = "Kantine", Status = "Onderhoud", ProductId = 3 },
-                 new Machine { Id = 4, Locatie = "Kantoor", Status = "Operationeel", ProductId = 4 }
+                 new Machine { Id = 1, Locatie = "Hal 1", Status = "Operationeel" },
+                 new Machine { Id = 2, Locatie = "Hal 3", Status = "Storend" },
+                 new Machine { Id = 3, Locatie = "Kantine", Status = "Onderhoud" },
+                 new Machine { Id = 4, Locatie = "Kantoor", Status = "Operationeel" }
              );
 
 
             // ==========================
-            //         SEED: MELDINGEN
+            // SEED: MELDINGEN
             // ==========================
             modelBuilder.Entity<Melding>().HasData(
-                new Melding
-                {
-                    Id = 1,
-                    MachineId = 2,
-                    Prioriteit = "Hoog",
-                    Afdeling = "Productie",
-                    Datum = DateTime.Now.AddDays(-1),
-                    Klant = "CoolBlue",
-                    Product = "Koffieautomaat",
-                    Probleemomschrijving = "Machine lekt water",
-                    Status = "Open",
-                    IsOpgelost = false
-                },
-                new Melding
-                {
-                    Id = 2,
-                    MachineId = 1,
-                    Prioriteit = "Middel",
-                    Afdeling = "Logistiek",
-                    Datum = DateTime.Now.AddDays(-4),
-                    Klant = "Bol.com",
-                    Product = "Koffieautomaat",
-                    Probleemomschrijving = "Maalt niet goed",
-                    Status = "In behandeling",
-                    IsOpgelost = false
-                },
-
-                 new Melding
-                 {
-                     Id = 4,
-                     MachineId = 3,
-                     Prioriteit = "Laag",
-                     Afdeling = "Service",
-                     Datum = DateTime.Now.AddDays(0),
-                     Klant = "NS",
-                     Product = "Koffieautomaat",
-                     Probleemomschrijving = "Periodieke controle",
-                     Status = "Gesloten",
-                     IsOpgelost = true
-                 }
+                new Melding { Id = 1, MachineId = 1, Prioriteit = "Hoog", Afdeling = "Productie", Datum = DateTime.Today.AddDays(-3), Klant = "CoolBlue", Product = "Barroc Intens Italian Light", Probleemomschrijving = "Check na levering", Status = "Gesloten", IsOpgelost = true },
+                new Melding { Id = 2, MachineId = 2, Prioriteit = "Middel", Afdeling = "Logistiek", Datum = DateTime.Today.AddDays(-2), Klant = "Bol.com", Product = "Barroc Intens Italian", Probleemomschrijving = "Maalt niet goed", Status = "In behandeling", IsOpgelost = false },
+                new Melding { Id = 3, MachineId = 3, Prioriteit = "Laag", Afdeling = "Service", Datum = DateTime.Today.AddDays(-1), Klant = "NS", Product = "Barroc Intens Italian Deluxe", Probleemomschrijving = "Periodieke controle", Status = "Gesloten", IsOpgelost = true }
             );
 
-            SeedProducts(modelBuilder);
-            SeedDeliveries(modelBuilder);
-            SeedMaterials(modelBuilder);
-            SeedIngredients(modelBuilder);
-
-        }
-
-        private void SeedProducts(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Product>().HasData(
-                // AUTOMATEN
-                new Product
-                {
-                    Id = 1,
-                    ProductName = "Barroc Intens Italian Light",
-                    LeaseContract = "499,- excl. btw per maand",
-                    PricePerKg = 289,
-                    Stock = 2,
-                    Category = "Automaat",
-                    InstallationCost = 49.99m,
-                },
-                new Product
-                {
-                    Id = 2,
-                    ProductName = "Barroc Intens Italian",
-                    LeaseContract = "599,- excl. btw per maand",
-                    PricePerKg = 289,
-                    Stock = 5,
-                    Category = "Automaat",
-                    InstallationCost = 59.99m,
-
-                },
-                new Product
-                {
-                    Id = 3,
-                    ProductName = "Barroc Intens Italian Deluxe",
-                    LeaseContract = "799,- excl. btw per maand",
-                    PricePerKg = 375,
-                    Stock = 3,
-                    Category = "Automaat",
-                    InstallationCost = 79.99m,
-
-                },
-                new Product
-                {
-                    Id = 4,
-                    ProductName = "Barroc Intens Italian Deluxe Special",
-                    LeaseContract = "999,- excl. btw per maand",
-                    PricePerKg = 375,
-                    Stock = 2,
-                    Category = "Automaat",
-                    InstallationCost = 99.99m,
-
-                },
-
-                // KOFFIEBONEN
-                new Product
-                {
-                    Id = 5,
-                    ProductName = "Espresso Beneficio",
-                    LeaseContract = "",
-                    PricePerKg = 22,
-                    Stock = 50,
-                    Category = "Koffieboon",
-                    InstallationCost = 0m,
-
-                },
-                new Product
-                {
-                    Id = 6,
-                    ProductName = "Yellow Bourbon Brasil",
-                    LeaseContract = "",
-                    PricePerKg = 23,
-                    Stock = 1,
-                    Category = "Koffieboon",
-                    InstallationCost = 0m,
-
-                },
-                new Product
-                {
-                    Id = 7,
-                    ProductName = "Espresso Roma",
-                    LeaseContract = "",
-                    PricePerKg = 21,
-                    Stock = 5,
-                    Category = "Koffieboon",
-                    InstallationCost = 0m, 
-                },
-                new Product
-                {
-                    Id = 8,
-                    ProductName = "Red Honey Honduras",
-                    LeaseContract = "",
-                    PricePerKg = 28,
-                    Stock = 3,
-                    Category = "Koffieboon",
-                    InstallationCost = 0m,
-                }
-            );
-        }
-
-        private void SeedDeliveries(ModelBuilder modelBuilder)
-        {
+            // ==========================
+            // SEED: DELIVERIES (gekoppeld aan Machines/Meldingen)
+            // ==========================
             modelBuilder.Entity<Delivery>().HasData(
-                new Delivery
-                {
-                    DeliveryID = 1,
-                    OrderID = 101,
-                    ProductID = 1,
-                    ProductName = "Barroc Intens Italian Light",
-                    QuantityDelivered = 2,
-                    QuantityExpected = 2,
-                    PlannedDeliveryDate = DateTime.Today.AddDays(1),
-                    ActualDeliveryDate = null,
-                    Status = "Underway",
-                    CustomerID = 1,
-                    CustomerName = "Klant A",
-                    DeliveryAddress = "Straat 1, Stad",
-                    CustomerContact = "0612345678",
-                    CarrierName = "DHL",
-                    DriverName = "Jan de Vries",
-                    TrackingNumber = "DHL123456",
-                    Notes = "Bel bij aankomst"
-                },
-                new Delivery
-                {
-                    DeliveryID = 2,
-                    OrderID = 102,
-                    ProductID = 2,
-                    ProductName = "Barroc Intens Italian",
-                    QuantityDelivered = 5,
-                    QuantityExpected = 5,
-                    PlannedDeliveryDate = DateTime.Today.AddDays(2),
-                    ActualDeliveryDate = null,
-                    Status = "Planned",
-                    CustomerID = 2,
-                    CustomerName = "Klant B",
-                    DeliveryAddress = "Straat 2, Stad",
-                    CustomerContact = "0698765432",
-                    CarrierName = "PostNL",
-                    DriverName = "Piet Janssen",
-                    TrackingNumber = "PN654321",
-                    Notes = ""
-                },
-                new Delivery
-                {
-                    DeliveryID = 3,
-                    OrderID = 103,
-                    ProductID = 3,
-                    ProductName = "Barroc Intens Italian Deluxe",
-                    QuantityDelivered = 1,
-                    QuantityExpected = 1,
-                    PlannedDeliveryDate = DateTime.Today,
-                    ActualDeliveryDate = DateTime.Today,
-                    Status = "Delivered",
-                    CustomerID = 3,
-                    CustomerName = "Klant C",
-                    DeliveryAddress = "Straat 3, Stad",
-                    CustomerContact = "0623456789",
-                    CarrierName = "FedEx",
-                    DriverName = "Kees de Boer",
-                    TrackingNumber = "FDX789012",
-                    Notes = "Laat bij receptie achter"
-                },
-                new Delivery
-                {
-                    DeliveryID = 4,
-                    OrderID = 104,
-                    ProductID = 4,
-                    ProductName = "Barroc Intens Italian Deluxe Special",
-                    QuantityDelivered = 2,
-                    QuantityExpected = 2,
-                    PlannedDeliveryDate = DateTime.Today.AddDays(1),
-                    ActualDeliveryDate = null,
-                    Status = "Underway",
-                    CustomerID = 4,
-                    CustomerName = "Klant D",
-                    DeliveryAddress = "Straat 4, Stad",
-                    CustomerContact = "0654321098",
-                    CarrierName = "DHL",
-                    DriverName = "Henk de Wit",
-                    TrackingNumber = "DHL654321",
-                    Notes = ""
-                },
-                new Delivery
-                {
-                    DeliveryID = 5,
-                    OrderID = 105,
-                    ProductID = 5,
-                    ProductName = "Espresso Beneficio",
-                    QuantityDelivered = 10,
-                    QuantityExpected = 10,
-                    PlannedDeliveryDate = DateTime.Today.AddDays(2),
-                    ActualDeliveryDate = null,
-                    Status = "Planned",
-                    CustomerID = 5,
-                    CustomerName = "Klant E",
-                    DeliveryAddress = "Straat 5, Stad",
-                    CustomerContact = "0611223344",
-                    CarrierName = "PostNL",
-                    DriverName = "Piet de Groot",
-                    TrackingNumber = "PN987654",
-                    Notes = ""
-                },
-                new Delivery
-                {
-                    DeliveryID = 6,
-                    OrderID = 106,
-                    ProductID = 6,
-                    ProductName = "Yellow Bourbon Brasil",
-                    QuantityDelivered = 1,
-                    QuantityExpected = 1,
-                    PlannedDeliveryDate = DateTime.Today.AddDays(3),
-                    ActualDeliveryDate = null,
-                    Status = "Planned",
-                    CustomerID = 6,
-                    CustomerName = "Klant F",
-                    DeliveryAddress = "Straat 6, Stad",
-                    CustomerContact = "0622334455",
-                    CarrierName = "DHL",
-                    DriverName = "Jan Smit",
-                    TrackingNumber = "DHL321654",
-                    Notes = ""
-                },
-                new Delivery
-                {
-                    DeliveryID = 7,
-                    OrderID = 107,
-                    ProductID = 7,
-                    ProductName = "Espresso Roma",
-                    QuantityDelivered = 5,
-                    QuantityExpected = 5,
-                    PlannedDeliveryDate = DateTime.Today.AddDays(4),
-                    ActualDeliveryDate = null,
-                    Status = "Delivered",
-                    CustomerID = 7,
-                    CustomerName = "Klant G",
-                    DeliveryAddress = "Straat 7, Stad",
-                    CustomerContact = "0633445566",
-                    CarrierName = "FedEx",
-                    DriverName = "Kees van Dijk",
-                    TrackingNumber = "FDX654987",
-                    Notes = ""
-                },
-                new Delivery
-                {
-                    DeliveryID = 8,
-                    OrderID = 108,
-                    ProductID = 8,
-                    ProductName = "Red Honey Honduras",
-                    QuantityDelivered = 3,
-                    QuantityExpected = 3,
-                    PlannedDeliveryDate = DateTime.Today.AddDays(5),
-                    ActualDeliveryDate = null,
-                    Status = "Planned",
-                    CustomerID = 8,
-                    CustomerName = "Klant H",
-                    DeliveryAddress = "Straat 8, Stad",
-                    CustomerContact = "0644556677",
-                    CarrierName = "DHL",
-                    DriverName = "Henk de Vries",
-                    TrackingNumber = "DHL852963",
-                    Notes = ""
-                }
+                new Delivery { DeliveryID = 1, OrderID = 101, ProductID = 1, ProductName = "Barroc Intens Italian Light", QuantityDelivered = 2, QuantityExpected = 2, PlannedDeliveryDate = DateTime.Today.AddDays(-3), ActualDeliveryDate = DateTime.Today.AddDays(-2), Status = "Delivered", CustomerID = 1, CustomerName = "CoolBlue", DeliveryAddress = "Straat 1", CustomerContact = "0612345678", CarrierName = "DHL", DriverName = "Jan de Vries", TrackingNumber = "DHL001", Notes = "", MachineId = 1 },
+                new Delivery { DeliveryID = 2, OrderID = 102, ProductID = 2, ProductName = "Barroc Intens Italian", QuantityDelivered = 1, QuantityExpected = 1, PlannedDeliveryDate = DateTime.Today.AddDays(-2), ActualDeliveryDate = DateTime.Today.AddDays(-1), Status = "Delivered", CustomerID = 2, CustomerName = "Bol.com", DeliveryAddress = "Straat 2", CustomerContact = "0698765432", CarrierName = "PostNL", DriverName = "Piet Janssen", TrackingNumber = "PN002", Notes = "", MachineId = 2 },
+                new Delivery { DeliveryID = 3, OrderID = 103, ProductID = 3, ProductName = "Barroc Intens Italian Deluxe", QuantityDelivered = 1, QuantityExpected = 1, PlannedDeliveryDate = DateTime.Today.AddDays(-1), ActualDeliveryDate = DateTime.Today, Status = "Delivered", CustomerID = 3, CustomerName = "NS", DeliveryAddress = "Straat 3", CustomerContact = "0623456789", CarrierName = "FedEx", DriverName = "Kees de Boer", TrackingNumber = "FDX003", Notes = "", MachineId = 3 },
+                new Delivery { DeliveryID = 4, OrderID = 104, ProductID = 4, ProductName = "Espresso Beneficio", QuantityDelivered = 10, QuantityExpected = 10, PlannedDeliveryDate = DateTime.Today.AddDays(-1), ActualDeliveryDate = DateTime.Today, Status = "Delivered", CustomerID = 5, CustomerName = "Klant E", DeliveryAddress = "Straat 5", CustomerContact = "0611223344", CarrierName = "PostNL", DriverName = "Piet de Groot", TrackingNumber = "PN004", Notes = "", MachineId = 4 }
             );
+            
 
-        }
-
-        private void SeedMaterials(ModelBuilder modelBuilder)
-        {
+            // ==========================
+            // SEED: MATERIALS
+            // ==========================
             modelBuilder.Entity<Material>().HasData(
                 new Material { Id = 1, Name = "Rubber (10 mm)", Price = 0.39m },
                 new Material { Id = 2, Name = "Rubber (14 mm)", Price = 0.45m },
@@ -376,37 +95,15 @@ namespace Barroc_Intense.Data
                 new Material { Id = 15, Name = "Reiningsborsteltjes", Price = 8.45m },
                 new Material { Id = 16, Name = "Ontkalkingspijp", Price = 21.70m }
             );
-        }
-        private void SeedIngredients(ModelBuilder modelBuilder)
-        {
+
+            // ==========================
+            // SEED: INGREDIENTS
+            // ==========================
             modelBuilder.Entity<Ingredient>().HasData(
-                // Espresso Beneficio
                 new Ingredient { Id = 1, ProductId = 5, Name = "Arabica Bonen", AmountInKg = 0.5m },
                 new Ingredient { Id = 2, ProductId = 5, Name = "Robusta Bonen", AmountInKg = 0.2m },
-
-                // Yellow Bourbon Brasil
-                new Ingredient { Id = 3, ProductId = 6, Name = "100% Arabica Yellow Bourbon", AmountInKg = 0.5m },
-
-                // Espresso Roma
-                new Ingredient { Id = 4, ProductId = 7, Name = "Arabica Bonen", AmountInKg = 0.6m },
-                new Ingredient { Id = 5, ProductId = 7, Name = "Robusta Bonen", AmountInKg = 0.1m },
-
-                // Red Honey Honduras
-                new Ingredient { Id = 6, ProductId = 8, Name = "Arabica Red Honey", AmountInKg = 0.7m }
+                new Ingredient { Id = 3, ProductId = 6, Name = "100% Arabica Yellow Bourbon", AmountInKg = 0.5m }
             );
         }
-
-
     }
-
-
-    // ==========================
-    //         SEED: PLANNING
-    // ==========================
-}   
-        
-    
-
-
-
-
+}
