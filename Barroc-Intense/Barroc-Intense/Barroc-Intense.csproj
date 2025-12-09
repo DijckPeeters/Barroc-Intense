@@ -19,13 +19,16 @@
     <None Remove="Pages\Dashboards\ManagerDashboard.xaml" />
     <None Remove="Pages\Dashboards\SalesDashboard.xaml" />
     <None Remove="Pages\DeliveryPage.xaml" />
+    <None Remove="Pages\IngredientListPage.xaml" />
     <None Remove="Pages\FormulierPage.xaml" />
     <None Remove="Pages\InkoopDashBoard.xaml" />
     <None Remove="Pages\KlantenservicePage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
     <None Remove="Pages\MaterialListPage.xaml" />
+    <None Remove="Pages\NewDeliveryPage.xaml" />
     <None Remove="Pages\ProductPage.xaml" />
     <None Remove="Pages\StockPage.xaml" />
+    <None Remove="Pages\UsedProductPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +67,21 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\FormulierPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\IngredientListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\NewDeliveryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\UsedProductPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -144,5 +162,6 @@
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>

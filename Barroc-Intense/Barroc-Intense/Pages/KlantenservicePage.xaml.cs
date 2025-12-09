@@ -81,6 +81,36 @@ namespace Barroc_Intense.Pages
                     ToonDialog("Fout", "Er bestaat al een melding op exact dezelfde datum en tijd.");
                     return;
                 }
+
+                var melding = new Melding
+                {
+                    MachineId = int.Parse(MachineTextBox.Text),
+                    Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
+                    Afdeling = AfdelingTextBox.Text,
+                    Klant = KlantTextBox.Text,
+                    Product = ProductTextBox.Text,
+                    Probleemomschrijving = ProbleemTextBox.Text,
+                    Status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content.ToString() ?? "Open",
+                    Datum = gekozenDatum,
+                    IsOpgelost = false
+                };
+
+                db.Meldingen.Add(melding);
+                db.SaveChanges();
+
+                ToonDialog("Gelukt", "Melding is toegevoegd aan de database.");
+
+                // velden legen
+                AfdelingTextBox.Text = "";
+                KlantTextBox.Text = "";
+                ProductTextBox.Text = "";
+                ProbleemTextBox.Text = "";
+                StatusComboBox.SelectedIndex = 0;
+                PrioriteitCombo.SelectedIndex = 0;
+                MachineTextBox.Text = "";
+                // reset date/time naar nu (optioneel)
+                DatumPicker.Date = DateTimeOffset.Now;
+                TijdPicker.Time = DateTime.Now.TimeOfDay;
             }
 
             var melding = new Melding

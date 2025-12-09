@@ -1,4 +1,4 @@
-﻿using Barroc_Intense.Data;
+using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -34,13 +34,37 @@ namespace Barroc_Intense.Pages
             _db.Database.EnsureCreated();
             LaadMeldingen();
             LaadMachines();  // Rechterkolom Machines
+            LaadWeekAgenda();
+            LaadGebruikteProducten();  
+
             //LaadWeekAgenda();
 
         }
 
         private void LaadMachines()
         {
-            MachinesListView.ItemsSource = _db.Machines.ToList();
+            MachinesListView.ItemsSource = _db.Machines
+                .Include(m => m.Deliveries)
+                .ToList();
+        }
+
+
+
+
+        private void LaadWeekAgenda()
+        {
+            var vandaag = DateTime.Today;
+            var weekStart = vandaag.AddDays(-(int)vandaag.DayOfWeek + (int)DayOfWeek.Monday);
+            var weekEnd = weekStart.AddDays(7);
+
+            WeekAgendaControl.ItemsSource = _db.Meldingen
+                 .Include(m => m.Machine)
+                     .ThenInclude(mc => mc.Deliveries)
+                 .Include(m => m.Delivery)                // ? Voeg dit toe!
+                     .ThenInclude(d => d.Product)         // ? En laad ook het product
+                 .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
+                 .OrderBy(m => m.Datum)
+                 .ToList();
         }
 
 
@@ -57,18 +81,36 @@ namespace Barroc_Intense.Pages
         //        .ToList();
         //}
 
+
         private void LaadMeldingen()
         {
             MaintenanceListView.ItemsSource = _db.Meldingen
-                .OrderByDescending(m => m.Datum ?? DateTime.MinValue) // nulls onderaan
+                .Include(m => m.Machine)       // laad de machine van de melding
+                .Include(m => m.Delivery)      // laad de delivery van de melding
+                .OrderByDescending(m => m.Datum)
                 .ToList();
         }
+
+        private void LaadGebruikteProducten()
+        {
+            var meldingen = _db.Meldingen
+                .Include(m => m.Machine)
+                .OrderByDescending(m => m.Datum)
+                .OrderByDescending(m => m.Datum ?? DateTime.MinValue) // nulls onderaan
+                .ToList();
+
+            MaintenanceListView.ItemsSource = meldingen;
+        }
+
+
+
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
             string zoekterm = (SearchBox.Text ?? string.Empty).ToLower();
 
             MaintenanceListView.ItemsSource = _db.Meldingen
+                .Include(m => m.Product)
                 .Where(m => (m.Klant ?? string.Empty).ToLower().Contains(zoekterm)
                          || (m.Product ?? string.Empty).ToLower().Contains(zoekterm)
                          || (m.Afdeling ?? string.Empty).ToLower().Contains(zoekterm))
@@ -322,4 +364,48 @@ namespace Barroc_Intense.Pages
 
 
     }
+    public class PriorityColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var priority = (value as string)?.ToLower() ?? string.Empty;
+
+            // Map mogelijke databasewaarden naar kleuren
+            if (priority == "hoog" || priority == "high")
+                return new SolidColorBrush(Microsoft.UI.Colors.Red);
+
+            if (priority == "middel" || priority == "medium")
+                return new SolidColorBrush(Microsoft.UI.Colors.Orange);
+
+            if (priority == "laag" || priority == "low")
+                return new SolidColorBrush(Microsoft.UI.Colors.Green);
+
+            return new SolidColorBrush(Microsoft.UI.Colors.Black);
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class HighPriorityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var priority = (value as string)?.ToLower() ?? string.Empty;
+
+            if (priority == "hoog" || priority == "high")
+                return Visibility.Visible;
+
+            return Visibility.Collapsed;
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+            => throw new NotImplementedException();
+    }
+
+
 }

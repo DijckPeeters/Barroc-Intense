@@ -50,8 +50,11 @@
                Margin="0,0,0,10"/>
 
                 <!-- Nieuwe levering -->
-                <Button Grid.Row="1"
-            Content="➕ Nieuwe levering"
+                <!-- Nieuwe levering + filter -->
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,0,0,15">
+
+                    <!-- Nieuwe levering knop -->
+                    <Button Content="➕ Nieuwe levering"
             Background="Black"
             Foreground="Yellow"
             Width="220"
@@ -59,9 +62,30 @@
             CornerRadius="10"
             BorderThickness="0"
             FontWeight="Bold"
-            Margin="0,0,0,15"
-            HorizontalAlignment="Left"
             Click="AddDeliveryButton_Click"/>
+
+                    <!-- Filter op status -->
+                    <Button x:Name="filterButton"
+            Content=" Filter status"
+            Background="Black"
+            Foreground="Yellow"
+            Width="180"
+            Height="45"
+            CornerRadius="10"
+            BorderThickness="0"
+            FontWeight="Bold">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Alle" Click="FilterMenuItem_Click"/>
+                                <MenuFlyoutItem Text="Planned" Click="FilterMenuItem_Click"/>
+                                <MenuFlyoutItem Text="Underway" Click="FilterMenuItem_Click"/>
+                                <MenuFlyoutItem Text="Delivered" Click="FilterMenuItem_Click"/>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
+
+                </StackPanel>
+
 
                 <!-- Scrollbare lijst -->
                 <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">

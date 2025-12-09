@@ -21,7 +21,9 @@ namespace Barroc_Intense.Pages
 
         private void BackToStockButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            Frame.GoBack(); // Of navigeren naar StockPage
+            //Frame.GoBack(); // Of navigeren naar StockPage
+            Frame.Navigate(typeof(StockPage));
+
         }
     }
 
