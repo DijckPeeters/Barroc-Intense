@@ -78,14 +78,14 @@ namespace Barroc_Intense.Pages
             // Formulier invullen
             if (_melding.IsKeuring)
             {
-                MeldingPanel.Visibility = Visibility.Collapsed;
+                //MeldingPanel.Visibility = Visibility.Collapsed;
                 ChecklistBox.IsChecked = _melding.ChecklistVolledig;
                 GoedgekeurdBox.IsChecked = _melding.KeuringGoedgekeurd;
                 KeuringOpmerkingenBox.Text = _melding.KeuringOpmerkingen;
             }
             else
             {
-                KeuringPanel.Visibility = Visibility.Collapsed;
+                //KeuringPanel.Visibility = Visibility.Collapsed;
                 KlantBox.Text = _melding.Klant;
                 //DatumBox.Text = _melding.Datum.ToString("dd-MM-yyyy HH:mm");
                 InitieleBox.Text = _melding.Probleemomschrijving;

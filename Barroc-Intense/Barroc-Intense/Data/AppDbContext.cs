@@ -20,7 +20,7 @@ namespace Barroc_Intense.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                ConfigurationManager.ConnectionStrings["BarrocIntense"].ConnectionString,
+                ConfigurationManager.ConnectionStrings["BarrocIntens"].ConnectionString,
                 ServerVersion.Parse("8.0.30")
             );
         }

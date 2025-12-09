@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -32,7 +34,7 @@ namespace Barroc_Intense.Pages
             _db.Database.EnsureCreated();
             LaadMeldingen();
             LaadMachines();  // Rechterkolom Machines
-            LaadWeekAgenda();
+            //LaadWeekAgenda();
 
         }
 
@@ -43,17 +45,17 @@ namespace Barroc_Intense.Pages
 
 
         
-        private void LaadWeekAgenda()
-        {
-            var vandaag = DateTime.Today;
-            var weekStart = vandaag.AddDays(-(int)vandaag.DayOfWeek + (int)DayOfWeek.Monday);
-            var weekEnd = weekStart.AddDays(7);
+        //private void LaadWeekAgenda()
+        //{
+        //    var vandaag = DateTime.Today;
+        //    var weekStart = vandaag.AddDays(-(int)vandaag.DayOfWeek + (int)DayOfWeek.Monday);
+        //    var weekEnd = weekStart.AddDays(7);
 
-            WeekAgendaControl.ItemsSource = _db.Meldingen
-                .Where(m => m.Datum.HasValue && m.Datum.Value >= weekStart && m.Datum.Value < weekEnd)
-                .OrderBy(m => m.Datum)
-                .ToList();
-        }
+        //    WeekAgendaControl.ItemsSource = _db.Meldingen
+        //        .Where(m => m.Datum.HasValue && m.Datum.Value >= weekStart && m.Datum.Value < weekEnd)
+        //        .OrderBy(m => m.Datum)
+        //        .ToList();
+        //}
 
         private void LaadMeldingen()
         {
@@ -143,7 +145,7 @@ namespace Barroc_Intense.Pages
             await success.ShowAsync();
 
             LaadMeldingen();
-            LaadWeekAgenda();
+            //LaadWeekAgenda();
         }
 
 
@@ -202,6 +204,118 @@ namespace Barroc_Intense.Pages
             var button = (Button)sender;
             int id = (int)button.Tag;
             Frame.Navigate(typeof(MeldingBewerkenPage), id);
+        }
+        // ================== KALENDER GEDEELTE ==================
+
+        private DateTime _huidigeDatum = DateTime.Today;
+        private List<Melding> _alleMeldingen;
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            LaadAlleMeldingenVoorKalender();
+            UpdateKalenderHeader();
+        }
+
+        private void LaadAlleMeldingenVoorKalender()
+        {
+            _alleMeldingen = _db.Meldingen.ToList();
+            Kalender.SelectedDates.Clear();
+            Kalender.SetDisplayDate(_huidigeDatum);
+        }
+
+        private void UpdateKalenderHeader()
+        {
+            MonthYearText.Text = _huidigeDatum.ToString("MMMM yyyy");
+        }
+
+        // 🔴 Rode bolletjes per datum
+        private void Kalender_DayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
+        {
+            if (args.Item == null) return;
+
+            DateTimeOffset datum = args.Item.Date;
+            DateTime day = datum.Date;
+
+            bool heeftMeldingen = _alleMeldingen != null
+                && _alleMeldingen.Any(m => m.Datum.HasValue && m.Datum.Value.Date == day);
+
+            if (heeftMeldingen)
+            {
+                args.Item.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+                args.Item.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Red);
+                args.Item.BorderThickness = new Thickness(2);
+
+                try
+                {
+                    args.Item.CornerRadius = new CornerRadius(6);
+                }
+                catch { /* sommige WinUI builds laten dit niet toe */ }
+            }
+            else
+            {
+                args.Item.Background = null;
+                args.Item.BorderBrush = null;
+                args.Item.BorderThickness = new Thickness(0);
+
+                try
+                {
+                    args.Item.CornerRadius = new CornerRadius(0);
+                }
+                catch { }
+            }
+        }
+
+
+
+        // 📌 Klik op datum → toon meldingen onder kalender
+        private void Kalender_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        {
+            if (sender.SelectedDates.Count > 0)
+            {
+                var gekozen = sender.SelectedDates[0].Date;
+                LaadMeldingenVoorDatum(gekozen);
+            }
+        }
+
+        private void LaadMeldingenVoorDatum(DateTime date)
+        {
+            var meldingen = _db.Meldingen
+                .Where(m => m.Datum.HasValue && m.Datum.Value.Date == date.Date)
+                .ToList();
+
+            DagMeldingenControl.ItemsSource = meldingen;
+        }
+
+        // ◀️ Vorige maand
+        private void PrevMonth_Click(object sender, RoutedEventArgs e)
+        {
+            _huidigeDatum = _huidigeDatum.AddMonths(-1);
+            Kalender.SetDisplayDate(_huidigeDatum);
+            UpdateKalenderHeader();
+        }
+
+        // ▶️ Volgende maand
+        private void NextMonth_Click(object sender, RoutedEventArgs e)
+        {
+            _huidigeDatum = _huidigeDatum.AddMonths(1);
+            Kalender.SetDisplayDate(_huidigeDatum);
+            UpdateKalenderHeader();
+        }
+
+        // ◀️◀️ Vorig jaar
+        private void PrevYear_Click(object sender, RoutedEventArgs e)
+        {
+            _huidigeDatum = _huidigeDatum.AddYears(-1);
+            Kalender.SetDisplayDate(_huidigeDatum);
+            UpdateKalenderHeader();
+        }
+
+        // ▶️▶️ Volgend jaar
+        private void NextYear_Click(object sender, RoutedEventArgs e)
+        {
+            _huidigeDatum = _huidigeDatum.AddYears(1);
+            Kalender.SetDisplayDate(_huidigeDatum);
+            UpdateKalenderHeader();
         }
 
 
