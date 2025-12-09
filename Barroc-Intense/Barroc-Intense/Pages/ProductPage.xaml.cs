@@ -150,10 +150,16 @@ namespace Barroc_Intense.Pages
             if (editingProduct.Ingredients == null)
                 editingProduct.Ingredients = new ObservableCollection<Ingredient>();
 
+            // Voeg nieuw ingrediënt toe
             editingProduct.Ingredients.Add(new Ingredient { Name = "", AmountInKg = 0.2m });
 
+            // Zorg dat het panel zichtbaar is
             ingredientsPanel.Visibility = Visibility.Visible;
+
+            // Verberg de knop zodat mensen niet nogmaals klikken
+            (sender as Button).Visibility = Visibility.Collapsed;
         }
+
 
         private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
