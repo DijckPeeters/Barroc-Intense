@@ -58,11 +58,13 @@ namespace Barroc_Intense.Pages
             WeekAgendaControl.ItemsSource = _db.Meldingen
                  .Include(m => m.Machine)
                      .ThenInclude(mc => mc.Deliveries)
+                 .Include(m => m.Delivery)                // ? Voeg dit toe!
+                     .ThenInclude(d => d.Product)         // ? En laad ook het product
                  .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
                  .OrderBy(m => m.Datum)
                  .ToList();
-
         }
+
 
 
 
@@ -77,34 +79,14 @@ namespace Barroc_Intense.Pages
 
         private void LaadGebruikteProducten()
         {
-            var usedProducts = _db.Deliveries
-                .Include(d => d.Product)
-                .Include(d => d.Machine)
-                    .ThenInclude(m => m.Meldingen)
-                .ToList()
-                .Select(d =>
-                {
-                    var melding = d.Machine?.Meldingen
-                        .FirstOrDefault(m => m.DeliveryID == d.DeliveryID);
-
-                    return new UsedProductViewModel
-                    {
-                        DeliveryID = d.DeliveryID,
-                        ProductName = d.Product?.ProductName ?? d.ProductName,
-                        Klant = d.CustomerName,
-                        Datum = d.PlannedDeliveryDate,
-                        Status = d.Status,
-                        Afdeling = melding?.Afdeling ?? "Onderhoud",
-                        Probleemomschrijving = melding?.Probleemomschrijving ?? "",
-                        IsOpgelost = melding?.IsOpgelost ?? false
-                    };
-                })
+            var meldingen = _db.Meldingen
+                .Include(m => m.Machine)
+                .OrderByDescending(m => m.Datum)
                 .ToList();
 
-            UsedProductsListView.ItemsSource = usedProducts;
+            MaintenanceListView.ItemsSource = meldingen;
         }
 
-        
 
 
 
@@ -148,4 +130,48 @@ namespace Barroc_Intense.Pages
             Frame.Navigate(typeof(KlantenservicePage));
         }
     }
+    public class PriorityColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var priority = (value as string)?.ToLower() ?? string.Empty;
+
+            // Map mogelijke databasewaarden naar kleuren
+            if (priority == "hoog" || priority == "high")
+                return new SolidColorBrush(Microsoft.UI.Colors.Red);
+
+            if (priority == "middel" || priority == "medium")
+                return new SolidColorBrush(Microsoft.UI.Colors.Orange);
+
+            if (priority == "laag" || priority == "low")
+                return new SolidColorBrush(Microsoft.UI.Colors.Green);
+
+            return new SolidColorBrush(Microsoft.UI.Colors.Black);
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class HighPriorityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            var priority = (value as string)?.ToLower() ?? string.Empty;
+
+            if (priority == "hoog" || priority == "high")
+                return Visibility.Visible;
+
+            return Visibility.Collapsed;
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+            => throw new NotImplementedException();
+    }
+
+
 }
