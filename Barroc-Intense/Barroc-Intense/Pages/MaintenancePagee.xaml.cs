@@ -1,4 +1,5 @@
 using Barroc_Intense.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -6,111 +7,43 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-
 
 namespace Barroc_Intense.Pages
 {
     public sealed partial class MaintenancePagee : Page
     {
         private AppDbContext _db = new AppDbContext();
+        private DateTime _huidigeDatum = DateTime.Today;
+        private List<Melding> _alleMeldingen;
 
         public MaintenancePagee()
         {
             this.InitializeComponent();
             _db.Database.EnsureCreated();
+
             LaadMeldingen();
-            LaadMachines();  // Rechterkolom Machines
-            LaadWeekAgenda();
-            LaadGebruikteProducten();  
-
-            //LaadWeekAgenda();
-
+            LaadMachines();
+            
         }
 
-        private void LaadMachines()
-        {
-            MachinesListView.ItemsSource = _db.Machines
-                .Include(m => m.Deliveries)
-                .ToList();
-        }
-
-
-
-
-        private void LaadWeekAgenda()
-        {
-            var vandaag = DateTime.Today;
-            var weekStart = vandaag.AddDays(-(int)vandaag.DayOfWeek + (int)DayOfWeek.Monday);
-            var weekEnd = weekStart.AddDays(7);
-
-            WeekAgendaControl.ItemsSource = _db.Meldingen
-                 .Include(m => m.Machine)
-                     .ThenInclude(mc => mc.Deliveries)
-                 .Include(m => m.Delivery)                // ? Voeg dit toe!
-                     .ThenInclude(d => d.Product)         // ? En laad ook het product
-                 .Where(m => m.Datum >= weekStart && m.Datum < weekEnd)
-                 .OrderBy(m => m.Datum)
-                 .ToList();
-        }
-
-
-        
-        //private void LaadWeekAgenda()
-        //{
-        //    var vandaag = DateTime.Today;
-        //    var weekStart = vandaag.AddDays(-(int)vandaag.DayOfWeek + (int)DayOfWeek.Monday);
-        //    var weekEnd = weekStart.AddDays(7);
-
-        //    WeekAgendaControl.ItemsSource = _db.Meldingen
-        //        .Where(m => m.Datum.HasValue && m.Datum.Value >= weekStart && m.Datum.Value < weekEnd)
-        //        .OrderBy(m => m.Datum)
-        //        .ToList();
-        //}
-
-
+        // ================== Melding & Product ==================
         private void LaadMeldingen()
         {
             MaintenanceListView.ItemsSource = _db.Meldingen
-                .Include(m => m.Machine)       // laad de machine van de melding
-                .Include(m => m.Delivery)      // laad de delivery van de melding
-                .OrderByDescending(m => m.Datum)
-                .ToList();
-        }
-
-        private void LaadGebruikteProducten()
-        {
-            var meldingen = _db.Meldingen
                 .Include(m => m.Machine)
+                .Include(m => m.Delivery)
                 .OrderByDescending(m => m.Datum)
-                .OrderByDescending(m => m.Datum ?? DateTime.MinValue) // nulls onderaan
                 .ToList();
-
-            MaintenanceListView.ItemsSource = meldingen;
         }
-
-
-
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
             string zoekterm = (SearchBox.Text ?? string.Empty).ToLower();
 
             MaintenanceListView.ItemsSource = _db.Meldingen
-                .Include(m => m.Product)
                 .Where(m => (m.Klant ?? string.Empty).ToLower().Contains(zoekterm)
                          || (m.Product ?? string.Empty).ToLower().Contains(zoekterm)
                          || (m.Afdeling ?? string.Empty).ToLower().Contains(zoekterm))
@@ -123,33 +56,27 @@ namespace Barroc_Intense.Pages
             SearchBox.Text = "";
             LaadMeldingen();
         }
+
         private async void OnSaveClick(object sender, RoutedEventArgs e)
         {
-            // Check of er nog open keuringen zijn
             bool heeftOpenKeuringen = _db.Meldingen.Any(m => m.IsKeuring && !m.IsKeuringVoltooid);
 
             if (heeftOpenKeuringen)
             {
-                var dialog = new ContentDialog
+                await new ContentDialog
                 {
                     Title = "Keuring nog niet afgerond",
-                    Content = "Je kunt niet opslaan/verwijderen want er staan keuringen open die nog niet volledig zijn afgerond.",
+                    Content = "Je kunt niet opslaan/verwijderen want er staan keuringen open.",
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
-                };
-
-                await dialog.ShowAsync();
+                }.ShowAsync();
                 return;
             }
 
-            // 🟢 Alle keuringen afgerond → nu mag verwijderen & her-inplannen
-            var Meldingen = _db.Meldingen
-                .Where(m =>  m.IsKeuringVoltooid)
-                .ToList();
+            var meldingen = _db.Meldingen.Where(m => m.IsKeuringVoltooid).ToList();
 
-            foreach (var oud in Meldingen)
+            foreach (var oud in meldingen)
             {
-                // Nieuwe her-inplanning
                 var nieuwe = new Melding
                 {
                     MonteurId = oud.MonteurId,
@@ -169,69 +96,60 @@ namespace Barroc_Intense.Pages
                     IsKeuringVoltooid = false,
                     Handtekening = null
                 };
-
                 _db.Meldingen.Add(nieuwe);
                 _db.Meldingen.Remove(oud);
             }
 
             _db.SaveChanges();
 
-            var success = new ContentDialog
+            await new ContentDialog
             {
                 Title = "Opgeslagen",
-                Content = $"{Meldingen.Count} melding(en) opnieuw ingepland voor volgende maand.",
+                Content = $"{meldingen.Count} melding(en) opnieuw ingepland voor volgende maand.",
                 CloseButtonText = "OK",
                 XamlRoot = this.XamlRoot
-            };
-
-            await success.ShowAsync();
+            }.ShowAsync();
 
             LaadMeldingen();
-            //LaadWeekAgenda();
         }
-
 
         private void KlantButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(KlantenservicePage));
         }
+
         private void OpenForm_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-
-            if (button.Tag == null)
-                return;
+            if (button.Tag == null) return;
 
             int id = (int)button.Tag;
-
-            // Open detailpagina van melding
             Frame.Navigate(typeof(FormulierPage), id);
         }
+
         private async void VerwijderMelding_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             int id = (int)button.Tag;
 
             var melding = _db.Meldingen.FirstOrDefault(m => m.Id == id);
-
             if (melding == null) return;
 
-            var confirm = new ContentDialog
+            var result = await new ContentDialog
             {
                 Title = "Weet je het zeker?",
                 Content = $"Melding van {melding.Klant} verwijderen?",
                 PrimaryButtonText = "Ja, verwijderen",
                 CloseButtonText = "Nee",
                 XamlRoot = this.XamlRoot
-            };
-
-            var result = await confirm.ShowAsync();
+            }.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
                 _db.Meldingen.Remove(melding);
                 _db.SaveChanges();
                 LaadMeldingen();
+
                 await new ContentDialog
                 {
                     Title = "Verwijderd",
@@ -241,17 +159,25 @@ namespace Barroc_Intense.Pages
                 }.ShowAsync();
             }
         }
+
         private void BewerkMelding_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             int id = (int)button.Tag;
             Frame.Navigate(typeof(MeldingBewerkenPage), id);
         }
-        // ================== KALENDER GEDEELTE ==================
 
-        private DateTime _huidigeDatum = DateTime.Today;
-        private List<Melding> _alleMeldingen;
+        // ================== Machines & WeekAgenda ==================
+        private void LaadMachines()
+        {
+            MachinesListView.ItemsSource = _db.Machines
+                .Include(m => m.Deliveries)
+                .ToList();
+        }
 
+      
+
+        // ================== Kalender ==================
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             LaadAlleMeldingenVoorKalender();
@@ -270,65 +196,42 @@ namespace Barroc_Intense.Pages
             MonthYearText.Text = _huidigeDatum.ToString("MMMM yyyy");
         }
 
-        // 🔴 Rode bolletjes per datum
         private void Kalender_DayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
         {
             if (args.Item == null) return;
 
-            DateTimeOffset datum = args.Item.Date;
-            DateTime day = datum.Date;
-
-            bool heeftMeldingen = _alleMeldingen != null
-                && _alleMeldingen.Any(m => m.Datum.HasValue && m.Datum.Value.Date == day);
+            DateTime day = args.Item.Date.Date;
+            bool heeftMeldingen = _alleMeldingen != null && _alleMeldingen.Any(m => m.Datum.HasValue && m.Datum.Value.Date == day);
 
             if (heeftMeldingen)
             {
-                args.Item.Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
                 args.Item.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Red);
                 args.Item.BorderThickness = new Thickness(2);
-
-                try
-                {
-                    args.Item.CornerRadius = new CornerRadius(6);
-                }
-                catch { /* sommige WinUI builds laten dit niet toe */ }
+                try { args.Item.CornerRadius = new CornerRadius(6); } catch { }
             }
             else
             {
-                args.Item.Background = null;
                 args.Item.BorderBrush = null;
                 args.Item.BorderThickness = new Thickness(0);
-
-                try
-                {
-                    args.Item.CornerRadius = new CornerRadius(0);
-                }
-                catch { }
+                try { args.Item.CornerRadius = new CornerRadius(0); } catch { }
             }
         }
 
-
-
-        // 📌 Klik op datum → toon meldingen onder kalender
         private void Kalender_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
             if (sender.SelectedDates.Count > 0)
             {
-                var gekozen = sender.SelectedDates[0].Date;
-                LaadMeldingenVoorDatum(gekozen);
+                LaadMeldingenVoorDatum(sender.SelectedDates[0].Date);
             }
         }
 
         private void LaadMeldingenVoorDatum(DateTime date)
         {
-            var meldingen = _db.Meldingen
+            DagMeldingenControl.ItemsSource = _db.Meldingen
                 .Where(m => m.Datum.HasValue && m.Datum.Value.Date == date.Date)
                 .ToList();
-
-            DagMeldingenControl.ItemsSource = meldingen;
         }
 
-        // ◀️ Vorige maand
         private void PrevMonth_Click(object sender, RoutedEventArgs e)
         {
             _huidigeDatum = _huidigeDatum.AddMonths(-1);
@@ -336,7 +239,6 @@ namespace Barroc_Intense.Pages
             UpdateKalenderHeader();
         }
 
-        // ▶️ Volgende maand
         private void NextMonth_Click(object sender, RoutedEventArgs e)
         {
             _huidigeDatum = _huidigeDatum.AddMonths(1);
@@ -344,7 +246,6 @@ namespace Barroc_Intense.Pages
             UpdateKalenderHeader();
         }
 
-        // ◀️◀️ Vorig jaar
         private void PrevYear_Click(object sender, RoutedEventArgs e)
         {
             _huidigeDatum = _huidigeDatum.AddYears(-1);
@@ -352,42 +253,28 @@ namespace Barroc_Intense.Pages
             UpdateKalenderHeader();
         }
 
-        // ▶️▶️ Volgend jaar
         private void NextYear_Click(object sender, RoutedEventArgs e)
         {
             _huidigeDatum = _huidigeDatum.AddYears(1);
             Kalender.SetDisplayDate(_huidigeDatum);
             UpdateKalenderHeader();
         }
-
-
-
-
     }
+
+    // ================== Converters ==================
     public class PriorityColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var priority = (value as string)?.ToLower() ?? string.Empty;
 
-            // Map mogelijke databasewaarden naar kleuren
-            if (priority == "hoog" || priority == "high")
-                return new SolidColorBrush(Microsoft.UI.Colors.Red);
-
-            if (priority == "middel" || priority == "medium")
-                return new SolidColorBrush(Microsoft.UI.Colors.Orange);
-
-            if (priority == "laag" || priority == "low")
-                return new SolidColorBrush(Microsoft.UI.Colors.Green);
-
+            if (priority == "hoog" || priority == "high") return new SolidColorBrush(Microsoft.UI.Colors.Red);
+            if (priority == "middel" || priority == "medium") return new SolidColorBrush(Microsoft.UI.Colors.Orange);
+            if (priority == "laag" || priority == "low") return new SolidColorBrush(Microsoft.UI.Colors.Green);
             return new SolidColorBrush(Microsoft.UI.Colors.Black);
         }
 
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
     }
 
     public class HighPriorityConverter : IValueConverter
@@ -395,17 +282,9 @@ namespace Barroc_Intense.Pages
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             var priority = (value as string)?.ToLower() ?? string.Empty;
-
-            if (priority == "hoog" || priority == "high")
-                return Visibility.Visible;
-
-            return Visibility.Collapsed;
+            return (priority == "hoog" || priority == "high") ? Visibility.Visible : Visibility.Collapsed;
         }
 
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-            => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
     }
-
-
 }

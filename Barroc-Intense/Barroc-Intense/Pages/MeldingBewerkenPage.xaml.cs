@@ -36,7 +36,7 @@ namespace Barroc_Intense
             _melding = _db.Meldingen.First(m => m.Id == id);
 
             AfdelingBox.Text = _melding.Afdeling;
-            MonteurBox.Text = _melding.MonteurId;
+            //MonteurBox.Text = _melding.MonteurId;
             KlantBox.Text = _melding.Klant;
             ProductBox.Text = _melding.Product;
             ProbleemBox.Text = _melding.Probleemomschrijving;
@@ -56,8 +56,8 @@ namespace Barroc_Intense
 
         private async void Opslaan_Click(object sender, RoutedEventArgs e)
         {
-            _melding.Afdeling = AfdelingBox.Text;
-            _melding.MonteurId = MonteurBox.Text;
+            //_melding.Afdeling = AfdelingBox.Text;
+            //_melding.MonteurId = MonteurBox.Text;
             _melding.Klant = KlantBox.Text;
             _melding.Product = ProductBox.Text;
             _melding.Probleemomschrijving = ProbleemBox.Text;

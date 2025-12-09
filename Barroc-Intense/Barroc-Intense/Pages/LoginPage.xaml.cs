@@ -71,7 +71,7 @@ namespace Barroc_Intense.Pages
 
 
         } 
-        }
+        
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {

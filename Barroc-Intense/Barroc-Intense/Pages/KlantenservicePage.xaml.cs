@@ -46,13 +46,13 @@ namespace Barroc_Intense.Pages
         {
             DateTime? gekozenDatum = null;
 
-            // Alleen datum/tijd instellen als checkbox niet aangevinkt is
+            // Datum/tijd instellen als checkbox niet aangevinkt
             if (GeenDatumCheckBox.IsChecked != true)
             {
                 try
                 {
-                    var dateOffset = DatumPicker.Date; // DatePicker.Date is DateTimeOffset
-                    var timeSpan = TijdPicker.Time;   // TimePicker.Time is TimeSpan
+                    var dateOffset = DatumPicker.Date;
+                    var timeSpan = TijdPicker.Time;
                     gekozenDatum = dateOffset.Date + timeSpan;
                 }
                 catch
@@ -72,7 +72,7 @@ namespace Barroc_Intense.Pages
 
             using var db = new AppDbContext();
 
-            // Controle op exact dezelfde datum + tijd (alleen als datum gekozen is)
+            // Controle op exacte datum + tijd
             if (gekozenDatum.HasValue)
             {
                 bool bestaatAl = db.Meldingen.Any(m => m.Datum == gekozenDatum.Value);
@@ -81,49 +81,20 @@ namespace Barroc_Intense.Pages
                     ToonDialog("Fout", "Er bestaat al een melding op exact dezelfde datum en tijd.");
                     return;
                 }
-
-                var melding = new Melding
-                {
-                    MachineId = int.Parse(MachineTextBox.Text),
-                    Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
-                    Afdeling = AfdelingTextBox.Text,
-                    Klant = KlantTextBox.Text,
-                    Product = ProductTextBox.Text,
-                    Probleemomschrijving = ProbleemTextBox.Text,
-                    Status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content.ToString() ?? "Open",
-                    Datum = gekozenDatum,
-                    IsOpgelost = false
-                };
-
-                db.Meldingen.Add(melding);
-                db.SaveChanges();
-
-                ToonDialog("Gelukt", "Melding is toegevoegd aan de database.");
-
-                // velden legen
-                AfdelingTextBox.Text = "";
-                KlantTextBox.Text = "";
-                ProductTextBox.Text = "";
-                ProbleemTextBox.Text = "";
-                StatusComboBox.SelectedIndex = 0;
-                PrioriteitCombo.SelectedIndex = 0;
-                MachineTextBox.Text = "";
-                // reset date/time naar nu (optioneel)
-                DatumPicker.Date = DateTimeOffset.Now;
-                TijdPicker.Time = DateTime.Now.TimeOfDay;
             }
 
+            // **Maak hier slechts één Melding**
             var melding = new Melding
             {
-                MachineId = MachineTextBox.Text ?? string.Empty,
-                MonteurId = MonteurTextBox.Text ?? string.Empty,
+                MachineId = int.Parse(MachineTextBox.Text),
+                MonteurId = int.Parse (MonteurTextBox.Text),
                 Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
                 Afdeling = AfdelingTextBox.Text,
                 Klant = KlantTextBox.Text,
                 Product = ProductTextBox.Text,
                 Probleemomschrijving = ProbleemTextBox.Text,
                 Status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content.ToString() ?? "Open",
-                Datum = gekozenDatum,  // ← nullable datum/tijd
+                Datum = gekozenDatum,  // nullable datum/tijd
                 IsOpgelost = false
             };
 
@@ -132,7 +103,7 @@ namespace Barroc_Intense.Pages
 
             ToonDialog("Gelukt", "Melding is toegevoegd aan de database.");
 
-            // Velden legen
+            // Velden resetten
             AfdelingTextBox.Text = "";
             MonteurTextBox.Text = "";
             KlantTextBox.Text = "";
@@ -141,7 +112,7 @@ namespace Barroc_Intense.Pages
             StatusComboBox.SelectedIndex = 0;
             PrioriteitCombo.SelectedIndex = 0;
             MachineTextBox.Text = "";
-            DatumPicker.Date = DateTimeOffset.Now;  // Optioneel reset
+            DatumPicker.Date = DateTimeOffset.Now;
             TijdPicker.Time = TimeSpan.Zero;
             GeenDatumCheckBox.IsChecked = false;
         }

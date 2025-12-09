@@ -5,16 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Barroc_Intense.Data"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local1="using:Barroc_Intense.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local1="using:Barroc_Intense.Pages"
     mc:Ignorable="d">
 
     <Page.Resources>
         <local1:PriorityColorConverter x:Key="PriorityColorConverter"/>
         <local1:HighPriorityConverter x:Key="HighPriorityConverter"/>
     </Page.Resources>
-
-
-
 
     <Grid>
         <!-- PAGE BACKGROUND -->
@@ -29,7 +27,6 @@
         <Grid ColumnDefinitions="1*, 1*">
 
             <!-- LINKER KANT -->
-            <!-- LINKER KANT -->
             <Border Background="White"
                     CornerRadius="20"
                     Margin="20"
@@ -40,31 +37,31 @@
 
                         <!-- Titel -->
                         <TextBlock Text="Meldingen / Storingen"
-                       FontSize="40"
-                       FontWeight="Bold"
-                       Foreground="Black"
-                       HorizontalAlignment="Center"/>
+                                   FontSize="40"
+                                   FontWeight="Bold"
+                                   Foreground="Black"
+                                   HorizontalAlignment="Center"/>
 
                         <!-- Zoekbalk -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
                             <TextBox x:Name="SearchBox"
-                         Width="420"
-                         Foreground="White"
-                         Background="Black"
-                         PlaceholderText="Zoeken op klant, product of afdeling..."
-                         PlaceholderForeground="LightGray"/>
+                                     Width="420"
+                                     Foreground="White"
+                                     Background="Black"
+                                     PlaceholderText="Zoeken op klant, product of afdeling..."
+                                     PlaceholderForeground="LightGray"/>
                             <Button Content="Zoeken"
-                        Width="120"
-                        Click="OnSearchClick"
-                        Background="Black"
-                        Foreground="Yellow"
-                        FontWeight="Bold"/>
+                                    Width="120"
+                                    Click="OnSearchClick"
+                                    Background="Black"
+                                    Foreground="Yellow"
+                                    FontWeight="Bold"/>
                             <Button Content="Alles"
-                        Width="120"
-                        Click="OnResetClick"
-                        Background="Gray"
-                        Foreground="White"
-                        FontWeight="Bold"/>
+                                    Width="120"
+                                    Click="OnResetClick"
+                                    Background="Gray"
+                                    Foreground="White"
+                                    FontWeight="Bold"/>
                         </StackPanel>
 
                         <!-- Lijst van meldingen / gebruikte producten -->
@@ -73,6 +70,7 @@
                                 <DataTemplate x:DataType="local:Melding">
                                     <Border CornerRadius="8" Background="#FFF0F0F0" Padding="12" Margin="0,0,0,12">
                                         <StackPanel>
+
                                             <!-- Datum + Status -->
                                             <StackPanel Orientation="Horizontal" Spacing="8">
                                                 <TextBlock Text="{x:Bind Datum}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
@@ -84,17 +82,17 @@
                                             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
                                                 <TextBlock Text="Prioriteit:" VerticalAlignment="Center" Foreground="Black"/>
                                                 <TextBlock Text="{x:Bind Prioriteit}"
-                           FontWeight="Bold"
-                           Foreground="{x:Bind Prioriteit, Converter={StaticResource PriorityColorConverter}}"/>
+                                                           FontWeight="Bold"
+                                                           Foreground="{x:Bind Prioriteit, Converter={StaticResource PriorityColorConverter}}"/>
                                             </StackPanel>
 
                                             <!-- Belangrijk-melding -->
                                             <TextBlock Text="⚠ Belangrijk! Deze melding vereist snelle opvolging."
-                       Foreground="Red"
-                       FontWeight="Bold"
-                       Visibility="{x:Bind Prioriteit, Converter={StaticResource HighPriorityConverter}}"
-                       TextWrapping="Wrap"
-                       Margin="0,4,0,0"/>
+                                                       Foreground="Red"
+                                                       FontWeight="Bold"
+                                                       Visibility="{x:Bind Prioriteit, Converter={StaticResource HighPriorityConverter}}"
+                                                       TextWrapping="Wrap"
+                                                       Margin="0,4,0,0"/>
 
                                             <!-- Overige gegevens -->
                                             <StackPanel Orientation="Horizontal" Spacing="18" Margin="0,8,0,0">
@@ -104,99 +102,6 @@
                                                 </StackPanel>
                                                 <StackPanel>
                                                     <TextBlock Text="Product" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind Product}" Foreground="Black"/>
-                        <TextBlock Text="Meldingen/Storingen"
-                               FontSize="40"
-                               FontWeight="Bold"
-                               Foreground="Black"
-                               HorizontalAlignment="Center"/>
-
-                        <!-- Zoekbalk -->
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-                            <TextBox x:Name="SearchBox" Width="420" Foreground="Black"
-                                 PlaceholderText="Zoeken op klant, product of afdeling..." Background="Black" />
-                            <Button Content="Zoeken" Width="120" Click="OnSearchClick"
-                                Background="Black" Foreground="Yellow" />
-                            <Button Content="Alles" Width="120" Click="OnResetClick"
-                                Background="Gray" Foreground="White" />
-                        </StackPanel>
-
-                        <!-- List View -->
-                        <ListView x:Name="MaintenanceListView" Margin="0,10,0,0">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="local:Melding">
-                                    <Border CornerRadius="8" Background="White" Padding="12" Margin="0,0,0,12">
-                                        <StackPanel>
-
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{x:Bind Datum}" FontSize="16" FontWeight="Bold" Foreground="Black"/>
-                                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                                    <TextBlock Text="  Prioriteit:" VerticalAlignment="Center" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind Prioriteit}" FontWeight="Bold" Foreground="Black"/>
-                                                </StackPanel>
-                                            </StackPanel>
-
-                                            <StackPanel Orientation="Horizontal" Spacing="18" Margin="0,8,0,0">
-                                                <StackPanel>
-                                                    <TextBlock Text="Machine ID" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind MachineId}" Foreground="Black"/>
-                                                </StackPanel>
-                                                <StackPanel>
-                                                    <TextBlock Text="Monteur ID" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind MonteurId}" Foreground="Black"/>
-                                                </StackPanel>
-                                                <StackPanel>
-                                                    <TextBlock Text="Afdeling" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind Afdeling}" Foreground="Black"/>
-                                                </StackPanel>
-                                            </StackPanel>
-
-                                            <TextBlock Text="Extra info"
-                       FontWeight="SemiBold"
-                       Margin="0,8,0,0"
-                       Foreground="Black"/>
-                                            <TextBlock Text="{x:Bind Probleemomschrijving}"
-                       TextWrapping="Wrap"
-                       Foreground="Black"/>
-
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
-                                                <TextBlock Text="Opgelost:" VerticalAlignment="Center" Foreground="Black"/>
-                                                <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}" Margin="5,0,0,0"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-
-                            </ListView.ItemTemplate>
-                        </ListView>
-
-
-
-                        <!-- Knoppen -->
-                        <Button Content="Opslaan wijzigingen"
-                    Width="220"
-                    Height="48"
-                    HorizontalAlignment="Center"
-                    Click="OnSaveClick"
-                    Background="Black"
-                    Foreground="Yellow"
-                    FontWeight="Bold"/>
-
-                        <Button Content="Melding toevoegen"
-                    Width="200"
-                    Height="50"
-                    Background="Black"
-                    Foreground="Yellow"
-                    FontSize="20"
-                    FontWeight="Bold"
-                    BorderThickness="0"
-                    Click="KlantButton_Click"/>
-                                                <StackPanel>
-                                                    <TextBlock Text="Klant" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind Klant}" Foreground="Black"/>
-                                                </StackPanel>
-                                                <StackPanel>
-                                                    <TextBlock Text="Product" FontWeight="SemiBold" Foreground="Black" />
                                                     <TextBlock Text="{x:Bind Product}" Foreground="Black"/>
                                                 </StackPanel>
                                             </StackPanel>
@@ -211,26 +116,25 @@
                                                     <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}"/>
                                                 </StackPanel>
                                             </StackPanel>
-                                            <Button Content="Keuring"
-                                                Background="Black"
-                                                Foreground="Yellow"
-                                                Click="OpenForm_Click"
-                                                Tag="{x:Bind Id}"
-                                                Margin="0,10,0,0"/>
+
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                                                <Button Content="Keuring"
+                                                        Background="Black"
+                                                        Foreground="Yellow"
+                                                        Click="OpenForm_Click"
+                                                        Tag="{x:Bind Id}"
+                                                        Margin="0,10,0,0"/>
                                                 <Button Content="Aanpassen"
-            Background="Black"
-            Foreground="Yellow"
-            Tag="{x:Bind Id}"
-            Click="BewerkMelding_Click"/>
-
+                                                        Background="Black"
+                                                        Foreground="Yellow"
+                                                        Tag="{x:Bind Id}"
+                                                        Click="BewerkMelding_Click"/>
                                                 <Button Content="Verwijderen"
-            Background="DarkRed"
-            Foreground="White"
-            Tag="{x:Bind Id}"
-            Click="VerwijderMelding_Click"/>
+                                                        Background="DarkRed"
+                                                        Foreground="White"
+                                                        Tag="{x:Bind Id}"
+                                                        Click="VerwijderMelding_Click"/>
                                             </StackPanel>
-
 
                                         </StackPanel>
                                     </Border>
@@ -238,29 +142,29 @@
                             </ListView.ItemTemplate>
                         </ListView>
 
+                        <!-- Knoppen -->
                         <Button Content="Opslaan wijzigingen"
-                            Width="220" Height="48"
-                            HorizontalAlignment="Center"
-                            Click="OnSaveClick"
-                            Background="Black"
-                            Foreground="Yellow"/>
+                                Width="220"
+                                Height="48"
+                                HorizontalAlignment="Center"
+                                Click="OnSaveClick"
+                                Background="Black"
+                                Foreground="Yellow"
+                                FontWeight="Bold"/>
 
                         <Button Content="Melding toevoegen"
-                            Width="200"
-                            Height="50"
-                            Background="Black"
-                            Foreground="Yellow"
-                            FontSize="20"
-                            FontWeight="Bold"
-                            BorderThickness="0"
-                            Click="KlantButton_Click"/>
-
+                                Width="200"
+                                Height="50"
+                                Background="Black"
+                                Foreground="Yellow"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Click="KlantButton_Click"/>
 
                     </StackPanel>
                 </ScrollViewer>
             </Border>
-
-
 
             <!-- RECHTERKANT -->
             <Border Grid.Column="1" Margin="20" Background="#33FFFFFF" CornerRadius="20" Padding="20">
@@ -269,90 +173,41 @@
                     <!-- Machines -->
                     <StackPanel>
                         <TextBlock Text="Machines"
-                               FontSize="30"
-                               FontWeight="Bold"
-                               Foreground="White"
-                               Margin="0,0,0,10"/>
+                                   FontSize="30"
+                                   FontWeight="Bold"
+                                   Foreground="White"
+                                   Margin="0,0,0,10"/>
                         <ScrollViewer Height="250" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Spacing="12">
-                                <ItemsControl x:Name="MachinesListView">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="local:Machine">
-                                            <Border Background="White" CornerRadius="12" Padding="12" Margin="0,0,0,8">
-                                                <StackPanel>
-                                                    <TextBlock Text="Product:" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind FirstDeliveryProductName}" 
-                                                                   Margin="0,0,0,4" 
-                                                                   Foreground="Black"
-                                                                   FontWeight="Bold" 
-                                                                   FontSize="18"/>
-
-                                                    <TextBlock Text="Machine-locatie:" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind Locatie}" Margin="0,0,0,4" Foreground="Black"/>
-
-                                                    <TextBlock Text="Delivery-adres:" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind FirstDeliveryAddress}" Margin="0,0,0,4" Foreground="Black"/>
-
-                                                    <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind FirstDeliveryCustomerName}" Margin="0,0,0,4" Foreground="Black"/>
-
-                                                    <TextBlock Text="Status:" FontWeight="SemiBold" Foreground="Black"/>
-                                                    <TextBlock Text="{x:Bind Status}" Foreground="Black"/>
-
-                                                </StackPanel>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-
-
-
-                            </StackPanel>
+                            <ItemsControl x:Name="MachinesListView">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="local:Machine">
+                                        <Border Background="White" CornerRadius="12" Padding="12" Margin="0,0,0,8">
+                                            <StackPanel>
+                                                <TextBlock Text="Product:" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind FirstDeliveryProductName}" 
+                                                           Margin="0,0,0,4" 
+                                                           Foreground="Black"
+                                                           FontWeight="Bold" 
+                                                           FontSize="18"/>
+                                                <TextBlock Text="Machine-locatie:" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind Locatie}" Margin="0,0,0,4" Foreground="Black"/>
+                                                <TextBlock Text="Delivery-adres:" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind FirstDeliveryAddress}" Margin="0,0,0,4" Foreground="Black"/>
+                                                <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind FirstDeliveryCustomerName}" Margin="0,0,0,4" Foreground="Black"/>
+                                                <TextBlock Text="Status:" FontWeight="SemiBold" Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind Status}" Foreground="Black"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </ScrollViewer>
                     </StackPanel>
 
+                  
 
-                    <!-- WEEK AGENDA -->
-                    <StackPanel Background="#33FFFFFF" Padding="10" CornerRadius="20">
-                        <TextBlock Text="Planning – Deze Week"
-                                   FontSize="24"
-                                   FontWeight="Bold"
-                                   Foreground="White"
-                                   Margin="0,0,0,12"
-                                   HorizontalAlignment="Center"/>
-
-                        <ScrollViewer Height="260" VerticalScrollBarVisibility="Auto">
-                            <ItemsControl x:Name="WeekAgendaControl">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="local:Melding">
-                                        <Border Background="#55FFFFFF" CornerRadius="12" Padding="10" Margin="5">
-                                            <StackPanel Width="180">
-
-                                                <TextBlock Text="{x:Bind Datum}" 
-                                                           FontSize="18" 
-                                                           FontWeight="Bold" 
-                                                           Foreground="Black"
-                                                           TextAlignment="Center"
-                                                           Margin="0,0,0,6"/>
-
-                                                <Border Background="White" CornerRadius="8" Padding="8" Margin="0,0,0,8">
-                                                    <StackPanel>
-                                                        <TextBlock Text="Machine:" FontWeight="SemiBold" Foreground="Black"/>
-                                                        <TextBlock Text="{x:Bind Machine.FirstDeliveryProductName}" Margin="0,0,0,4" Foreground="Black"/>
-
-                                                        <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black"/>
-                                                        <TextBlock Text="{x:Bind Klant}" Margin="0,0,0,4" Foreground="Black"/>
-
-                                                        <TextBlock Text="Omschrijving:" FontWeight="SemiBold" Foreground="Black"/>
-                                                        <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
-                                                    </StackPanel>
-                                                </Border>
+                    <!-- Kalender -->
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -362,41 +217,36 @@
 
                         <!-- HEADER: MAAND + NAVIGATIE -->
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12" Margin="0,10">
-                            <!-- escape < and > als XML-entiteiten -->
                             <Button Content="&lt;&lt;" Click="PrevYear_Click" />
                             <Button Content="&lt;" Click="PrevMonth_Click" />
-
                             <TextBlock x:Name="MonthYearText"
-                   FontSize="28"
-                   FontWeight="Bold"
-                   Foreground="White"
-                   VerticalAlignment="Center"/>
-
+                                       FontSize="28"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       VerticalAlignment="Center"/>
                             <Button Content="&gt;" Click="NextMonth_Click" />
                             <Button Content="&gt;&gt;" Click="NextYear_Click" />
                         </StackPanel>
 
-                        <!-- KALENDER (DAGEN) -->
+                        <!-- KALENDER -->
                         <CalendarView x:Name="Kalender"
-                  Grid.Row="1"
-                  SelectionMode="Single"
-                  SelectedDatesChanged="Kalender_SelectedDatesChanged"
+                                      Grid.Row="1"
+                                      SelectionMode="Single"
+                                      SelectedDatesChanged="Kalender_SelectedDatesChanged"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      CalendarViewDayItemChanging="Kalender_DayItemChanging"
+                                      Width="650"
+                                      Height="420"/>
 
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  CalendarViewDayItemChanging="Kalender_DayItemChanging"
-                  Width="650"
-                  Height="420"/>
                         <!-- MELDINGEN OP DE GEKOZEN DAG -->
                         <StackPanel Grid.Row="2" Margin="0,15">
                             <TextBlock Text="Meldingen op deze dag:"
-               FontSize="22"
-               FontWeight="Bold"
-               Foreground="White"
-               Margin="0,0,0,10"
-               HorizontalAlignment="Center"/>
-
-                            <!-- ScrollViewer zodat je alle meldingen kunt zien -->
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       Margin="0,0,0,10"
+                                       HorizontalAlignment="Center"/>
                             <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="300">
                                 <ItemsControl x:Name="DagMeldingenControl" Margin="0,0,0,10">
                                     <ItemsControl.ItemTemplate>
@@ -405,10 +255,8 @@
                                                 <StackPanel Spacing="4">
                                                     <TextBlock Text="Machine ID:" FontWeight="SemiBold" Foreground="Black"/>
                                                     <TextBlock Text="{x:Bind MachineId}" Foreground="Black"/>
-
                                                     <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black" Margin="0,4,0,0"/>
                                                     <TextBlock Text="{x:Bind Klant}" Foreground="Black"/>
-
                                                     <TextBlock Text="Omschrijving:" FontWeight="SemiBold" Foreground="Black" Margin="0,4,0,0"/>
                                                     <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
                                                 </StackPanel>
@@ -419,10 +267,10 @@
                             </ScrollViewer>
                         </StackPanel>
                     </Grid>
+
                 </StackPanel>
             </Border>
+
         </Grid>
     </Grid>
 </Page>
-
-

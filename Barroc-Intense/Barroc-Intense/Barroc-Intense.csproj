@@ -14,21 +14,14 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="MeldingBewerkenPage.xaml" />
-    <None Remove="Pages\Dashboards\FinanceDashboard.xaml" />
-    <None Remove="Pages\Dashboards\InkoopDashboard.xaml" />
-    <None Remove="Pages\Dashboards\ManagerDashboard.xaml" />
-    <None Remove="Pages\Dashboards\SalesDashboard.xaml" />
     <None Remove="Pages\DeliveryPage.xaml" />
-    <None Remove="Pages\IngredientListPage.xaml" />
     <None Remove="Pages\FormulierPage.xaml" />
     <None Remove="Pages\InkoopDashBoard.xaml" />
     <None Remove="Pages\KlantenservicePage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
     <None Remove="Pages\MaterialListPage.xaml" />
-    <None Remove="Pages\NewDeliveryPage.xaml" />
     <None Remove="Pages\ProductPage.xaml" />
     <None Remove="Pages\StockPage.xaml" />
-    <None Remove="Pages\UsedProductPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,7 +51,7 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6901" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="MeldingBewerkenPage.xaml">
@@ -67,21 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\FormulierPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\IngredientListPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\NewDeliveryPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\UsedProductPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -101,12 +79,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Dashboards\ManagerDashboard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\MaintenancePagee.xaml">
     <Page Update="Pages\InkoopDashBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -122,27 +94,12 @@
     </Page>
 	</ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\Dashboards\FinanceDashboard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Dashboards\InkoopDashboard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Pages\ProductPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\LoginPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Dashboards\SalesDashboard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -162,6 +119,5 @@
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>
