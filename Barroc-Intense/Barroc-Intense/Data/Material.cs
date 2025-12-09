@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Barroc_Intense.Data
 {
-    internal class Material
+    public class Material
     {
             public int Id { get; set; }
             public string Name { get; set; } // Naam van het materiaal

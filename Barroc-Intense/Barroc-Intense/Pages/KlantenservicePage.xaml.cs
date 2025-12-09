@@ -14,71 +14,68 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
 namespace Barroc_Intense.Pages
 {
-
-        public sealed partial class KlantenservicePage : Page
+    public sealed partial class KlantenservicePage : Page
+    {
+        public KlantenservicePage()
         {
-            public KlantenservicePage()
+            this.InitializeComponent();
+
+            // Zorg dat comboboxen een standaard selected hebben
+            StatusComboBox.SelectedIndex = 0;
+            PrioriteitCombo.SelectedIndex = 0;
+
+            using var db = new AppDbContext();
+            db.Database.EnsureCreated();
+        }
+
+        private async void ToonDialog(string title, string message)
+        {
+            var dialog = new ContentDialog
             {
-                this.InitializeComponent();
+                Title = title,
+                Content = message,
+                CloseButtonText = "OK",
+                XamlRoot = this.XamlRoot
+            };
+            await dialog.ShowAsync();
+        }
 
-                // Zorg dat comboboxen een standaard selected hebben
-                StatusComboBox.SelectedIndex = 0;
-                PrioriteitCombo.SelectedIndex = 0;
+        private void Toevoegen_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime? gekozenDatum = null;
 
-                using var db = new AppDbContext();
-                db.Database.EnsureCreated();
-            }
-
-            private async void ToonDialog(string title, string message)
+            // Alleen datum/tijd instellen als checkbox niet aangevinkt is
+            if (GeenDatumCheckBox.IsChecked != true)
             {
-                var dialog = new ContentDialog
-                {
-                    Title = title,
-                    Content = message,
-                    CloseButtonText = "OK",
-                    XamlRoot = this.XamlRoot
-                };
-                await dialog.ShowAsync();
-            }
-
-            private void Toevoegen_Click(object sender, RoutedEventArgs e)
-            {
-                // combineer datum en tijd
-                // DatePicker.Date is DateTimeOffset, TimePicker.Time is TimeSpan
-                DateTime gekozenDatum;
-
                 try
                 {
-                    var dateOffset = DatumPicker.Date;
-                    var timeSpan = TijdPicker.Time;
-
-                    // dateOffset.Date is DateTime (00:00:00 time)
+                    var dateOffset = DatumPicker.Date; // DatePicker.Date is DateTimeOffset
+                    var timeSpan = TijdPicker.Time;   // TimePicker.Time is TimeSpan
                     gekozenDatum = dateOffset.Date + timeSpan;
                 }
                 catch
                 {
-                    ToonDialog("Fout", "Kies een geldige datum en tijd.");
+                    ToonDialog("Fout", "Kies een geldige datum en tijd of vink 'Geen datum/tijd' aan.");
                     return;
                 }
+            }
 
-                // eenvoudige validatie (optioneel kun je uitgebreidere checks doen)
-                if (string.IsNullOrWhiteSpace(AfdelingTextBox.Text) ||
-                    string.IsNullOrWhiteSpace(KlantTextBox.Text))
-                {
-                    ToonDialog("Fout", "Vul minimaal Afdeling en Klant in.");
-                    return;
-                }
+            // Eenvoudige validatie
+            if (string.IsNullOrWhiteSpace(AfdelingTextBox.Text) ||
+                string.IsNullOrWhiteSpace(KlantTextBox.Text))
+            {
+                ToonDialog("Fout", "Vul minimaal Afdeling en Klant in.");
+                return;
+            }
 
-                using var db = new AppDbContext();
+            using var db = new AppDbContext();
 
-                // controle op exact dezelfde datum + tijd
-                bool bestaatAl = db.Meldingen.Any(m => m.Datum == gekozenDatum);
-
+            // Controle op exact dezelfde datum + tijd (alleen als datum gekozen is)
+            if (gekozenDatum.HasValue)
+            {
+                bool bestaatAl = db.Meldingen.Any(m => m.Datum == gekozenDatum.Value);
                 if (bestaatAl)
                 {
                     ToonDialog("Fout", "Er bestaat al een melding op exact dezelfde datum en tijd.");
@@ -116,10 +113,42 @@ namespace Barroc_Intense.Pages
                 TijdPicker.Time = DateTime.Now.TimeOfDay;
             }
 
+            var melding = new Melding
+            {
+                MachineId = MachineTextBox.Text ?? string.Empty,
+                MonteurId = MonteurTextBox.Text ?? string.Empty,
+                Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
+                Afdeling = AfdelingTextBox.Text,
+                Klant = KlantTextBox.Text,
+                Product = ProductTextBox.Text,
+                Probleemomschrijving = ProbleemTextBox.Text,
+                Status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content.ToString() ?? "Open",
+                Datum = gekozenDatum,  // ← nullable datum/tijd
+                IsOpgelost = false
+            };
+
+            db.Meldingen.Add(melding);
+            db.SaveChanges();
+
+            ToonDialog("Gelukt", "Melding is toegevoegd aan de database.");
+
+            // Velden legen
+            AfdelingTextBox.Text = "";
+            MonteurTextBox.Text = "";
+            KlantTextBox.Text = "";
+            ProductTextBox.Text = "";
+            ProbleemTextBox.Text = "";
+            StatusComboBox.SelectedIndex = 0;
+            PrioriteitCombo.SelectedIndex = 0;
+            MachineTextBox.Text = "";
+            DatumPicker.Date = DateTimeOffset.Now;  // Optioneel reset
+            TijdPicker.Time = TimeSpan.Zero;
+            GeenDatumCheckBox.IsChecked = false;
+        }
+
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MaintenancePagee));
         }
-
     }
-    }
+}

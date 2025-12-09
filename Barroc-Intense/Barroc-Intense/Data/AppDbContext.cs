@@ -17,7 +17,7 @@ namespace Barroc_Intense.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                ConfigurationManager.ConnectionStrings["BarrocIntense"].ConnectionString,
+                ConfigurationManager.ConnectionStrings["BarrocIntens"].ConnectionString,
                 ServerVersion.Parse("8.0.30")
             );
         }
@@ -52,6 +52,92 @@ namespace Barroc_Intense.Data
                  new Machine { Id = 3, Locatie = "Kantine", Status = "Onderhoud" },
                  new Machine { Id = 4, Locatie = "Kantoor", Status = "Operationeel" }
              );
+            modelBuilder.Entity<Melding>().HasData(
+                new Melding
+                {
+                    Id = 1,
+                   
+                    MachineId = "2",
+                    Prioriteit = "Hoog",
+                    Afdeling = "Productie",
+                    Datum = DateTime.Now.AddDays(-1),
+                    Klant = "CoolBlue",
+                    Product = "Koffieautomaat",
+                    Probleemomschrijving = "Machine lekt water",
+                    Status = "Open",
+                    IsOpgelost = false,
+
+                    // nieuwe velden
+                    IsKeuring = false,
+                    Storingscode = "E201",
+                    StoringVerholpen = false,
+                    Vervolgafspraak = "",
+                    KorteBeschrijving = "",
+                    GebruikteOnderdelen = "",
+                    ChecklistVolledig = false,
+                    KeuringGoedgekeurd = false,
+                    KeuringOpmerkingen = ""
+                },
+                new Melding
+                {
+                    Id = 2,
+                    MonteurId = "1",
+                    MachineId = "1",
+                    Prioriteit = "Middel",
+                    Afdeling = "Logistiek",
+                    Datum = DateTime.Now.AddDays(-4),
+                    Klant = "Bol.com",
+                    Product = "Koffieautomaat",
+                    Probleemomschrijving = "Maalt niet goed",
+                    Status = "Open",
+                    IsOpgelost = false,
+                    // nieuwe velden
+                    IsKeuring = false,
+                    Storingscode = "E201",
+                    StoringVerholpen = false,
+                    Vervolgafspraak = "",
+                    KorteBeschrijving = "",
+                    GebruikteOnderdelen = "",
+                    ChecklistVolledig = false,
+                    KeuringGoedgekeurd = false,
+                    KeuringOpmerkingen = ""
+                },
+
+                // ========== KEURING ==========
+                new Melding
+                {
+                    Id = 4,
+                    MonteurId = "2",
+                    MachineId = "3",
+                    Prioriteit = "Laag",
+                    Afdeling = "Maintenance",
+                    Datum = DateTime.Now.AddDays(0),
+                    Klant = "NS",
+                    Product = "Koffieautomaat",
+                    Probleemomschrijving = "Periodieke controle",
+                    Status = "Open",
+                    IsOpgelost = true,
+
+                    // dit is een keuring
+                    IsKeuring = true,
+                    ChecklistVolledig = true,
+                    KeuringGoedgekeurd = true,
+                    KeuringOpmerkingen = "",
+
+                    // melding-velden leeg
+                    Storingscode = "",
+                    StoringVerholpen = true,
+                    Vervolgafspraak = "",
+                    KorteBeschrijving = "",
+                    GebruikteOnderdelen = ""
+                }
+            );
+
+            SeedProducts(modelBuilder);
+            SeedDeliveries(modelBuilder);
+            SeedMaterials(modelBuilder); // <- Voeg dit toe
+
+        }
 
 
             // ==========================
