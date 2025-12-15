@@ -77,6 +77,8 @@
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Text="Alle" Click="FilterMenuItem_Click"/>
+                                <MenuFlyoutItem Text="Not planned" Click="FilterMenuItem_Click"/>
+
                                 <MenuFlyoutItem Text="Planned" Click="FilterMenuItem_Click"/>
                                 <MenuFlyoutItem Text="Underway" Click="FilterMenuItem_Click"/>
                                 <MenuFlyoutItem Text="Delivered" Click="FilterMenuItem_Click"/>

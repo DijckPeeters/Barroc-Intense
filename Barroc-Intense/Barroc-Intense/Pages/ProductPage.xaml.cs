@@ -8,7 +8,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Barroc_Intense.Pages
 {
@@ -37,22 +36,19 @@ namespace Barroc_Intense.Pages
                 priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00");
                 installationCostTextBox.Text = editingProduct.InstallationCost.ToString("0.00");
                 stockTextBox.Text = editingProduct.Stock.ToString();
+
                 if (!string.IsNullOrWhiteSpace(editingProduct.Category))
                 {
                     categoryComboBox.SelectedItem = editingProduct.Category;
-
-                    // Forceer een update van de zichtbaarheid
-                    ingredientsPanel.Visibility = editingProduct.Category == "Koffieboon" ? Visibility.Visible : Visibility.Collapsed;
-                    ingredientsListControl.ItemsSource = editingProduct.Ingredients;
+                    ingredientsPanel.Visibility = editingProduct.Category == "Koffieboon"
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
                 }
-
 
                 if (editingProduct.Ingredients == null)
                     editingProduct.Ingredients = new ObservableCollection<Ingredient>();
 
                 ingredientsListControl.ItemsSource = editingProduct.Ingredients;
-
-                // Zet meteen juiste zichtbaarheid
                 categoryComboBox_SelectionChanged(null, null);
             }
             else
@@ -74,34 +70,21 @@ namespace Barroc_Intense.Pages
                 Content = $"Weet u zeker dat u dit product wilt {actie}?",
                 PrimaryButtonText = "Ja",
                 CloseButtonText = "Nee",
-                DefaultButton = ContentDialogButton.Close,
                 XamlRoot = this.XamlRoot
             };
 
-            var result = await dialog.ShowAsync();
-            if (result != ContentDialogResult.Primary)
+            if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 return;
 
             // VALIDATIE
-            if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price))
+            if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price) ||
+                !decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var installationCost) ||
+                !int.TryParse(stockTextBox.Text, out var stock))
             {
-                validationResultsTextBlock.Text = "❌ Vul een geldig getal in bij 'Prijs'.";
+                validationResultsTextBlock.Text = "❌ Ongeldige invoer.";
                 return;
             }
 
-            if (!decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var installationCost))
-            {
-                validationResultsTextBlock.Text = "❌ Vul een geldige prijs in bij 'Reparatiekosten'.";
-                return;
-            }
-
-            if (!int.TryParse(stockTextBox.Text, out var stock))
-            {
-                validationResultsTextBlock.Text = "❌ Vul een geldig getal in bij 'Voorraad'.";
-                return;
-            }
-
-            // VUL PRODUCTVELDEN
             editingProduct.ProductName = productNameTextBox.Text;
             editingProduct.LeaseContract = leaseContractTextBox.Text;
             editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
@@ -110,11 +93,8 @@ namespace Barroc_Intense.Pages
             editingProduct.Stock = stock;
 
             if (editingProduct.Category != "Koffieboon")
-            {
                 editingProduct.Ingredients.Clear();
-            }
 
-            // VALIDATIE OBJECT
             var context = new ValidationContext(editingProduct);
             var results = new List<ValidationResult>();
 
@@ -124,42 +104,53 @@ namespace Barroc_Intense.Pages
                 return;
             }
 
-            // OPSLAAN IN DB
             try
             {
                 using var db = new AppDbContext();
 
-                if (editingProduct.Id == 0)
+                bool isNieuwProduct = editingProduct.Id == 0;
+
+                if (isNieuwProduct)
                     db.Products.Add(editingProduct);
                 else
                     db.Products.Update(editingProduct);
 
-                db.SaveChanges();
+                db.SaveChanges(); // Id wordt hier aangemaakt
 
-                validationResultsTextBlock.Text = "✅ Product succesvol opgeslagen!";
+                // ===============================
+                // 🔹 AUTOMATISCHE DELIVERY
+                // ===============================
+                if (isNieuwProduct)
+                {
+                    var delivery = new Delivery
+                    {
+                        ProductID = editingProduct.Id,
+                        ProductName = editingProduct.ProductName,
+                        QuantityDelivered = 0,
+                        QuantityExpected = 0,
+                        PlannedDeliveryDate = DateTime.Today,
+                        Status = "Not planned"
+                    };
+
+                    db.Deliveries.Add(delivery);
+                    db.SaveChanges();
+                }
+                // ===============================
+
                 Frame.Navigate(typeof(StockPage), editingProduct.Id);
             }
             catch (Exception ex)
             {
-                validationResultsTextBlock.Text = $"❌ Fout bij opslaan: {ex.Message}";
+                validationResultsTextBlock.Text = $"❌ Fout: {ex.Message}";
             }
         }
 
         private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
         {
-            if (editingProduct.Ingredients == null)
-                editingProduct.Ingredients = new ObservableCollection<Ingredient>();
-
-            // Voeg nieuw ingrediënt toe
+            editingProduct.Ingredients ??= new ObservableCollection<Ingredient>();
             editingProduct.Ingredients.Add(new Ingredient { Name = "", AmountInKg = 0.2m });
-
-            // Zorg dat het panel zichtbaar is
             ingredientsPanel.Visibility = Visibility.Visible;
-
-            // Verberg de knop zodat mensen niet nogmaals klikken
-            (sender as Button).Visibility = Visibility.Collapsed;
         }
-
 
         private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
