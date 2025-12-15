@@ -13,20 +13,20 @@ using System.Linq;
 
 namespace Barroc_Intense.Pages
 {
-    public sealed partial class MaintenancePagee : Page
+    public sealed partial class MaintenanceMelding : Page
     {
         private AppDbContext _db = new AppDbContext();
         private DateTime _huidigeDatum = DateTime.Today;
         private List<Melding> _alleMeldingen;
 
-        public MaintenancePagee()
+        public MaintenanceMelding()
         {
             this.InitializeComponent();
             _db.Database.EnsureCreated();
 
             LaadMeldingen();
-            LaadMachines();
-            
+
+
         }
 
         // ================== Melding & Product ==================
@@ -167,124 +167,33 @@ namespace Barroc_Intense.Pages
             Frame.Navigate(typeof(MeldingBewerkenPage), id);
         }
 
-        // ================== Machines & WeekAgenda ==================
-        private void LaadMachines()
-        {
-            MachinesListView.ItemsSource = _db.Machines
-                .Include(m => m.Deliveries)
-                .ToList();
-        }
 
-      
+        //    // ================== Converters ==================
+        //    public class PriorityColorConverter : IValueConverter
+        //    {
+        //        public object Convert(object value, Type targetType, object parameter, string language)
+        //        {
+        //            var priority = (value as string)?.ToLower() ?? string.Empty;
 
-        // ================== Kalender ==================
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            LaadAlleMeldingenVoorKalender();
-            UpdateKalenderHeader();
-        }
+        //            if (priority == "hoog" || priority == "high") return new SolidColorBrush(Microsoft.UI.Colors.Red);
+        //            if (priority == "middel" || priority == "medium") return new SolidColorBrush(Microsoft.UI.Colors.Orange);
+        //            if (priority == "laag" || priority == "low") return new SolidColorBrush(Microsoft.UI.Colors.Green);
+        //            return new SolidColorBrush(Microsoft.UI.Colors.Black);
+        //        }
 
-        private void LaadAlleMeldingenVoorKalender()
-        {
-            _alleMeldingen = _db.Meldingen.ToList();
-            Kalender.SelectedDates.Clear();
-            Kalender.SetDisplayDate(_huidigeDatum);
-        }
+        //        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
+        //    }
 
-        private void UpdateKalenderHeader()
-        {
-            MonthYearText.Text = _huidigeDatum.ToString("MMMM yyyy");
-        }
+        //    public class HighPriorityConverter : IValueConverter
+        //    {
+        //        public object Convert(object value, Type targetType, object parameter, string language)
+        //        {
+        //            var priority = (value as string)?.ToLower() ?? string.Empty;
+        //            return (priority == "hoog" || priority == "high") ? Visibility.Visible : Visibility.Collapsed;
+        //        }
 
-        private void Kalender_DayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
-        {
-            if (args.Item == null) return;
-
-            DateTime day = args.Item.Date.Date;
-            bool heeftMeldingen = _alleMeldingen != null && _alleMeldingen.Any(m => m.Datum.HasValue && m.Datum.Value.Date == day);
-
-            if (heeftMeldingen)
-            {
-                args.Item.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Red);
-                args.Item.BorderThickness = new Thickness(2);
-                try { args.Item.CornerRadius = new CornerRadius(6); } catch { }
-            }
-            else
-            {
-                args.Item.BorderBrush = null;
-                args.Item.BorderThickness = new Thickness(0);
-                try { args.Item.CornerRadius = new CornerRadius(0); } catch { }
-            }
-        }
-
-        private void Kalender_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
-        {
-            if (sender.SelectedDates.Count > 0)
-            {
-                LaadMeldingenVoorDatum(sender.SelectedDates[0].Date);
-            }
-        }
-
-        private void LaadMeldingenVoorDatum(DateTime date)
-        {
-            DagMeldingenControl.ItemsSource = _db.Meldingen
-                .Where(m => m.Datum.HasValue && m.Datum.Value.Date == date.Date)
-                .ToList();
-        }
-
-        private void PrevMonth_Click(object sender, RoutedEventArgs e)
-        {
-            _huidigeDatum = _huidigeDatum.AddMonths(-1);
-            Kalender.SetDisplayDate(_huidigeDatum);
-            UpdateKalenderHeader();
-        }
-
-        private void NextMonth_Click(object sender, RoutedEventArgs e)
-        {
-            _huidigeDatum = _huidigeDatum.AddMonths(1);
-            Kalender.SetDisplayDate(_huidigeDatum);
-            UpdateKalenderHeader();
-        }
-
-        private void PrevYear_Click(object sender, RoutedEventArgs e)
-        {
-            _huidigeDatum = _huidigeDatum.AddYears(-1);
-            Kalender.SetDisplayDate(_huidigeDatum);
-            UpdateKalenderHeader();
-        }
-
-        private void NextYear_Click(object sender, RoutedEventArgs e)
-        {
-            _huidigeDatum = _huidigeDatum.AddYears(1);
-            Kalender.SetDisplayDate(_huidigeDatum);
-            UpdateKalenderHeader();
-        }
-    }
-
-    // ================== Converters ==================
-    public class PriorityColorConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            var priority = (value as string)?.ToLower() ?? string.Empty;
-
-            if (priority == "hoog" || priority == "high") return new SolidColorBrush(Microsoft.UI.Colors.Red);
-            if (priority == "middel" || priority == "medium") return new SolidColorBrush(Microsoft.UI.Colors.Orange);
-            if (priority == "laag" || priority == "low") return new SolidColorBrush(Microsoft.UI.Colors.Green);
-            return new SolidColorBrush(Microsoft.UI.Colors.Black);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
-    }
-
-    public class HighPriorityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            var priority = (value as string)?.ToLower() ?? string.Empty;
-            return (priority == "hoog" || priority == "high") ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
+        //        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
+        //    }
+        //}
     }
 }

@@ -76,7 +76,7 @@ namespace Barroc_Intense
                 XamlRoot = this.XamlRoot
             }.ShowAsync();
 
-            Frame.Navigate(typeof(MaintenancePagee));
+            Frame.Navigate(typeof(MaintenanceMelding));
         }
 
     }

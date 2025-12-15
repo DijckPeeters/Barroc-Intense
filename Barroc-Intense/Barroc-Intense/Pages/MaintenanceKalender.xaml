@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intense.Pages.MaintenanceKalender"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intense.Data"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local1="using:Barroc_Intense.Pages"
+    mc:Ignorable="d">
+
+
+
+        <Grid>
+            <!-- PAGE BACKGROUND -->
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="Yellow" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <!-- Kalender -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- HEADER: MAAND + NAVIGATIE -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12" Margin="0,10">
+                    <Button Content="&lt;&lt;" Click="PrevYear_Click" />
+                    <Button Content="&lt;" Click="PrevMonth_Click" />
+                    <TextBlock x:Name="MonthYearText"
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    VerticalAlignment="Center"/>
+                    <Button Content="&gt;" Click="NextMonth_Click" />
+                    <Button Content="&gt;&gt;" Click="NextYear_Click" />
+                </StackPanel>
+
+                <!-- KALENDER -->
+                <CalendarView x:Name="Kalender"
+                   Grid.Row="1"
+                   SelectionMode="Single"
+                   SelectedDatesChanged="Kalender_SelectedDatesChanged"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   CalendarViewDayItemChanging="Kalender_DayItemChanging"
+                   Width="650"
+                   Height="420"/>
+
+                <!-- MELDINGEN OP DE GEKOZEN DAG -->
+                <StackPanel Grid.Row="2" Margin="0,15">
+                    <TextBlock Text="Meldingen op deze dag:"
+                    FontSize="22"
+                    FontWeight="Bold"
+                    Foreground="White"
+                    Margin="0,0,0,10"
+                    HorizontalAlignment="Center"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="300">
+                        <ItemsControl x:Name="DagMeldingenControl" Margin="0,0,0,10">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:Melding">
+                                    <Border Background="#AAFFFFFF" CornerRadius="12" Padding="12" Margin="5" BorderBrush="LightGray" BorderThickness="1">
+                                        <StackPanel Spacing="4">
+                                            <TextBlock Text="Machine ID:" FontWeight="SemiBold" Foreground="Black"/>
+                                            <TextBlock Text="{x:Bind MachineId}" Foreground="Black"/>
+                                            <TextBlock Text="Klant:" FontWeight="SemiBold" Foreground="Black" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{x:Bind Klant}" Foreground="Black"/>
+                                            <TextBlock Text="Omschrijving:" FontWeight="SemiBold" Foreground="Black" Margin="0,4,0,0"/>
+                                            <TextBlock Text="{x:Bind Probleemomschrijving}" TextWrapping="Wrap" Foreground="Black"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+</Page>

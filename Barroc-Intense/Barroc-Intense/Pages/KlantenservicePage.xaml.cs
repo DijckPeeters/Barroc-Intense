@@ -119,7 +119,7 @@ namespace Barroc_Intense.Pages
 
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MaintenancePagee));
+            Frame.Navigate(typeof(MaintenanceMelding));
         }
     }
 }

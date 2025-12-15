@@ -19,6 +19,10 @@
     <None Remove="Pages\InkoopDashBoard.xaml" />
     <None Remove="Pages\KlantenservicePage.xaml" />
     <None Remove="Pages\LoginPage.xaml" />
+    <None Remove="Pages\MaintenanceDashboard.xaml" />
+    <None Remove="Pages\MaintenanceKalender.xaml" />
+    <None Remove="Pages\MaintenanceLogboek.xaml" />
+    <None Remove="Pages\MaintenanceMachine.xaml" />
     <None Remove="Pages\MaterialListPage.xaml" />
     <None Remove="Pages\ProductPage.xaml" />
     <None Remove="Pages\StockPage.xaml" />
@@ -52,6 +56,31 @@
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceKalender.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceKalender.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceLogboek.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceDashboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceMachine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MeldingBewerkenPage.xaml">
@@ -89,7 +118,7 @@
 		</Page>
 	</ItemGroup>
 	<ItemGroup>
-    <Page Update="Pages\MaintenancePagee.xaml">
+    <Page Update="Pages\MaintenanceMelding.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
 	</ItemGroup>
