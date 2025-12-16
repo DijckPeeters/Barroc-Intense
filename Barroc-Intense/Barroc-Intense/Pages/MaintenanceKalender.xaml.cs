@@ -245,6 +245,10 @@ public sealed partial class MaintenanceKalender : Page
         Kalender.SetDisplayDate(_huidigeDatum);
         UpdateKalenderHeader();
     }
+    private void BackToMaintenanceDashboard(object sender, RoutedEventArgs e)
+    {
+        Frame.Navigate(typeof(MaintenanceDashboard));
+    }
 }
 
        

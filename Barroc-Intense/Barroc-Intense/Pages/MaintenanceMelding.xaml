@@ -20,7 +20,16 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-
+        <!-- BACK BUTTON -->
+        <Button
+                        Content="← Dashboard"
+                        FontSize="14"
+                        Padding="14,8"
+                        CornerRadius="10"
+                        Background="#FFD700"
+                        Foreground="Black"
+                        FontWeight="SemiBold"
+                        Click="BackToMaintenanceDashboard"/>
         <Border Background="White"
                     CornerRadius="20"
                     Margin="20"

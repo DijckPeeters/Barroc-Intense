@@ -40,8 +40,18 @@
                     <Button Content="&gt;" Click="NextMonth_Click" />
                     <Button Content="&gt;&gt;" Click="NextYear_Click" />
                 </StackPanel>
+            <!-- BACK BUTTON -->
+            <Button
+                        Content="← Dashboard"
+                        FontSize="14"
+                        Padding="14,8"
+                        CornerRadius="10"
+                        Background="#FFD700"
+                        Foreground="Black"
+                        FontWeight="SemiBold"
+                        Click="BackToMaintenanceDashboard"/>
 
-                <!-- KALENDER -->
+            <!-- KALENDER -->
                 <CalendarView x:Name="Kalender"
                    Grid.Row="1"
                    SelectionMode="Single"

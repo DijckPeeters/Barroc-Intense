@@ -37,4 +37,9 @@ public sealed partial class MaintenanceMachine : Page
             .Include(m => m.Deliveries)
             .ToList();
     }
+    private void BackToMaintenanceDashboard(object sender, RoutedEventArgs e)
+    {
+        Frame.Navigate(typeof(MaintenanceDashboard));
+    }
+
 }

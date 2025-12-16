@@ -166,6 +166,10 @@ namespace Barroc_Intense.Pages
             int id = (int)button.Tag;
             Frame.Navigate(typeof(MeldingBewerkenPage), id);
         }
+        private void BackToMaintenanceDashboard(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MaintenanceDashboard));
+        }
 
 
         //    // ================== Converters ==================
