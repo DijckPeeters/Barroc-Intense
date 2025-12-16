@@ -235,6 +235,7 @@ namespace Barroc_Intense.Data
                 new Ingredient { Id = 2, ProductId = 5, Name = "Robusta Bonen", AmountInKg = 0.2m },
                 new Ingredient { Id = 3, ProductId = 6, Name = "100% Arabica Yellow Bourbon", AmountInKg = 0.5m }
             );
+
         }
     }
 }

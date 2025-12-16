@@ -27,4 +27,10 @@ public sealed partial class MaintenanceLogboek : Page
     {
         InitializeComponent();
     }
+    private void BackToMaintenanceDashboard(object sender, RoutedEventArgs e)
+    {
+        Frame.Navigate(typeof(MaintenanceDashboard));
+    }
+  
+
 }

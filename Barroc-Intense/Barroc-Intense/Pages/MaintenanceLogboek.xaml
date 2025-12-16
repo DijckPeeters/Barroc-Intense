@@ -10,5 +10,57 @@
 
     <Grid>
 
+        <!-- BACKGROUND -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFD700" Offset="0"/>
+                <GradientStop Color="#000000" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- CONTENT -->
+        <Grid Padding="40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <Border
+             Background="#CC000000"
+             CornerRadius="18"
+             Padding="20"
+             Margin="0,0,0,25">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- BACK BUTTON -->
+                    <Button
+                     Content="← Dashboard"
+                     FontSize="14"
+                     Padding="14,8"
+                     CornerRadius="10"
+                     Background="#FFD700"
+                     Foreground="Black"
+                     FontWeight="SemiBold"
+                     Click="BackToMaintenanceDashboard"/>
+
+                    <!-- TITLE -->
+                    <TextBlock
+                     Grid.Column="1"
+                     Text="Logboek"
+                     FontSize="34"
+                     FontWeight="Bold"
+                     Foreground="White"
+                     HorizontalAlignment="Center"/>
+                </Grid>
+            </Border>
+           
+        </Grid>
     </Grid>
 </Page>
+
