@@ -1,4 +1,5 @@
 using Barroc_Intense.Data;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.Linq;
@@ -7,25 +8,50 @@ namespace Barroc_Intense.Pages
 {
     public sealed partial class MaterialListPage : Page
     {
+        private int _meldingId;
+
         public MaterialListPage()
         {
             this.InitializeComponent();
-            LoadMaterials();
         }
 
-        private void LoadMaterials()
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Parameter is de MeldingId
+            if (e.Parameter != null && int.TryParse(e.Parameter.ToString(), out int meldingId))
+            {
+                _meldingId = meldingId;
+                LoadMaterialsForMelding(_meldingId);
+            }
+        }
+
+        private void LoadMaterialsForMelding(int meldingId)
         {
             using var db = new AppDbContext();
-            materialsListView.ItemsSource = db.Materials.ToList();
+
+            // Alleen materialen die gebruikt zijn bij deze melding
+            var usedMaterials = db.MaintenanceMaterials
+                                  .Where(mm => mm.MeldingId == meldingId)
+                                  .Join(db.Materials,
+                                        mm => mm.MaterialId,
+                                        m => m.Id,
+                                        (mm, m) => new
+                                        {
+                                            m.Name,
+                                            m.Price,
+                                            PriceFormatted = $"€{m.Price:0.##}",
+                                            mm.QuantityUsed
+                                        })
+                                  .ToList();
+
+            materialsListView.ItemsSource = usedMaterials;
         }
 
-        private void BackToStockButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void BackToStockButton_Click(object sender, RoutedEventArgs e)
         {
-            //Frame.GoBack(); // Of navigeren naar StockPage
             Frame.Navigate(typeof(StockPage));
-
         }
     }
-
-
 }

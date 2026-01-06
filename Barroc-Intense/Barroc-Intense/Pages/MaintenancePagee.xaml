@@ -227,6 +227,15 @@
                             <Button Content="&gt;" Click="NextMonth_Click" />
                             <Button Content="&gt;&gt;" Click="NextYear_Click" />
                         </StackPanel>
+                        <Button Content="Ga naar Stock"
+        Width="220"
+        Height="48"
+        HorizontalAlignment="Center"
+        Background="DarkGreen"
+        Foreground="White"
+        FontWeight="Bold"
+        Click="StockButton_Click"/>
+
 
                         <!-- KALENDER -->
                         <CalendarView x:Name="Kalender"

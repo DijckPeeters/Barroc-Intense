@@ -9,6 +9,7 @@ namespace Barroc_Intense.Data
     public class Material
     {
             public int Id { get; set; }
+        public int Stock { get; set; }
             public string Name { get; set; } // Naam van het materiaal
             public decimal Price { get; set; } // Prijs in €
         public string PriceFormatted => $"€{Price:0.##}";

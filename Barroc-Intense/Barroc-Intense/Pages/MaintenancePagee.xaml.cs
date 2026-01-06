@@ -91,7 +91,7 @@ namespace Barroc_Intense.Pages
                     IsOpgelost = false,
                     IsKeuring = oud.IsKeuring,
                     ChecklistVolledig = null,
-                    KeuringGoedgekeurd = null,
+                    KeuringGoedgekeurd = false,
                     KeuringOpmerkingen = null,
                     IsKeuringVoltooid = false,
                     Handtekening = null
@@ -259,7 +259,14 @@ namespace Barroc_Intense.Pages
             Kalender.SetDisplayDate(_huidigeDatum);
             UpdateKalenderHeader();
         }
+        private void StockButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigeer naar StockPage
+            Frame.Navigate(typeof(StockPage));
+        }
+
     }
+
 
     // ================== Converters ==================
     public class PriorityColorConverter : IValueConverter

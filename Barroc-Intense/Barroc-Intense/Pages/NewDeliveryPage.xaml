@@ -33,7 +33,7 @@
                     <TextBox x:Name="newProductId" Header="Product ID" Padding="8" CornerRadius="10"/>
                     <TextBox x:Name="newOrderId" Header="Order ID" Padding="8" CornerRadius="10"/>
                     <TextBox x:Name="newCustomerId" Header="Customer ID" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newCustomerContact" Header="TelefoonNummert" Padding="8" CornerRadius="10"/>
+                    <TextBox x:Name="newCustomerContact" Header="TelefoonNummer" Padding="8" CornerRadius="10"/>
                     <TextBox x:Name="newProductName" Header="Product Naam" Padding="8" CornerRadius="10" IsReadOnly="True"/>
 
 

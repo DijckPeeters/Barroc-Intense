@@ -1,5 +1,4 @@
 ﻿using Barroc_Intense.Data;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.Linq;
@@ -31,10 +30,9 @@ namespace Barroc_Intense.Pages
                 loadedProduct.UsedCount = db.Deliveries
                     .Count(d => d.ProductID == loadedProduct.Id && d.Status == "Delivered");
 
-                // Zet productnaam bovenaan
                 ProductTitleText.Text = $"{loadedProduct.ProductName} (Gebruikt: {loadedProduct.UsedCount}x)";
 
-                // Genereer "gebruikte product instanties"
+                // Gebruikte product instanties
                 var usedList = db.Deliveries
                      .Where(d => d.ProductID == loadedProduct.Id && d.Status == "Delivered")
                      .Select(d => new
@@ -45,7 +43,6 @@ namespace Barroc_Intense.Pages
                          d.PlannedDeliveryDate,
                          d.ActualDeliveryDate,
                          d.DeliveryID,
-                         // ✅ button text afhankelijk van categorie
                          ButtonText = loadedProduct.Category == "Koffieboon"
                              ? "📋 Gebruikte ingrediënten"
                              : "📋 Gebruikte materialen"
@@ -56,38 +53,24 @@ namespace Barroc_Intense.Pages
             }
         }
 
-        
-
-
-
-
-
-
-        private void MaterialButton_Click(object sender, RoutedEventArgs e)
+        private void MaterialButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
-            var button = (Button)sender;
-
-            // productnaam/instance doorgeven
-            string selectedInstance = button.Tag.ToString();
-
-            if (loadedProduct == null)
-                return;
-
-            // Check categorie
-            if (loadedProduct.Category == "Koffieboon")
+            if (sender is Button btn && btn.Tag != null && int.TryParse(btn.Tag.ToString(), out int deliveryId))
             {
-                // Navigeren naar ingrediëntenpagina
-                Frame.Navigate(typeof(IngredientListPage), loadedProduct.Id);
-            }
-            else
-            {
-                // Navigeren naar materialenpagina
-                Frame.Navigate(typeof(MaterialListPage), loadedProduct.Id);
+                if (loadedProduct == null) return;
+
+                if (loadedProduct.Category == "Koffieboon")
+                {
+                    Frame.Navigate(typeof(IngredientListPage), deliveryId);
+                }
+                else
+                {
+                    Frame.Navigate(typeof(MaterialListPage), deliveryId);
+                }
             }
         }
 
-
-        private void BackToStockButton_Click(object sender, RoutedEventArgs e)
+        private void BackToStockButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             Frame.Navigate(typeof(StockPage));
         }

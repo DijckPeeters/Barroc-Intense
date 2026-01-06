@@ -31,13 +31,14 @@ namespace Barroc_Intense.Data
 
         // Voor keuring
         public bool? ChecklistVolledig { get; set; }
-        public bool? KeuringGoedgekeurd { get; set; }
+        public bool KeuringGoedgekeurd { get; set; }
+        public bool IsKeuringVoltooid { get; set; }
+        public bool IsKeuring { get; set; }
+
         public string? KeuringOpmerkingen { get; set; }
-        public bool IsKeuring { get; set; } = false; // true = keuring, false = storing
         public string? Handtekening { get; set; }
 
 
-        public bool IsKeuringVoltooid { get; set; }
 
 
 
