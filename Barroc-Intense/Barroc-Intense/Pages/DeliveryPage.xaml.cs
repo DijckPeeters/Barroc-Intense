@@ -10,9 +10,10 @@ namespace Barroc_Intense.Pages
 {
     public sealed partial class DeliveryPage : Page
     {
-        private List<Delivery> deliveries = new List<Delivery>();
-        private Delivery selectedDelivery = null;
         private int? productIdFilter = null;
+        private List<Delivery> deliveries = new();
+        private Delivery selectedDelivery = null;
+
 
         public DeliveryPage()
         {
@@ -28,23 +29,28 @@ namespace Barroc_Intense.Pages
 
             LoadDeliveries();
         }
-
-        private void LoadDeliveries()
+        private void LoadDeliveries(string statusFilter = "Alle")
         {
             using var db = new AppDbContext();
-            deliveries = db.Deliveries.ToList();
+            var query = db.Deliveries.AsQueryable();
+
+            // product filter
+            if (productIdFilter.HasValue)
+                query = query.Where(d => d.ProductID == productIdFilter.Value);
+
+            // status filter
+            if (statusFilter != "Alle")
+                query = query.Where(d => d.Status == statusFilter);
+
+            deliveries = query.ToList();
             deliveryListView.ItemsSource = deliveries;
 
-            if (productIdFilter.HasValue)
-            {
-                var deliveryToSelect = deliveries.FirstOrDefault(d => d.ProductID == productIdFilter.Value);
-                if (deliveryToSelect != null)
-                {
-                    deliveryListView.SelectedItem = deliveryToSelect;
-                    ShowDetails(deliveryToSelect);
-                }
-            }
+            // reset selectie
+            selectedDelivery = null;
+            detailsPanel.Visibility = Visibility.Collapsed;
+            placeholderText.Visibility = Visibility.Visible;
         }
+
 
         private void DeliveryListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -129,29 +135,13 @@ namespace Barroc_Intense.Pages
             {
                 string status = item.Text;
 
-                using var db = new AppDbContext();
-                var query = db.Deliveries.AsQueryable();
+                LoadDeliveries(status);
 
-                // Product filter, indien van toepassing
-                if (productIdFilter.HasValue)
-                    query = query.Where(d => d.ProductID == productIdFilter.Value);
-
-                // Status filter
-                if (status != "Alle")
-                    query = query.Where(d => d.Status == status);
-
-                deliveries = query.ToList();
-                deliveryListView.ItemsSource = deliveries;
-
-                // Reset selectie
-                selectedDelivery = null;
-                detailsPanel.Visibility = Visibility.Collapsed;
-                placeholderText.Visibility = Visibility.Visible;
-
-                // Update knoptekst zodat gebruiker weet welke filter actief is
-                filterButton.Content = $" {status}";
+                // knoptekst aanpassen
+                filterButton.Content = status;
             }
         }
+
 
 
         //private void LoadUsedProducts()
