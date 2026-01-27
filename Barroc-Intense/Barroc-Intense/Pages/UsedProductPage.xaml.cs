@@ -1,4 +1,5 @@
 ﻿using Barroc_Intense.Data;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System.Linq;
@@ -53,22 +54,15 @@ namespace Barroc_Intense.Pages
             }
         }
 
-        private void MaterialButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+        private void MaterialButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag != null && int.TryParse(btn.Tag.ToString(), out int deliveryId))
+            if (sender is Button btn && btn.Tag != null &&
+                int.TryParse(btn.Tag.ToString(), out int meldingId))
             {
-                if (loadedProduct == null) return;
-
-                if (loadedProduct.Category == "Koffieboon")
-                {
-                    Frame.Navigate(typeof(IngredientListPage), deliveryId);
-                }
-                else
-                {
-                    Frame.Navigate(typeof(MaterialListPage), deliveryId);
-                }
+                Frame.Navigate(typeof(MaterialListPage), meldingId);
             }
         }
+
 
         private void BackToStockButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {

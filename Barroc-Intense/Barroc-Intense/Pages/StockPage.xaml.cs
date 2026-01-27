@@ -165,17 +165,9 @@ namespace Barroc_Intense.Pages
             if (chosenProduct == null)
                 return;
 
-            if (chosenProduct.Category == "Koffieboon")
-            {
-                // Ingrediënten pagina navigeren
-                Frame.Navigate(typeof(IngredientListPage), chosenProduct.Id);
-            }
-            else
-            {
-                // Materialen pagina
-                Frame.Navigate(typeof(MaterialListPage), chosenProduct.Id);
-            }
+            Frame.Navigate(typeof(MaterialListPage), chosenProduct);
         }
+
 
         private void UsedProductsButton_Click(object sender, RoutedEventArgs e)
         {
