@@ -93,11 +93,5 @@ namespace Barroc_Intense.Pages
                 errorsTextBlock.Text = "No dashboard found for your role!";
             }
         }
-
-
-        private void backButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainWindow));
-        }
     }
 }
