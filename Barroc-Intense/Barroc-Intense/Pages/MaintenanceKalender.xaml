@@ -9,7 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-
         <!-- BACKGROUND -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -32,7 +31,6 @@
                 CornerRadius="18"
                 Padding="20"
                 Margin="0,0,0,25">
-
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -50,7 +48,7 @@
                         FontWeight="SemiBold"
                         Click="BackToMaintenanceDashboard"/>
 
-                    <!-- TITLE -->
+                    <!-- TITLE (BLIJFT WIT) -->
                     <TextBlock
                         Grid.Column="1"
                         Text="Maintenance Kalender"
@@ -68,22 +66,33 @@
                 CornerRadius="14"
                 Padding="14"
                 Margin="0,0,0,20">
-
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             Spacing="14">
 
-                    <Button Content="≪" Click="PrevYear_Click"/>
-                    <Button Content="‹" Click="PrevMonth_Click"/>
+                    <Button Content="≪"
+                            Click="PrevYear_Click"
+                            Foreground="Black"/>
 
+                    <Button Content="‹"
+                            Click="PrevMonth_Click"
+                            Foreground="Black"/>
+
+                    <!-- MONTH TEXT -->
                     <TextBlock x:Name="MonthYearText"
                                FontSize="26"
                                FontWeight="Bold"
-                               Foreground="White"
+                               Foreground="Black"
                                VerticalAlignment="Center"/>
 
-                    <Button Content="›" Click="NextMonth_Click"/>
-                    <Button Content="≫" Click="NextYear_Click"/>
+                    <Button Content="›"
+                            Click="NextMonth_Click"
+                            Foreground="Black"/>
+
+                    <Button Content="≫"
+                            Click="NextYear_Click"
+                            Foreground="Black"/>
+
                 </StackPanel>
             </Border>
 
@@ -100,7 +109,6 @@
                     CornerRadius="18"
                     Padding="12"
                     Margin="0,0,25,0">
-
                     <CalendarView
                         x:Name="Kalender"
                         SelectionMode="Single"
@@ -135,7 +143,6 @@
                             <ItemsControl x:Name="DagMeldingenControl">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="local:Melding">
-
                                         <Border
                                             Background="White"
                                             CornerRadius="14"
@@ -148,27 +155,32 @@
 
                                                 <TextBlock Text="Machine ID"
                                                            FontSize="12"
-                                                           Foreground="Gray"/>
+                                                           Foreground="Black"/>
+
                                                 <TextBlock Text="{x:Bind MachineId}"
-                                                           FontWeight="Bold"/>
+                                                           FontWeight="Bold"
+                                                           Foreground="Black"/>
 
                                                 <TextBlock Text="Klant"
                                                            FontSize="12"
-                                                           Foreground="Gray"
+                                                           Foreground="Black"
                                                            Margin="0,6,0,0"/>
+
                                                 <TextBlock Text="{x:Bind Klant}"
-                                                           FontWeight="SemiBold"/>
+                                                           FontWeight="SemiBold"
+                                                           Foreground="Black"/>
 
                                                 <TextBlock Text="Omschrijving"
                                                            FontSize="12"
-                                                           Foreground="Gray"
+                                                           Foreground="Black"
                                                            Margin="0,6,0,0"/>
+
                                                 <TextBlock Text="{x:Bind Probleemomschrijving}"
-                                                           TextWrapping="Wrap"/>
+                                                           TextWrapping="Wrap"
+                                                           Foreground="Black"/>
 
                                             </StackPanel>
                                         </Border>
-
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -177,7 +189,6 @@
                     </StackPanel>
                 </Border>
             </Grid>
-
         </Grid>
     </Grid>
 </Page>

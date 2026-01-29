@@ -9,7 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-
         <!-- BACKGROUND -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -31,7 +30,6 @@
                 CornerRadius="18"
                 Padding="20"
                 Margin="0,0,0,25">
-
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -49,7 +47,7 @@
                         FontWeight="SemiBold"
                         Click="BackToMaintenanceDashboard"/>
 
-                    <!-- TITLE -->
+                    <!-- TITLE (BLIJFT WIT) -->
                     <TextBlock
                         Grid.Column="1"
                         Text="Machines"
@@ -65,7 +63,6 @@
                 <ItemsControl x:Name="MachinesListView">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:Machine">
-
                             <Border
                                 Background="White"
                                 CornerRadius="18"
@@ -79,8 +76,9 @@
                                     <!-- PRODUCT -->
                                     <TextBlock Text="Product"
                                                FontSize="12"
-                                               Foreground="Gray"
+                                               Foreground="Black"
                                                FontWeight="SemiBold"/>
+
                                     <TextBlock Text="{x:Bind FirstDeliveryProductName}"
                                                FontSize="20"
                                                FontWeight="Bold"
@@ -97,43 +95,46 @@
                                         <StackPanel>
                                             <TextBlock Text="Machine-locatie"
                                                        FontSize="12"
-                                                       Foreground="Gray"/>
+                                                       Foreground="Black"/>
                                             <TextBlock Text="{x:Bind Locatie}"
-                                                       FontWeight="SemiBold"/>
+                                                       FontWeight="SemiBold"
+                                                       Foreground="Black"/>
                                         </StackPanel>
 
                                         <StackPanel Grid.Column="1">
                                             <TextBlock Text="Status"
                                                        FontSize="12"
-                                                       Foreground="Gray"/>
+                                                       Foreground="Black"/>
                                             <TextBlock Text="{x:Bind Status}"
                                                        FontWeight="Bold"
-                                                       Foreground="DarkGreen"/>
+                                                       Foreground="Black"/>
                                         </StackPanel>
                                     </Grid>
 
-                                    <!-- DELIVERY -->
+                                    <!-- DIVIDER -->
                                     <Border Height="1"
-        Background="#E0E0E0"
-        Margin="0,12"/>
-
+                                            Background="#E0E0E0"
+                                            Margin="0,12"/>
 
                                     <TextBlock Text="Delivery-adres"
                                                FontSize="12"
-                                               Foreground="Gray"/>
+                                               Foreground="Black"/>
+
                                     <TextBlock Text="{x:Bind FirstDeliveryAddress}"
-                                               FontWeight="SemiBold"/>
+                                               FontWeight="SemiBold"
+                                               Foreground="Black"/>
 
                                     <TextBlock Text="Klant"
                                                FontSize="12"
-                                               Foreground="Gray"
+                                               Foreground="Black"
                                                Margin="0,6,0,0"/>
+
                                     <TextBlock Text="{x:Bind FirstDeliveryCustomerName}"
-                                               FontWeight="SemiBold"/>
+                                               FontWeight="SemiBold"
+                                               Foreground="Black"/>
 
                                 </StackPanel>
                             </Border>
-
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

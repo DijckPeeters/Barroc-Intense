@@ -9,7 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-
         <!-- BACKGROUND -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -31,7 +30,6 @@
                 CornerRadius="18"
                 Padding="20"
                 Margin="0,0,0,25">
-
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -86,39 +84,38 @@
                     <Border Background="#F5F5F5"
                             CornerRadius="14"
                             Padding="14">
-
                         <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+
                             <TextBox x:Name="SearchBox"
                                      Width="420"
                                      PlaceholderText="Zoeken op klant, product of afdeling..."
-                                     Background="Black"
-                                     Foreground="White"
-                                     PlaceholderForeground="LightGray"/>
+                                     Background="White"
+                                     Foreground="Black"
+                                     PlaceholderForeground="Black"/>
 
                             <Button Content="Zoeken"
                                     Width="120"
                                     Click="OnSearchClick"
-                                    Background="Black"
-                                    Foreground="Yellow"
+                                    Background="#FFD700"
+                                    Foreground="Black"
                                     FontWeight="Bold"/>
 
                             <Button Content="Reset"
                                     Width="120"
                                     Click="OnResetClick"
-                                    Background="Gray"
-                                    Foreground="White"
+                                    Background="LightGray"
+                                    Foreground="Black"
                                     FontWeight="Bold"/>
                         </StackPanel>
                     </Border>
 
                     <!-- LIST -->
                     <ListView x:Name="MaintenanceListView"
-          MaxHeight="520"
-          VerticalAlignment="Stretch">
+                              MaxHeight="520"
+                              VerticalAlignment="Stretch">
 
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="local:Melding">
-
                                 <Border
                                     Background="#FFF9F9F9"
                                     CornerRadius="16"
@@ -138,20 +135,22 @@
 
                                             <TextBlock Text="{x:Bind Datum}"
                                                        FontSize="16"
-                                                       FontWeight="Bold"/>
+                                                       FontWeight="Bold"
+                                                       Foreground="Black"/>
 
                                             <TextBlock Grid.Column="1"
                                                        Text="{x:Bind Status}"
                                                        FontWeight="Bold"
-                                                       Foreground="DarkGreen"/>
+                                                       Foreground="Black"/>
                                         </Grid>
 
                                         <!-- PRIORITY -->
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <TextBlock Text="Prioriteit:"
-                                                       Foreground="Gray"/>
+                                                       Foreground="Black"/>
                                             <TextBlock Text="{x:Bind Prioriteit}"
-                                                       FontWeight="SemiBold"/>
+                                                       FontWeight="SemiBold"
+                                                       Foreground="Black"/>
                                         </StackPanel>
 
                                         <!-- INFO -->
@@ -164,28 +163,31 @@
                                             <StackPanel>
                                                 <TextBlock Text="Klant"
                                                            FontSize="12"
-                                                           Foreground="Gray"/>
+                                                           Foreground="Black"/>
                                                 <TextBlock Text="{x:Bind Klant}"
-                                                           FontWeight="SemiBold"/>
+                                                           FontWeight="SemiBold"
+                                                           Foreground="Black"/>
                                             </StackPanel>
 
                                             <StackPanel Grid.Column="1">
                                                 <TextBlock Text="Product"
                                                            FontSize="12"
-                                                           Foreground="Gray"/>
+                                                           Foreground="Black"/>
                                                 <TextBlock Text="{x:Bind Product}"
-                                                           FontWeight="SemiBold"/>
+                                                           FontWeight="SemiBold"
+                                                           Foreground="Black"/>
                                             </StackPanel>
                                         </Grid>
 
                                         <!-- DESCRIPTION -->
                                         <TextBlock Text="Probleemomschrijving"
                                                    FontSize="12"
-                                                   Foreground="Gray"
+                                                   Foreground="Black"
                                                    Margin="0,6,0,0"/>
 
                                         <TextBlock Text="{x:Bind Probleemomschrijving}"
-                                                   TextWrapping="Wrap"/>
+                                                   TextWrapping="Wrap"
+                                                   Foreground="Black"/>
 
                                         <!-- ACTIONS -->
                                         <Grid Margin="0,10,0,0">
@@ -196,8 +198,10 @@
 
                                             <StackPanel Orientation="Horizontal" Spacing="10">
                                                 <TextBlock Text="Klaar:"
-                                                           VerticalAlignment="Center"/>
-                                                <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}"/>
+                                                           VerticalAlignment="Center"
+                                                           Foreground="Black"/>
+                                                <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}"
+                                                          Foreground="Black"/>
                                             </StackPanel>
 
                                             <StackPanel Grid.Column="1"
@@ -205,20 +209,20 @@
                                                         Spacing="10">
 
                                                 <Button Content="Keuring"
-                                                        Background="Black"
-                                                        Foreground="Yellow"
+                                                        Background="#FFD700"
+                                                        Foreground="Black"
                                                         Tag="{x:Bind Id}"
                                                         Click="OpenForm_Click"/>
 
                                                 <Button Content="Aanpassen"
-                                                        Background="Black"
-                                                        Foreground="Yellow"
+                                                        Background="#FFD700"
+                                                        Foreground="Black"
                                                         Tag="{x:Bind Id}"
                                                         Click="BewerkMelding_Click"/>
 
                                                 <Button Content="Verwijderen"
                                                         Background="DarkRed"
-                                                        Foreground="White"
+                                                        Foreground="Black"
                                                         Tag="{x:Bind Id}"
                                                         Click="VerwijderMelding_Click"/>
                                             </StackPanel>
@@ -226,7 +230,6 @@
 
                                     </StackPanel>
                                 </Border>
-
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -237,13 +240,11 @@
                             Height="50"
                             HorizontalAlignment="Center"
                             Click="OnSaveClick"
-                            Background="Black"
-                            Foreground="Yellow"
+                            Background="#FFD700"
+                            Foreground="Black"
                             FontWeight="Bold"/>
-
                 </StackPanel>
             </Border>
-
         </Grid>
     </Grid>
 </Page>
