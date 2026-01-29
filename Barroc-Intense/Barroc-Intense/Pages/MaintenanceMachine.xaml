@@ -47,7 +47,7 @@
                         FontWeight="SemiBold"
                         Click="BackToMaintenanceDashboard"/>
 
-                    <!-- TITLE (BLIJFT WIT) -->
+                    <!-- TITLE -->
                     <TextBlock
                         Grid.Column="1"
                         Text="Machines"
@@ -58,8 +58,12 @@
                 </Grid>
             </Border>
 
-            <!-- MACHINES LIST -->
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <!-- MACHINES LIST (SCROLLABLE) -->
+            <ScrollViewer Grid.Row="1"
+                          VerticalScrollBarVisibility="Visible"
+                          HorizontalScrollBarVisibility="Disabled"
+                          MaxHeight="700">
+
                 <ItemsControl x:Name="MachinesListView">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:Machine">
@@ -138,8 +142,8 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </ScrollViewer>
 
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Page>

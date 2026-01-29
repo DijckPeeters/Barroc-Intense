@@ -37,7 +37,6 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- BACK BUTTON -->
                     <Button
                         Content="← Dashboard"
                         FontSize="14"
@@ -69,30 +68,17 @@
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             Spacing="14">
+                    <Button Content="≪" Click="PrevYear_Click" Foreground="Black"/>
+                    <Button Content="‹" Click="PrevMonth_Click" Foreground="Black"/>
 
-                    <Button Content="≪"
-                            Click="PrevYear_Click"
-                            Foreground="Black"/>
-
-                    <Button Content="‹"
-                            Click="PrevMonth_Click"
-                            Foreground="Black"/>
-
-                    <!-- MONTH TEXT -->
                     <TextBlock x:Name="MonthYearText"
                                FontSize="26"
                                FontWeight="Bold"
                                Foreground="Black"
                                VerticalAlignment="Center"/>
 
-                    <Button Content="›"
-                            Click="NextMonth_Click"
-                            Foreground="Black"/>
-
-                    <Button Content="≫"
-                            Click="NextYear_Click"
-                            Foreground="Black"/>
-
+                    <Button Content="›" Click="NextMonth_Click" Foreground="Black"/>
+                    <Button Content="≫" Click="NextYear_Click" Foreground="Black"/>
                 </StackPanel>
             </Border>
 
@@ -124,9 +110,7 @@
                     Background="#CCFFFFFF"
                     CornerRadius="18"
                     Padding="18">
-
                     <StackPanel>
-
                         <TextBlock
                             Text="Meldingen op geselecteerde dag"
                             FontSize="22"
@@ -150,13 +134,10 @@
                                             Margin="0,0,0,12"
                                             BorderBrush="#E0E0E0"
                                             BorderThickness="1">
-
                                             <StackPanel Spacing="6">
-
                                                 <TextBlock Text="Machine ID"
                                                            FontSize="12"
                                                            Foreground="Black"/>
-
                                                 <TextBlock Text="{x:Bind MachineId}"
                                                            FontWeight="Bold"
                                                            Foreground="Black"/>
@@ -165,7 +146,6 @@
                                                            FontSize="12"
                                                            Foreground="Black"
                                                            Margin="0,6,0,0"/>
-
                                                 <TextBlock Text="{x:Bind Klant}"
                                                            FontWeight="SemiBold"
                                                            Foreground="Black"/>
@@ -174,18 +154,15 @@
                                                            FontSize="12"
                                                            Foreground="Black"
                                                            Margin="0,6,0,0"/>
-
                                                 <TextBlock Text="{x:Bind Probleemomschrijving}"
                                                            TextWrapping="Wrap"
                                                            Foreground="Black"/>
-
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-
                     </StackPanel>
                 </Border>
             </Grid>
