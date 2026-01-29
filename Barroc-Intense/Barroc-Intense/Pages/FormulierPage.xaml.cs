@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using System;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -20,103 +19,138 @@ namespace Barroc_Intense.Pages
     public sealed partial class FormulierPage : Page
     {
         private Melding _melding;
+        private int _keuringId;
+
+        // Handtekening
         private bool _isDrawing = false;
         private Windows.Foundation.Point _lastPoint;
 
+        private AppDbContext _context = new AppDbContext();
+
         public FormulierPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            int id = (int)e.Parameter;
-
-            using var db = new AppDbContext();
-            _melding = db.Meldingen.First(x => x.Id == id);
+            _keuringId = (int)e.Parameter;
+            _melding = _context.Meldingen.First(x => x.Id == _keuringId);
 
             TitleBlock.Text = _melding.IsKeuring ? "Keuring" : "Melding";
 
-            // Handtekening tonen als die al bestaat
-            if (!string.IsNullOrEmpty(_melding.Handtekening))
-            {
-                await LoadSavedSignature(_melding.Handtekening);
-            }
+            // ======================
+            // MATERIALEN LADEN (DB)
+            // ======================
+            var materialsFromDb = _context.Materials.ToList();
 
-            // Materialen inladen
-            var usedPartsRaw = _melding.GebruikteOnderdelen ?? "";
-            var usedParts = usedPartsRaw.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                        .Select(x => x.Trim())
-                                        .ToList();
+            var usedMaterials = _context.MaintenanceMaterials
+                .Where(x => x.MeldingId == _keuringId)
+                .ToList();
 
-            var materialEntities = db.Materials.ToList();
-
-            var materials = materialEntities
+            var materials = materialsFromDb
                 .Select(mat =>
                 {
-                    int quantity = 0;
-                    var match = usedParts.FirstOrDefault(u => u.StartsWith(mat.Name));
-                    if (match != null)
-                    {
-                        var parts = match.Split(" x ");
-                        if (parts.Length == 2 && int.TryParse(parts[1], out int q))
-                            quantity = q;
-                    }
-
+                    var used = usedMaterials.FirstOrDefault(x => x.MaterialId == mat.Id);
                     return new MaterialViewModel
                     {
                         Id = mat.Id,
                         Name = mat.Name,
                         Price = mat.Price,
-                        Quantity = quantity,
-                        IsSelected = quantity > 0
+                        Quantity = used?.QuantityUsed ?? 0,
+                        IsSelected = used != null
                     };
-                }).ToList();
+                })
+                .ToList();
 
             OnderdelenList.ItemsSource = materials;
 
-            // Formulier invullen
+            // ======================
+            // FORMULIER INVULLEN
+            // ======================
             if (_melding.IsKeuring)
             {
-                //MeldingPanel.Visibility = Visibility.Collapsed;
                 ChecklistBox.IsChecked = _melding.ChecklistVolledig;
                 GoedgekeurdBox.IsChecked = _melding.KeuringGoedgekeurd;
                 KeuringOpmerkingenBox.Text = _melding.KeuringOpmerkingen;
             }
             else
             {
-                //KeuringPanel.Visibility = Visibility.Collapsed;
-                KlantBox.Text = _melding.Klant;
-                //DatumBox.Text = _melding.Datum.ToString("dd-MM-yyyy HH:mm");
-                InitieleBox.Text = _melding.Probleemomschrijving;
-                MachineBox.Text = _melding.Product;
                 StoringscodeBox.Text = _melding.Storingscode;
                 VerholpenBox.IsChecked = _melding.StoringVerholpen;
                 VervolgBox.Text = _melding.Vervolgafspraak;
                 BeschrijvingBox.Text = _melding.KorteBeschrijving;
             }
+
+            // ======================
+            // HANDTEKENING LADEN
+            // ======================
+            if (!string.IsNullOrEmpty(_melding.Handtekening))
+                await LoadSavedSignature(_melding.Handtekening);
         }
 
-        // PLUS & MIN knoppen
-        private void Plus_Click(object sender, RoutedEventArgs e)
+        // ======================
+        // PLUS KNOP (DB)
+        // ======================
+        private async void Plus_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is MaterialViewModel vm)
             {
                 vm.Quantity++;
                 vm.IsSelected = true;
+
+                using var context = new AppDbContext();
+                var item = context.MaintenanceMaterials
+                    .FirstOrDefault(x => x.MeldingId == _keuringId && x.MaterialId == vm.Id);
+
+                if (item == null)
+                {
+                    item = new MaintenanceMaterial
+                    {
+                        MeldingId = _keuringId,
+                        MaterialId = vm.Id,
+                        QuantityUsed = 1
+                    };
+                    context.MaintenanceMaterials.Add(item);
+                }
+                else
+                {
+                    item.QuantityUsed++;
+                }
+
+                await context.SaveChangesAsync();
             }
         }
 
-        private void Min_Click(object sender, RoutedEventArgs e)
+        // ======================
+        // MIN KNOP (DB)
+        // ======================
+        private async void Min_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is MaterialViewModel vm)
             {
-                if (vm.Quantity > 0) vm.Quantity--;
-                if (vm.Quantity == 0) vm.IsSelected = false;
+                if (vm.Quantity == 0) return;
+
+                vm.Quantity--;
+                vm.IsSelected = vm.Quantity > 0;
+
+                var item = _context.MaintenanceMaterials
+                    .FirstOrDefault(x => x.MeldingId == _keuringId && x.MaterialId == vm.Id);
+
+                if (item == null) return;
+
+                item.QuantityUsed--;
+
+                if (item.QuantityUsed <= 0)
+                    _context.MaintenanceMaterials.Remove(item);
+
+                await _context.SaveChangesAsync();
             }
         }
 
-        // Handtekening tekenen
+        // ======================
+        // HANDTEKENING TEKENEN
+        // ======================
         private void SignatureCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             _isDrawing = true;
@@ -127,20 +161,19 @@ namespace Barroc_Intense.Pages
         {
             if (!_isDrawing) return;
 
-            var currentPoint = e.GetCurrentPoint(SignatureCanvas).Position;
+            var current = e.GetCurrentPoint(SignatureCanvas).Position;
 
-            var line = new Line
+            SignatureCanvas.Children.Add(new Line
             {
                 X1 = _lastPoint.X,
                 Y1 = _lastPoint.Y,
-                X2 = currentPoint.X,
-                Y2 = currentPoint.Y,
+                X2 = current.X,
+                Y2 = current.Y,
                 Stroke = new SolidColorBrush(Colors.Black),
                 StrokeThickness = 2
-            };
+            });
 
-            SignatureCanvas.Children.Add(line);
-            _lastPoint = currentPoint;
+            _lastPoint = current;
         }
 
         private void SignatureCanvas_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -148,32 +181,28 @@ namespace Barroc_Intense.Pages
             _isDrawing = false;
         }
 
-        private void ClearButton_Click(object sender, RoutedEventArgs e)
-        {
-            SignatureCanvas.Children.Clear();
-        }
-
-        // Veilig opslaan van handtekening
+        // ======================
+        // HANDTEKENING OPSLAAN
+        // ======================
         private async Task<string> SaveSignatureAsync()
         {
-            if (SignatureCanvas.Children.Count == 0 || SignatureCanvas.Visibility != Visibility.Visible)
+            if (SignatureCanvas.Children.Count == 0)
                 return null;
 
-            var renderTargetBitmap = new RenderTargetBitmap();
-            await Task.Delay(50); // kleine delay om layout te fixen
-            await renderTargetBitmap.RenderAsync(SignatureCanvas);
+            var bmp = new RenderTargetBitmap();
+            await bmp.RenderAsync(SignatureCanvas);
+            var buffer = await bmp.GetPixelsAsync();
 
-            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
             using var stream = new InMemoryRandomAccessStream();
             var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+
             encoder.SetPixelData(
                 BitmapPixelFormat.Bgra8,
                 BitmapAlphaMode.Premultiplied,
-                (uint)renderTargetBitmap.PixelWidth,
-                (uint)renderTargetBitmap.PixelHeight,
+                (uint)bmp.PixelWidth,
+                (uint)bmp.PixelHeight,
                 96, 96,
-                pixelBuffer.ToArray()
-            );
+                buffer.ToArray());
 
             await encoder.FlushAsync();
 
@@ -184,69 +213,84 @@ namespace Barroc_Intense.Pages
             return Convert.ToBase64String(bytes);
         }
 
-        // Handtekening laden
+        // ======================
+        // HANDTEKENING LADEN
+        // ======================
         private async Task LoadSavedSignature(string base64)
         {
-            if (string.IsNullOrEmpty(base64)) return;
-
             byte[] bytes = Convert.FromBase64String(base64);
 
             using var stream = new InMemoryRandomAccessStream();
             await stream.WriteAsync(bytes.AsBuffer());
             stream.Seek(0);
 
-            var bitmap = new BitmapImage();
-            await bitmap.SetSourceAsync(stream);
+            var bmp = new BitmapImage();
+            await bmp.SetSourceAsync(stream);
 
-            SavedSignatureImage.Source = bitmap;
+            SavedSignatureImage.Source = bmp;
             SavedSignatureImage.Visibility = Visibility.Visible;
             SignatureCanvas.Visibility = Visibility.Collapsed;
         }
 
-        // Opslaan-knop
+        // ======================
+        // OPSLAAN
+        // ======================
         private async void Opslaan_Click(object sender, RoutedEventArgs e)
         {
-            using var db = new AppDbContext();
-            var m = db.Meldingen.First(x => x.Id == _melding.Id);
-
-            // KEURING / MELDING
-            if (m.IsKeuring)
+            if (_melding.IsKeuring)
             {
-                m.ChecklistVolledig = ChecklistBox.IsChecked ?? false;
-                m.KeuringGoedgekeurd = GoedgekeurdBox.IsChecked ?? false;
-                m.KeuringOpmerkingen = KeuringOpmerkingenBox.Text;
+                _melding.ChecklistVolledig = ChecklistBox.IsChecked ?? false;
+                _melding.KeuringGoedgekeurd = GoedgekeurdBox.IsChecked ?? false;
+                _melding.KeuringOpmerkingen = KeuringOpmerkingenBox.Text;
+
+                // VOORRAAD AFTREKKEN (1x bij goedgekeurde keuring)
+                if ((_melding.KeuringGoedgekeurd ?? false) && !_melding.IsKeuringVoltooid)
+
+                {
+                    var materialen = _context.MaintenanceMaterials
+                        .Where(x => x.MeldingId == _keuringId)
+                        .ToList();
+
+                    var alleMaterials = _context.Materials.ToList();
+
+                    foreach (var item in materialen)
+                    {
+                        var mat = alleMaterials.First(m => m.Id == item.MaterialId);
+                        mat.Stock -= item.QuantityUsed;
+                    }
+                }
             }
             else
             {
-                m.Storingscode = StoringscodeBox.Text;
-                m.StoringVerholpen = VerholpenBox.IsChecked ?? false;
-                m.Vervolgafspraak = VervolgBox.Text;
-                m.KorteBeschrijving = BeschrijvingBox.Text;
+                _melding.Storingscode = StoringscodeBox.Text;
+                _melding.StoringVerholpen = VerholpenBox.IsChecked ?? false;
+                _melding.Vervolgafspraak = VervolgBox.Text;
+                _melding.KorteBeschrijving = BeschrijvingBox.Text;
             }
 
-            // Onderdelen
-            var materials = OnderdelenList.Items
-                .Cast<MaterialViewModel>()
-                .Where(vm => vm.IsSelected && vm.Quantity > 0)
-                .Select(vm => $"{vm.Name} x {vm.Quantity}");
-            m.GebruikteOnderdelen = string.Join(", ", materials);
+            // HANDTEKENING
+            var signature = await SaveSignatureAsync();
+            if (signature != null)
+                _melding.Handtekening = signature;
 
-            // Handtekening opslaan en tonen
-            var base64Signature = await SaveSignatureAsync();
-            if (base64Signature != null)
-            {
-                m.Handtekening = base64Signature;
-                await LoadSavedSignature(base64Signature);
-            }
-            m.IsKeuringVoltooid = true;
-            db.SaveChanges();
+            _melding.IsKeuringVoltooid = true;
 
-            // Navigeren naar MaintenancePage
-     
+            // 1 SAVE
+            await _context.SaveChangesAsync();
 
+            // NAVIGATIE
+            Frame.Navigate(typeof(MaintenanceDashboard));
+        }
 
-            Frame?.Navigate(typeof(MaintenanceMelding));
-
+        // ======================
+        // CLEAR HANDTEKENING
+        // ======================
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            SignatureCanvas.Children.Clear();
+            SavedSignatureImage.Source = null;
+            SavedSignatureImage.Visibility = Visibility.Collapsed;
+            SignatureCanvas.Visibility = Visibility.Visible;
         }
     }
 }

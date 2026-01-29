@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Configuration;
-
 namespace Barroc_Intense.Data
 {
     internal class AppDbContext : DbContext
@@ -13,7 +12,7 @@ namespace Barroc_Intense.Data
         public DbSet<Melding> Meldingen { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<PlanningItem> PlanningItems { get; set; }
-
+        public DbSet<MaintenanceMaterial> MaintenanceMaterials { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
@@ -21,11 +20,9 @@ namespace Barroc_Intense.Data
                 ServerVersion.Parse("8.0.30")
             );
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             // ==========================
             // PRODUCTS
             // ==========================
@@ -39,7 +36,6 @@ namespace Barroc_Intense.Data
                 new Product { Id = 7, ProductName = "Espresso Roma", LeaseContract = "", PricePerKg = 21, Stock = 5, Category = "Koffieboon", InstallationCost = 0m },
                 new Product { Id = 8, ProductName = "Red Honey Honduras", LeaseContract = "", PricePerKg = 28, Stock = 3, Category = "Koffieboon", InstallationCost = 0m }
             );
-
             // ==========================
             // MACHINES
             // ==========================
@@ -49,7 +45,6 @@ namespace Barroc_Intense.Data
                 new Machine { Id = 3, Locatie = "Kantine", Status = "Onderhoud" },
                 new Machine { Id = 4, Locatie = "Kantoor", Status = "Operationeel" }
             );
-
             // ==========================
             // MELDINGEN
             // ==========================
@@ -124,7 +119,6 @@ namespace Barroc_Intense.Data
                     GebruikteOnderdelen = ""
                 }
             );
-
             // ==========================
             // DELIVERIES
             // ==========================
@@ -214,19 +208,27 @@ namespace Barroc_Intense.Data
                     MachineId = 4
                 }
             );
-
-
             // ==========================
             // MATERIALS
             // ==========================
             modelBuilder.Entity<Material>().HasData(
-                new Material { Id = 1, Name = "Rubber (10 mm)", Price = 0.39m },
-                new Material { Id = 2, Name = "Rubber (14 mm)", Price = 0.45m },
-                new Material { Id = 3, Name = "Slang", Price = 4.45m },
-                new Material { Id = 4, Name = "Voeding (elektra)", Price = 68.69m },
-                new Material { Id = 5, Name = "Ontkalker", Price = 4.00m }
-            );
-
+                  new Material { Id = 1, Name = "Rubber (10 mm)", Price = 0.39m },
+                  new Material { Id = 2, Name = "Rubber (14 mm)", Price = 0.45m },
+                  new Material { Id = 3, Name = "Slang", Price = 4.45m },
+                  new Material { Id = 4, Name = "Voeding (elektra)", Price = 68.69m },
+                  new Material { Id = 5, Name = "Ontkalker", Price = 4.00m },
+                  new Material { Id = 6, Name = "Waterfilter", Price = 299.45m },
+                  new Material { Id = 7, Name = "Reservoir sensor", Price = 89.99m },
+                  new Material { Id = 8, Name = "Druppelstop", Price = 122.43m },
+                  new Material { Id = 9, Name = "Electrische pomp", Price = 478.59m },
+                  new Material { Id = 10, Name = "Tandwiel 110mm", Price = 5.45m },
+                  new Material { Id = 11, Name = "Tandwiel 70mm", Price = 5.25m },
+                  new Material { Id = 12, Name = "Maalmotor", Price = 119.20m },
+                  new Material { Id = 13, Name = "Zeef", Price = 28.80m },
+                  new Material { Id = 14, Name = "Reinigingstabletten", Price = 3.45m },
+                  new Material { Id = 15, Name = "Reinigingsborsteltjes", Price = 8.45m },
+                  new Material { Id = 16, Name = "Ontkalkingspijp", Price = 21.70m }
+             );
             // ==========================
             // INGREDIENTS
             // ==========================
