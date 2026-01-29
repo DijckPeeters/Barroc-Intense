@@ -38,10 +38,7 @@ public sealed partial class MaintenanceDashboard : Page
         Frame.Navigate(typeof(MaintenanceMachine));
     }
 
-    private void OpenLogboek_Click(object sender, RoutedEventArgs e)
-    {
-        Frame.Navigate(typeof(MaintenanceLogboek));
-    }
+   
 
     private void OpenKalender_Click(object sender, RoutedEventArgs e)
     {

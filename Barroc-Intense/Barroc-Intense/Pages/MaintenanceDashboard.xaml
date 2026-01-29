@@ -80,18 +80,6 @@
                         CornerRadius="18"
                         Click="OpenMachines_Click"/>
 
-                    <!-- LOGBOEK -->
-                    <Button
-                        Content="Logboek"
-                        Grid.Row="1"
-                        Height="90"
-                        FontSize="22"
-                        FontWeight="Bold"
-                        Background="Black"
-                        Foreground="Yellow"
-                        CornerRadius="18"
-                        Click="OpenLogboek_Click"/>
-
                     <!-- KALENDER -->
                     <Button
                         Content="Kalender"

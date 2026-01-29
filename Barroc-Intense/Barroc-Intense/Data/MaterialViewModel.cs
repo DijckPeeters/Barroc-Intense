@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Barroc_Intense.Data
 {
     using System.ComponentModel;
-
     public class MaterialViewModel : INotifyPropertyChanged
     {
         private int _quantity;
         private bool _isSelected;
-
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
-
         public int Quantity
         {
             get => _quantity;
@@ -29,7 +25,6 @@ namespace Barroc_Intense.Data
                 }
             }
         }
-
         public bool IsSelected
         {
             get => _isSelected;
@@ -42,9 +37,7 @@ namespace Barroc_Intense.Data
                 }
             }
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

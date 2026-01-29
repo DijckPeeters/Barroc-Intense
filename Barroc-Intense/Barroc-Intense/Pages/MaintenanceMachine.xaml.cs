@@ -35,7 +35,7 @@ namespace Barroc_Intense.Pages
             Frame.Navigate(typeof(MaintenanceMelding), id);
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private void BackToMaintenanceDashboard(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MaintenanceDashboard));
         }
