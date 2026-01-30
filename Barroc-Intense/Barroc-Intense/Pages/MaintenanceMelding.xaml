@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Barroc_Intense.Pages.MaintenanceMelding"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Barroc_Intense.Data"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- BACKGROUND -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFD700" Offset="0"/>
+                <GradientStop Color="#000000" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- MAIN CONTENT -->
+        <Grid Padding="40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER -->
+            <Border
+                Background="#CC000000"
+                CornerRadius="18"
+                Padding="20"
+                Margin="0,0,0,25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- BACK BUTTON -->
+                    <Button
+                        Content="← Dashboard"
+                        FontSize="14"
+                        Padding="14,8"
+                        CornerRadius="10"
+                        Background="#FFD700"
+                        Foreground="Black"
+                        FontWeight="SemiBold"
+                        Click="BackToMaintenanceDashboard"/>
+
+                    <!-- TITLE -->
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="Meldingen en Storingen"
+                        FontSize="34"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        HorizontalAlignment="Center"/>
+
+                    <!-- ADD BUTTON -->
+                    <Button
+                        Grid.Column="2"
+                        Content="+ Melding"
+                        FontSize="16"
+                        Padding="16,8"
+                        CornerRadius="10"
+                        Background="#FFD700"
+                        Foreground="Black"
+                        FontWeight="Bold"
+                        Click="KlantButton_Click"/>
+                </Grid>
+            </Border>
+
+            <!-- CONTENT CARD -->
+            <Border
+                Grid.Row="1"
+                Background="White"
+                CornerRadius="20"
+                Padding="24">
+
+                <StackPanel Spacing="18">
+
+                    <!-- SEARCH -->
+                    <Border Background="#F5F5F5"
+                            CornerRadius="14"
+                            Padding="14">
+                        <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Center">
+
+                            <TextBox x:Name="SearchBox"
+                                     Width="420"
+                                     PlaceholderText="Zoeken op klant, product of afdeling..."
+                                     Background="White"
+                                     Foreground="Black"
+                                     PlaceholderForeground="Black"/>
+
+                            <Button Content="Zoeken"
+                                    Width="120"
+                                    Click="OnSearchClick"
+                                    Background="#FFD700"
+                                    Foreground="Black"
+                                    FontWeight="Bold"/>
+
+                            <Button Content="Reset"
+                                    Width="120"
+                                    Click="OnResetClick"
+                                    Background="LightGray"
+                                    Foreground="Black"
+                                    FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- LIST -->
+                    <ListView x:Name="MaintenanceListView"
+                              MaxHeight="520"
+                              VerticalAlignment="Stretch">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="local:Melding">
+                                <Border
+                                    Background="#FFF9F9F9"
+                                    CornerRadius="16"
+                                    Padding="16"
+                                    Margin="0,0,0,14"
+                                    BorderBrush="#E0E0E0"
+                                    BorderThickness="1">
+
+                                    <StackPanel Spacing="8">
+
+                                        <!-- TOP -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Text="{x:Bind Datum}"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       Foreground="Black"/>
+
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{x:Bind Status}"
+                                                       FontWeight="Bold"
+                                                       Foreground="Black"/>
+                                        </Grid>
+
+                                        <!-- PRIORITY -->
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="Prioriteit:"
+                                                       Foreground="Black"/>
+                                            <TextBlock Text="{x:Bind Prioriteit}"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="Black"/>
+                                        </StackPanel>
+
+                                        <!-- INFO -->
+                                        <Grid Margin="0,6,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel>
+                                                <TextBlock Text="Klant"
+                                                           FontSize="12"
+                                                           Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind Klant}"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="Black"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="Product"
+                                                           FontSize="12"
+                                                           Foreground="Black"/>
+                                                <TextBlock Text="{x:Bind Product}"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="Black"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <!-- DESCRIPTION -->
+                                        <TextBlock Text="Probleemomschrijving"
+                                                   FontSize="12"
+                                                   Foreground="Black"
+                                                   Margin="0,6,0,0"/>
+
+                                        <TextBlock Text="{x:Bind Probleemomschrijving}"
+                                                   TextWrapping="Wrap"
+                                                   Foreground="Black"/>
+
+                                        <!-- ACTIONS -->
+                                        <Grid Margin="0,10,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <TextBlock Text="Klaar:"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="Black"/>
+                                                <CheckBox IsChecked="{x:Bind IsOpgelost, Mode=TwoWay}"
+                                                          Foreground="Black"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1"
+                                                        Orientation="Horizontal"
+                                                        Spacing="10">
+
+                                                <Button Content="Keuring"
+                                                        Background="#FFD700"
+                                                        Foreground="Black"
+                                                        Tag="{x:Bind Id}"
+                                                        Click="OpenForm_Click"/>
+
+                                                <Button Content="Aanpassen"
+                                                        Background="#FFD700"
+                                                        Foreground="Black"
+                                                        Tag="{x:Bind Id}"
+                                                        Click="BewerkMelding_Click"/>
+
+                                                <Button Content="Verwijderen"
+                                                        Background="DarkRed"
+                                                        Foreground="Black"
+                                                        Tag="{x:Bind Id}"
+                                                        Click="VerwijderMelding_Click"/>
+                                            </StackPanel>
+                                        </Grid>
+
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <!-- SAVE -->
+                    <Button Content="Opslaan wijzigingen"
+                            Width="240"
+                            Height="50"
+                            HorizontalAlignment="Center"
+                            Click="OnSaveClick"
+                            Background="#FFD700"
+                            Foreground="Black"
+                            FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

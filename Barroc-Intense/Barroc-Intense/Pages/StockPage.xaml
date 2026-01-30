@@ -8,14 +8,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:localData="using:Barroc_Intense.Data"
     xmlns:localConv="using:Barroc_Intense.Pages"
-
     mc:Ignorable="d">
-
     <Page.Resources>
         <localConv:LowStockConverter x:Key="LowStockConverter"/>
     </Page.Resources>
-
-
     <Grid>
         <!-- Achtergrond -->
         <Grid.Background>
@@ -24,20 +20,16 @@
                 <GradientStop Color="Black" Offset="1.0"/>
             </LinearGradientBrush>
         </Grid.Background>
-
         <!-- Kolommen -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
-     
-
         <Border Background="#EEFFFFFF"
                 CornerRadius="10"
                 Margin="30"
                 Grid.Column="0">
-
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
@@ -46,14 +38,12 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-
                     <TextBlock Grid.Row="0"
                                Text="Producten"
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="Black"
                                Margin="0,0,0,10"/>
-
                     <!-- Nieuw product knop -->
                     <Button Grid.Row="1"
                             x:Name="addProductButton"
@@ -68,7 +58,6 @@
                             Margin="0,0,0,10"
                             HorizontalAlignment="Center"
                             BorderThickness="0"/>
-
                     <!-- Scrollbare lijst -->
                     <ListView Grid.Row="2"
                               x:Name="productListView"
@@ -89,14 +78,13 @@
                                                    FontSize="16"  
                                                    Foreground="Black"
                                                    FontWeight="SemiBold"
-                                                   TextTrimming="CharacterEllipsis" /> 
+                                                   TextTrimming="CharacterEllipsis" />
                                             <TextBlock Text="⚠️ Stock is laag"
                                                        FontSize="14"
                                                        Foreground="Red"
                                                        Margin="0,5,0,0"
                                                        Visibility="{x:Bind Stock, Converter={StaticResource LowStockConverter}}"/>
-                                         </StackPanel>
-
+                                        </StackPanel>
                                         <!-- Vrachtwagen knop -->
                                         <Button Content="🚚"
                                             FontSize="24"
@@ -105,14 +93,10 @@
                                             Click="TruckButton_Click"
                                             Tag="{x:Bind Id}"/>
                                     </StackPanel>
-
                                 </Border>
                             </DataTemplate>
-
                         </ListView.ItemTemplate>
-
                     </ListView>
-
                     <!-- Terug naar dashboard -->
                     <Button Grid.Row="3"
                             Content="Terug naar dashboard"
@@ -129,15 +113,11 @@
             </ScrollViewer>
         </Border>
 
-    
-
         <Border Background="#FFFFFFFF"
                 CornerRadius="10"
                 Margin="30"
                 Grid.Column="1">
-
             <Grid>
-
                 <TextBlock x:Name="placeholderTextBlock"
                            Text="Klik op een product om details te zien"
                            Foreground="Gray"
@@ -146,20 +126,16 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Visibility="Visible"/>
-
                 <!-- Scroll -->
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-
                     <StackPanel x:Name="detailsPanel"
                                 Margin="30"
                                 Spacing="15"
                                 Visibility="Collapsed">
-
                         <TextBlock Text="Productdetails"
                                    FontSize="28"
                                    FontWeight="Bold"
                                    Foreground="Black"/>
-
                         <StackPanel>
                             <TextBlock Text="Naam Product:"
                                        FontWeight="Bold"
@@ -169,7 +145,6 @@
                                        Foreground="Black"
                                        FontSize="18"/>
                         </StackPanel>
-
                         <StackPanel>
                             <TextBlock Text="Lease Contract:"
                                        FontWeight="Bold"
@@ -179,7 +154,6 @@
                                        Foreground="Black"
                                        FontSize="18"/>
                         </StackPanel>
-
                         <StackPanel>
                             <TextBlock Text="Reparatie kosten:"
                                        FontWeight="Bold"
@@ -189,7 +163,6 @@
                                        Foreground="Black"
                                        FontSize="18"/>
                         </StackPanel>
-
                         <StackPanel>
                             <TextBlock Text="Prijs per kg:"
                                        FontWeight="Bold"
@@ -199,7 +172,6 @@
                                        Foreground="Black"
                                        FontSize="18"/>
                         </StackPanel>
-
                         <StackPanel>
                             <TextBlock Text="Categorie:"
                                        FontWeight="Bold"
@@ -209,7 +181,6 @@
                                        Foreground="Black"
                                        FontSize="18"/>
                         </StackPanel>
-
                         <StackPanel>
                             <TextBlock Text="Voorraad:"
                                        FontWeight="Bold"
@@ -218,14 +189,22 @@
                             <TextBlock x:Name="detailStockTextBlock"
                                        Foreground="Black"
                                        FontSize="18"/>
-                        </StackPanel>
 
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Text="In gebruik:"
+                                   FontWeight="Bold"
+                                   Foreground="Black"
+                                   FontSize="16"/>
+                            <TextBlock x:Name="UsedTextBlock"
+                                   Foreground="Black"
+                                   FontSize="18"/>
+                        </StackPanel>
                         <!-- Knoppen -->
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     Spacing="10"
                                     Margin="0,10,0,0">
-
                             <Button Content="✏️ Product aanpassen"
                                     x:Name="editProductButton"
                                     Click="EditProductButton_Click"
@@ -235,7 +214,6 @@
                                     Width="200"
                                     Height="45"
                                     BorderThickness="0"/>
-
                             <Button Content="❌ Product verwijderen"
                                     x:Name="deleteProductButton"
                                     Click="DeleteProductButton_Click"
@@ -254,8 +232,16 @@
                                     Width="200"
                                     Height="45"
                                     BorderThickness="0"/>
+                            <Button Content="📦 Gebruikte producten"
+                                        x:Name="usedProductsButton"
+                                        Click="UsedProductsButton_Click"
+                                        Background="DarkGreen"
+                                        Foreground="White"
+                                        FontWeight="Bold"
+                                        Width="220"
+                                        Height="45"
+                                        BorderThickness="0"/>
                         </StackPanel>
-
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

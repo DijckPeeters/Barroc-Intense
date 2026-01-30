@@ -66,7 +66,7 @@
             private void OpenMaintenance_Click(object sender, RoutedEventArgs e)
             {
                 // The maintenance page class is MaintenancePagee in Barroc_Intense.Pages
-                Frame.Navigate(typeof(MaintenancePagee));
+                Frame.Navigate(typeof(MaintenanceDashboard));
             }
 
             private void OpenCustomer_Click(object sender, RoutedEventArgs e)
