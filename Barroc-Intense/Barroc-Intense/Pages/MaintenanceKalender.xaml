@@ -74,7 +74,7 @@
                     <TextBlock x:Name="MonthYearText"
                                FontSize="26"
                                FontWeight="Bold"
-                               Foreground="Black"
+                               Foreground="#FFD700"
                                VerticalAlignment="Center"/>
 
                     <Button Content="›" Click="NextMonth_Click" Foreground="Black"/>

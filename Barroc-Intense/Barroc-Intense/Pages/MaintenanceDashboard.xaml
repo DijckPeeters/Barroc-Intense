@@ -52,46 +52,45 @@
                         Margin="80,10"/>
 
                 <!-- BUTTON GRID -->
-                <Grid ColumnDefinitions="1*,1*"
-                      RowDefinitions="Auto,Auto"
-                      ColumnSpacing="30"
-                      RowSpacing="30">
+                <Grid ColumnDefinitions="1*,1*,1*"
+      ColumnSpacing="30"
+      HorizontalAlignment="Stretch">
 
                     <!-- MELDINGEN -->
                     <Button
-                        Content="Meldingen en Storingen"
-                        Height="90"
-                        FontSize="22"
-                        FontWeight="Bold"
-                        Background="Black"
-                        Foreground="Yellow"
-                        CornerRadius="18"
-                        Click="OpenMeldingen_Click"/>
+        Content="Meldingen / Storingen"
+        Grid.Column="0"
+        Height="100"
+        FontSize="22"
+        FontWeight="Bold"
+        Background="Black"
+        Foreground="Yellow"
+        CornerRadius="18"
+        Click="OpenMeldingen_Click"/>
 
                     <!-- MACHINES -->
                     <Button
-                        Content="Machines"
-                        Grid.Column="1"
-                        Height="90"
-                        FontSize="22"
-                        FontWeight="Bold"
-                        Background="Black"
-                        Foreground="Yellow"
-                        CornerRadius="18"
-                        Click="OpenMachines_Click"/>
+        Content="Machines"
+        Grid.Column="1"
+        Height="100"
+        FontSize="22"
+        FontWeight="Bold"
+        Background="Black"
+        Foreground="Yellow"
+        CornerRadius="18"
+        Click="OpenMachines_Click"/>
 
                     <!-- KALENDER -->
                     <Button
-                        Content="Kalender"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Height="90"
-                        FontSize="22"
-                        FontWeight="Bold"
-                        Background="Black"
-                        Foreground="Yellow"
-                        CornerRadius="18"
-                        Click="OpenKalender_Click"/>
+        Content="Kalender"
+        Grid.Column="2"
+        Height="100"
+        FontSize="22"
+        FontWeight="Bold"
+        Background="Black"
+        Foreground="Yellow"
+        CornerRadius="18"
+        Click="OpenKalender_Click"/>
 
                 </Grid>
 
