@@ -28,7 +28,7 @@ namespace Barroc_Intense
 
         public MainWindow()
         {
-               this.InitializeComponent();
+            this.InitializeComponent();
 
             using var db = new AppDbContext();
 
@@ -36,6 +36,7 @@ namespace Barroc_Intense
             db.Database.EnsureCreated();
 
             MainFrame.Navigate(typeof(LoginPage));
+        }
 
         private void VoorraadButton_Click(object sender, RoutedEventArgs e)
         {
