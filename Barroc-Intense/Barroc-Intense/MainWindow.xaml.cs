@@ -37,6 +37,21 @@ namespace Barroc_Intense
 
             MainFrame.Navigate(typeof(LoginPage));
 
+        private void VoorraadButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(ProductPage));
+        }
+        private void InkoopDashboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(InkoopDashBoard));
+        }
+        private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(MaintenanceDashboard));
+        }
+        private void KlantButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(typeof(KlantenservicePage));
         }
     }
 

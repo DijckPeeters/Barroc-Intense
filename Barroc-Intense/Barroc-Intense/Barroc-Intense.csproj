@@ -1,30 +1,32 @@
-<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-		<RootNamespace>Barroc_Intense</RootNamespace>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<Platforms>x86;x64;ARM64</Platforms>
-		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
-		<UseWinUI>true</UseWinUI>
-		<EnableMsixTooling>true</EnableMsixTooling>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Remove="Pages\Dashboards\FinanceDashboard.xaml" />
-		<None Remove="Pages\Dashboards\InkoopDashboard.xaml" />
-		<None Remove="Pages\Dashboards\ManagerDashboard.xaml" />
-		<None Remove="Pages\Dashboards\SalesDashboard.xaml" />
-		<None Remove="Pages\DeliveryPage.xaml" />
-		<None Remove="Pages\InkoopDashBoard.xaml" />
-		<None Remove="Pages\KlantenservicePage.xaml" />
-		<None Remove="Pages\LoginPage.xaml" />
-		<None Remove="Pages\MaterialListPage.xaml" />
-		<None Remove="Pages\ProductPage.xaml" />
-		<None Remove="Pages\StockPage.xaml" />
-	</ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>Barroc_Intense</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="MeldingBewerkenPage.xaml" />
+    <None Remove="Pages\DeliveryPage.xaml" />
+    <None Remove="Pages\FormulierPage.xaml" />
+    <None Remove="Pages\InkoopDashBoard.xaml" />
+    <None Remove="Pages\KlantenservicePage.xaml" />
+    <None Remove="Pages\LoginPage.xaml" />
+    <None Remove="Pages\MaintenanceDashboard.xaml" />
+    <None Remove="Pages\MaintenanceKalender.xaml" />
+    <None Remove="Pages\MaintenanceLogboek.xaml" />
+    <None Remove="Pages\MaintenanceMachine.xaml" />
+    <None Remove="Pages\MaterialListPage.xaml" />
+    <None Remove="Pages\ProductPage.xaml" />
+    <None Remove="Pages\StockPage.xaml" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.scale-200.png" />
@@ -45,17 +47,51 @@
     Tools extension to be activated for this project even if the Windows App SDK Nuget
     package has not yet been restored.
   -->
-	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<ProjectCapability Include="Msix" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6901" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
-		<PackageReference Include="PDFsharp-GDI" Version="6.2.3" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
-	</ItemGroup>
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6901" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceKalender.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceKalender.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceLogboek.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceDashboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\MaintenanceMachine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MeldingBewerkenPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\FormulierPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 	<ItemGroup>
 		<Page Update="Pages\MaterialListPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -66,61 +102,36 @@
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\DeliveryPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\Dashboards\ManagerDashboard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\MaintenancePagee.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\InkoopDashBoard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\DeliveryPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\InkoopDashBoard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 	<ItemGroup>
 		<Page Update="Pages\StockPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>
 	<ItemGroup>
-		<Page Update="Pages\MaintenancePagee.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
+    <Page Update="Pages\MaintenanceMelding.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
 	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\Dashboards\FinanceDashboard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\Dashboards\InkoopDashboard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\ProductPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\LoginPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\Dashboards\SalesDashboard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ProductPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\LoginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 
 	<!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution

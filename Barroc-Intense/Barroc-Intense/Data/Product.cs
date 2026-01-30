@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Barroc_Intense.Data
 {
-    internal class Product
+    public class Product
     {
         public int Id { get; set; }
 
@@ -32,6 +34,13 @@ namespace Barroc_Intense.Data
         [MaxLength(100)]
 
         public string Category { get; set; }
+
+        [NotMapped]
+        public int UsedCount { get; set; }
+
+        public ObservableCollection<Ingredient> Ingredients { get; set; } = new ObservableCollection<Ingredient>();
+
+
 
 
 

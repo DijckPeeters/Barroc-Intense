@@ -1,66 +1,46 @@
+
 using Barroc_Intense.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace Barroc_Intense.Pages
 {
     public sealed partial class DeliveryPage : Page
     {
-        private List<Delivery> deliveries = new List<Delivery>();
-        private Delivery selectedDelivery = null;
         private int? productIdFilter = null;
-
+        private List<Delivery> deliveries = new();
+        private Delivery selectedDelivery = null;
         public DeliveryPage()
         {
             this.InitializeComponent();
         }
-
-        // Haal het productId mee als parameter van StockPage
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
             if (e.Parameter is int id)
-            {
                 productIdFilter = id;
-            }
-
             LoadDeliveries();
         }
-
-        private void LoadDeliveries()
+        private void LoadDeliveries(string statusFilter = "Alle")
         {
             using var db = new AppDbContext();
-
-            // Haal alle leveringen uit de database
-            deliveries = db.Deliveries.ToList();
-
-            // Vul de ListView
-            deliveryListView.ItemsSource = deliveries;
-
-            // Highlight de levering(s) van het meegegeven productId
+            var query = db.Deliveries.AsQueryable();
+            // product filter
             if (productIdFilter.HasValue)
-            {
-                var deliveryToSelect = deliveries.FirstOrDefault(d => d.ProductID == productIdFilter.Value);
-                if (deliveryToSelect != null)
-                {
-                    deliveryListView.SelectedItem = deliveryToSelect;
-                    ShowDetails(deliveryToSelect);
-                }
-            }
+                query = query.Where(d => d.ProductID == productIdFilter.Value);
+            // status filter
+            if (statusFilter != "Alle")
+                query = query.Where(d => d.Status == statusFilter);
+            deliveries = query.ToList();
+            deliveryListView.ItemsSource = deliveries;
+            // reset selectie
+            selectedDelivery = null;
+            detailsPanel.Visibility = Visibility.Collapsed;
+            placeholderText.Visibility = Visibility.Visible;
         }
-        private void BackToDashboardButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Navigeer terug naar InkoopDashboardPage
-            Frame.Navigate(typeof(InkoopDashBoard));
-        }
-
-
         private void DeliveryListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             if (e.ClickedItem is Delivery delivery)
@@ -69,12 +49,10 @@ namespace Barroc_Intense.Pages
                 ShowDetails(delivery);
             }
         }
-
         private void ShowDetails(Delivery delivery)
         {
             detailsPanel.Visibility = Visibility.Visible;
             placeholderText.Visibility = Visibility.Collapsed;
-
             detailProductName.Text = delivery.ProductName;
             detailQuantity.Text = delivery.QuantityDelivered.ToString();
             detailCustomerName.Text = delivery.CustomerName;
@@ -87,64 +65,58 @@ namespace Barroc_Intense.Pages
             detailTrackingNumber.Text = delivery.TrackingNumber;
             detailNotes.Text = delivery.Notes;
         }
-
-        private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)
+        private void BackToDashboardButton_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Nieuwe levering",
-                Content = "Hier kun je later een nieuwe levering toevoegen.",
-                CloseButtonText = "Ok"
-            };
-            _ = dialog.ShowAsync();
+            Frame.Navigate(typeof(InkoopDashBoard));
         }
-
         private void EditDeliveryButton_Click(object sender, RoutedEventArgs e)
         {
             if (selectedDelivery == null) return;
-
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "Aanpassen levering",
-                Content = $"Je gaat levering {selectedDelivery.DeliveryID} aanpassen (nog niet geïmplementeerd).",
-                CloseButtonText = "Ok"
-            };
-            _ = dialog.ShowAsync();
+            Frame.Navigate(typeof(NewDeliveryPage), selectedDelivery);
         }
-
-        private void DeleteDeliveryButton_Click(object sender, RoutedEventArgs e)
+        private async void DeleteDeliveryButton_Click(object sender, RoutedEventArgs e)
         {
             if (selectedDelivery == null) return;
-
             ContentDialog confirm = new ContentDialog
             {
                 Title = "Weet je het zeker?",
                 Content = $"Weet je zeker dat je levering {selectedDelivery.DeliveryID} wilt verwijderen?",
                 PrimaryButtonText = "Ja",
-                CloseButtonText = "Nee"
+                CloseButtonText = "Nee",
+                XamlRoot = this.XamlRoot
             };
-
-            var result = confirm.ShowAsync();
-            result.AsTask().ContinueWith(t =>
+            var result = await confirm.ShowAsync();
+            if (result == ContentDialogResult.Primary)
             {
-                if (t.Result == ContentDialogResult.Primary)
+                using var db = new AppDbContext();
+                var deliveryToRemove = db.Deliveries.FirstOrDefault(d => d.DeliveryID == selectedDelivery.DeliveryID);
+                if (deliveryToRemove != null)
                 {
-                    // Verwijder uit de lokale lijst
-                    deliveries.Remove(selectedDelivery);
-                    selectedDelivery = null;
-
-                    // Update ListView op UI thread
-                    _ = DispatcherQueue.TryEnqueue(() =>
-                    {
-                        deliveryListView.ItemsSource = null;
-                        deliveryListView.ItemsSource = deliveries;
-
-                        // Reset details
-                        detailsPanel.Visibility = Visibility.Collapsed;
-                        placeholderText.Visibility = Visibility.Visible;
-                    });
+                    db.Deliveries.Remove(deliveryToRemove);
+                    db.SaveChanges();
                 }
-            });
+                deliveries.Remove(selectedDelivery);
+                selectedDelivery = null;
+                deliveryListView.ItemsSource = null;
+                deliveryListView.ItemsSource = deliveries;
+                detailsPanel.Visibility = Visibility.Collapsed;
+                placeholderText.Visibility = Visibility.Visible;
+            }
+        }
+        private void FilterMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuFlyoutItem item)
+            {
+                string status = item.Text;
+                LoadDeliveries(status);
+                filterButton.Content = status;
+            }
+        }
+
+        private void AddDeliveryButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Navigeer naar NewDeliveryPage
+            Frame.Navigate(typeof(NewDeliveryPage));
         }
     }
 }
