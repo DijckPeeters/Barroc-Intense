@@ -35,34 +35,10 @@ namespace Barroc_Intense
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
             MainFrame.Navigate(typeof(LoginPage));
 
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
-        private void VoorraadButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(typeof(ProductPage));
-        }
-        private void InkoopDashboardButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(typeof(InkoopDashBoard));
-        }
-        private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(typeof(MaintenanceDashboard));
-        }
-        private void KlantButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(typeof(KlantenservicePage));
-<<<<<<< HEAD
-=======
-            MainFrame.Navigate(typeof(LoginPage));
 
->>>>>>> Roll-Management
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
         }
     }
 

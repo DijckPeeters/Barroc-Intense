@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
-﻿<Project Sdk="Microsoft.NET.Sdk">
+
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
@@ -31,38 +28,7 @@
     <None Remove="Pages\ProductPage.xaml" />
     <None Remove="Pages\StockPage.xaml" />
   </ItemGroup>
-<<<<<<< HEAD
-=======
-<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-		<RootNamespace>Barroc_Intense</RootNamespace>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<Platforms>x86;x64;ARM64</Platforms>
-		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
-		<UseWinUI>true</UseWinUI>
-		<EnableMsixTooling>true</EnableMsixTooling>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Remove="Pages\Dashboards\FinanceDashboard.xaml" />
-		<None Remove="Pages\Dashboards\InkoopDashboard.xaml" />
-		<None Remove="Pages\Dashboards\ManagerDashboard.xaml" />
-		<None Remove="Pages\Dashboards\SalesDashboard.xaml" />
-		<None Remove="Pages\DeliveryPage.xaml" />
-		<None Remove="Pages\InkoopDashBoard.xaml" />
-		<None Remove="Pages\KlantenservicePage.xaml" />
-		<None Remove="Pages\LoginPage.xaml" />
-		<None Remove="Pages\MaterialListPage.xaml" />
-		<None Remove="Pages\ProductPage.xaml" />
-		<None Remove="Pages\StockPage.xaml" />
-	</ItemGroup>
->>>>>>> Roll-Management
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
+
 
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.scale-200.png" />
@@ -78,15 +44,7 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
-	<!--
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
+	
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
@@ -94,6 +52,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6901" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
+			<PackageReference Include="PDFsharp-GDI" Version="6.2.3" />
+
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
   </ItemGroup>
@@ -132,23 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-<<<<<<< HEAD
-=======
-	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<ProjectCapability Include="Msix" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.6901" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
-		<PackageReference Include="PDFsharp-GDI" Version="6.2.3" />
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
-	</ItemGroup>
->>>>>>> Roll-Management
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
-	<ItemGroup>
+<ItemGroup>
 		<Page Update="Pages\MaterialListPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
@@ -158,10 +102,7 @@
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
+
   <ItemGroup>
     <Page Update="Pages\DeliveryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -172,8 +113,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-<<<<<<< HEAD
-=======
+
 	<ItemGroup>
 		<Page Update="Pages\DeliveryPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -194,19 +134,13 @@
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>
->>>>>>> Roll-Management
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
+
 	<ItemGroup>
 		<Page Update="Pages\StockPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>
 	<ItemGroup>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
     <Page Update="Pages\MaintenanceMelding.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,41 +154,7 @@
     <Page Update="Pages\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-<<<<<<< HEAD
-=======
-		<Page Update="Pages\MaintenancePagee.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\Dashboards\FinanceDashboard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\Dashboards\InkoopDashboard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\ProductPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\LoginPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Pages\Dashboards\SalesDashboard.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
->>>>>>> Roll-Management
-=======
->>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
+	  </ItemGroup>
 
 	<!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
