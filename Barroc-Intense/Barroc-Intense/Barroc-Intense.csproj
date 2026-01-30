@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -28,6 +31,7 @@
     <None Remove="Pages\ProductPage.xaml" />
     <None Remove="Pages\StockPage.xaml" />
   </ItemGroup>
+<<<<<<< HEAD
 =======
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
@@ -57,6 +61,8 @@
 		<None Remove="Pages\StockPage.xaml" />
 	</ItemGroup>
 >>>>>>> Roll-Management
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
 
 	<ItemGroup>
 		<Content Include="Assets\SplashScreen.scale-200.png" />
@@ -78,6 +84,9 @@
     package has not yet been restored.
   -->
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
@@ -123,6 +132,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+<<<<<<< HEAD
 =======
 	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
 		<ProjectCapability Include="Msix" />
@@ -136,6 +146,8 @@
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.10" />
 	</ItemGroup>
 >>>>>>> Roll-Management
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
 	<ItemGroup>
 		<Page Update="Pages\MaterialListPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -147,6 +159,9 @@
 		</Page>
 	</ItemGroup>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
   <ItemGroup>
     <Page Update="Pages\DeliveryPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -157,6 +172,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+<<<<<<< HEAD
 =======
 	<ItemGroup>
 		<Page Update="Pages\DeliveryPage.xaml">
@@ -179,6 +195,8 @@
 		</Page>
 	</ItemGroup>
 >>>>>>> Roll-Management
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
 	<ItemGroup>
 		<Page Update="Pages\StockPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -186,6 +204,9 @@
 	</ItemGroup>
 	<ItemGroup>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
     <Page Update="Pages\MaintenanceMelding.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -200,6 +221,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+<<<<<<< HEAD
 =======
 		<Page Update="Pages\MaintenancePagee.xaml">
 			<Generator>MSBuild:Compile</Generator>
@@ -231,6 +253,8 @@
 		</Page>
 	</ItemGroup>
 >>>>>>> Roll-Management
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
 
 	<!--
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution

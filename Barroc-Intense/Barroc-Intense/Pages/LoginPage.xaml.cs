@@ -69,12 +69,18 @@ namespace Barroc_Intense.Pages
             string user = UsernameBox.Text;
             string pass = PasswordBox.Password;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
 
 
         } 
         
+<<<<<<< HEAD
 =======
 >>>>>>> Roll-Management
+=======
+>>>>>>> a7f092afb64c37e00f39246dd009356ac2000e3b
 
             // -------------------------------
             // Check if the employee exists
