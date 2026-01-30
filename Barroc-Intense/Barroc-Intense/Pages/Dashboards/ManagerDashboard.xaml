@@ -27,7 +27,7 @@
             <!-- LEFT -->
             <StackPanel Grid.Column="0" Spacing="16">
 
-                <!-- 1. Toegang tot dashboards -->
+                <!-- 1. Access to dashboards -->
                 <StackPanel Background="#2A2A2A" Padding="16">
                     <TextBlock Text="Toegang tot dashboards" Foreground="White" FontSize="18"/>
                     <Button Content="Open Inkoop" Margin="0 8 0 0" Click="OpenInkoop_Click"/>
@@ -37,7 +37,7 @@
                     <Button Content="Open Klantenservice" Margin="0 8 0 0" Click="OpenCustomer_Click"/>
                 </StackPanel>
 
-                <!-- 2. Rapportages -->
+                <!-- 2. Reports -->
                 <StackPanel Background="#2A2A2A" Padding="16">
                     <TextBlock Text="Rapportages per afdeling" Foreground="White" FontSize="18"/>
                     <ComboBox x:Name="DepartmentReportSelector" Margin="0 8 0 0">

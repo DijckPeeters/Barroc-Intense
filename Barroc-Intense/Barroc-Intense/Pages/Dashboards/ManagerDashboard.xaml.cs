@@ -124,7 +124,7 @@
             // ------------------------------
             private void CheckWarnings()
             {
-                // Dummy waarschuwingen
+                // Dummy warnings
                 bool voorraadTekort = true;
                 bool bkrAfkeuring = false;
 

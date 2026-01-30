@@ -34,13 +34,8 @@ namespace Barroc_Intense
 
             db.Database.EnsureDeleted();
             db.Database.EnsureCreated();
-           
-        }
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(typeof(LoginPage));
-        }
 
+<<<<<<< HEAD
         private void VoorraadButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(ProductPage));
@@ -56,6 +51,10 @@ namespace Barroc_Intense
         private void KlantButton_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(typeof(KlantenservicePage));
+=======
+            MainFrame.Navigate(typeof(LoginPage));
+
+>>>>>>> Roll-Management
         }
     }
 
