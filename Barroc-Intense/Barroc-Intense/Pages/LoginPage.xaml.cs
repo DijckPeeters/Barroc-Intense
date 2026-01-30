@@ -70,6 +70,7 @@ namespace Barroc_Intense.Pages
             string pass = PasswordBox.Password;
 
 
+
             // -------------------------------
             // Check if the employee exists
             // -------------------------------
