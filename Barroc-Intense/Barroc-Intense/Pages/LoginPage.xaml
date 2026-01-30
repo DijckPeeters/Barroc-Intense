@@ -7,26 +7,75 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-  
+
+    <!-- Background -->
+    <Grid Background="#212121">
+
+        <!-- Center card -->
+        <Border
+            Width="400"
+            Padding="30"
+            Background="#5C5C5C"
+            CornerRadius="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <StackPanel Spacing="20">
+
+                <!-- LOGO -->
+                <Image
+                    Source="/Assets/logo.png"
+                    Height="120"
+                    Margin="0,0,0,10"/>
 
 
-        <Grid Padding="40" Background="#000000">
-            <Button x:Name="backButton"
-                    Click="backButton_Click"
-                    Content="Terug naar overzicht"/>
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="350" Spacing="20">
-                <TextBlock Text="Login" Foreground="#FFD700" FontSize="32" HorizontalAlignment="Center"/>
+                <!-- TITLE -->
+                <TextBlock
+                    Text="Login"
+                    FontSize="32"
+                    FontWeight="Bold"
+                    Foreground="#FFD700"
+                    HorizontalAlignment="Center"/>
 
+                <!-- USERNAME -->
+                <TextBox
+                    x:Name="UsernameBox"
+                    PlaceholderText="Gebruikersnaam"
+                    Background="#111111"
+                    Foreground="White"
+                    PlaceholderForeground="Gray"
+                    BorderBrush="#FFD700"
+                    BorderThickness="2"/>
 
-                <TextBox x:Name="UsernameBox" PlaceholderText="Gebruikersnaam" Background="#111111" Foreground="White" PlaceholderForeground="Gray" BorderBrush="#FFD700"/>
+                <!-- PASSWORD -->
+                <PasswordBox
+                    x:Name="PasswordBox"
+                    PlaceholderText="Wachtwoord"
+                    Background="#111111"
+                    Foreground="White"
+                    BorderBrush="#FFD700"
+                    BorderThickness="2"/>
 
+                <!-- ERROR MESSAGE -->
+                <TextBlock
+                    x:Name="errorsTextBlock"
+                    Foreground="Red"
+                    FontSize="14"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"/>
 
-                <PasswordBox x:Name="PasswordBox" PlaceholderText="Wachtwoord" Background="#111111" Foreground="White" BorderBrush="#FFD700"/>
+                <!-- LOGIN BUTTON -->
+                <Button
+                    Content="Inloggen"
+                    Height="45"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Background="#FFD700"
+                    Foreground="Black"
+                    BorderThickness="0"
+                    Click="Button_Click"/>
 
-                <TextBlock x:Name="errorsTextBlock"></TextBlock>
-                           
-                <Button Content="Inloggen" Click="Button_Click"
-                    Background="#FFD700" Foreground="Black"/>
             </StackPanel>
-        </Grid>
-    </Page>
+        </Border>
+    </Grid> 
+</Page>

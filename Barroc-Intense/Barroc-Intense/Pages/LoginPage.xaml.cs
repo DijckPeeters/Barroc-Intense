@@ -21,17 +21,17 @@ namespace Barroc_Intense.Pages
     {
         private readonly List<Employee> _employees = new()
         {
-            new Employee { Id = 1, Username = "sarah", Role = "Sales" },
-            new Employee { Id = 2, Username = "john", Role = "Inkoop" },
+            new Employee { Id = 1, Username = "sarah", Password = "1234", Role = "Sales" },
+            new Employee { Id = 2, Username = "john", Password = "1234", Role = "Inkoop" },
             new Employee { Id = 3, Username = "emma", Role = "Finance" },
             new Employee { Id = 4, Username = "mike", Role = "Maintenance" },
             new Employee { Id = 5, Username = "anna", Role = "Klantenservice" },
-            new Employee { Id = 6, Username = "marc", Role = "Manager" }
+            new Employee { Id = 6, Username = "marc", Password = "1234", Role = "Manager" }
         };
 
         private readonly Dictionary<string, Type> dashboards = new Dictionary<string, Type>
         {
-            { "Inkoop", typeof(InkoopDashboard) },  
+            { "Inkoop", typeof(InkoopDashBoard) },  
             { "Sales", typeof(SalesDashboard) },
             { "Finance", typeof(FinanceDashboard) },
             { "Maintenance", typeof(MaintenanceDashboard) },
@@ -73,9 +73,29 @@ namespace Barroc_Intense.Pages
         } 
         
 
-        private void backButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MainWindow));
+            // -------------------------------
+            // Check if the employee exists
+            // -------------------------------
+            var employee = _employees.FirstOrDefault(e => e.Username.Equals(user, StringComparison.OrdinalIgnoreCase)
+                                                       && e.Password == pass);
+
+            if (employee == null)
+            {
+                errorsTextBlock.Text = "Invalid username or password!";
+                return;
+            }
+
+            // -------------------------------
+            // Navigate to the correct dashboard
+            // -------------------------------
+            if (dashboards.TryGetValue(employee.Role, out Type dashboardPage))
+            {
+                Frame.Navigate(dashboardPage);
+            }
+            else
+            {
+                errorsTextBlock.Text = "No dashboard found for your role!";
+            }
         }
     }
 }
