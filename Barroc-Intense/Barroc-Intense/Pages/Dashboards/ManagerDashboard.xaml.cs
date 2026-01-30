@@ -50,7 +50,7 @@
             private void OpenInkoop_Click(object sender, RoutedEventArgs e)
             {
                 // InkoopDashboard class is defined as InkoopDashboard (no "Page" suffix)
-                Frame.Navigate(typeof(InkoopDashboard));
+                Frame.Navigate(typeof(InkoopDashBoard));
             }
 
             private void OpenSales_Click(object sender, RoutedEventArgs e)
