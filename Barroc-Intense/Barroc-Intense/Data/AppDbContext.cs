@@ -6,9 +6,11 @@ namespace Barroc_Intense.Data
 {
     internal class AppDbContext : DbContext
     {
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Material> Materials { get; set; }
+
 
 
 
@@ -23,6 +25,19 @@ namespace Barroc_Intense.Data
                 ConfigurationManager.ConnectionStrings["BarrocIntense"].ConnectionString,
                 ServerVersion.Parse("8.0.30")
             );
+        }
+
+        private void SeedEmployees(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employee>().HasData(
+                new Employee { Id = 1, Username = "sarah", Password = "1234", Role = "Sales" },
+                new Employee { Id = 2, Username = "john", Password = "1234", Role = "Inkoop" },
+                new Employee { Id = 3, Username = "emma", Password = "1234", Role = "Finance" },
+                new Employee { Id = 4, Username = "mike", Password = "1234", Role = "Maintenance" },
+                new Employee { Id = 5, Username = "anna", Password = "1234", Role = "Klantenservice" },
+                new Employee { Id = 6, Username = "marc", Password = "1234", Role = "Manager" }
+            );
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -84,6 +99,7 @@ namespace Barroc_Intense.Data
                  }
             );
 
+            SeedEmployees(modelBuilder);
             SeedProducts(modelBuilder);
             SeedDeliveries(modelBuilder);
             SeedMaterials(modelBuilder); // <- Voeg dit toe

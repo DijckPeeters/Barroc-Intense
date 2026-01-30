@@ -15,23 +15,15 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-namespace Barroc_Intense.Pages 
+namespace Barroc_Intense.Pages
 {
     public sealed partial class LoginPage : Page
     {
-        private readonly List<Employee> _employees = new()
-        {
-            new Employee { Id = 1, Username = "sarah", Password = "1234", Role = "Sales" },
-            new Employee { Id = 2, Username = "john", Password = "1234", Role = "Inkoop" },
-            new Employee { Id = 3, Username = "emma", Role = "Finance" },
-            new Employee { Id = 4, Username = "mike", Role = "Maintenance" },
-            new Employee { Id = 5, Username = "anna", Role = "Klantenservice" },
-            new Employee { Id = 6, Username = "marc", Password = "1234", Role = "Manager" }
-        };
+        private readonly AppDbContext _context = new();
 
-        private readonly Dictionary<string, Type> dashboards = new Dictionary<string, Type>
+        private readonly Dictionary<string, Type> dashboards = new()
         {
-            { "Inkoop", typeof(InkoopDashBoard) },  
+            { "Inkoop", typeof(InkoopDashBoard) },
             { "Sales", typeof(SalesDashboard) },
             { "Finance", typeof(FinanceDashboard) },
             { "Maintenance", typeof(MaintenancePagee) },
@@ -41,56 +33,36 @@ namespace Barroc_Intense.Pages
 
         public LoginPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var errors = new List<string>();
-
-            if (string.IsNullOrEmpty(UsernameBox.Text))
+            if (string.IsNullOrWhiteSpace(UsernameBox.Text) ||
+                string.IsNullOrWhiteSpace(PasswordBox.Password))
             {
-                errors.Add("Name is required");
-            }
-
-            if (string.IsNullOrEmpty(PasswordBox.Password))
-            {
-                errors.Add("Password is required");
-            }
-
-            if (errors.Count > 0)
-            {
-                errorsTextBlock.Text = string.Join(Environment.NewLine, errors);
+                errorsTextBlock.Text = "Gebruikersnaam en wachtwoord zijn verplicht";
                 return;
             }
 
-            errorsTextBlock.Text = "Validation succeded!";
-
-            string user = UsernameBox.Text;
-            string pass = PasswordBox.Password;
-
-            // -------------------------------
-            // Check if the employee exists
-            // -------------------------------
-            var employee = _employees.FirstOrDefault(e => e.Username.Equals(user, StringComparison.OrdinalIgnoreCase)
-                                                       && e.Password == pass);
+            var employee = _context.Employees
+                .FirstOrDefault(e =>
+                    e.Username == UsernameBox.Text &&
+                    e.Password == PasswordBox.Password);
 
             if (employee == null)
             {
-                errorsTextBlock.Text = "Invalid username or password!";
+                errorsTextBlock.Text = "Ongeldige login gegevens";
                 return;
             }
 
-            // -------------------------------
-            // Navigate to the correct dashboard
-            // -------------------------------
-            if (dashboards.TryGetValue(employee.Role, out Type dashboardPage))
+            if (dashboards.TryGetValue(employee.Role, out Type dashboard))
             {
-                Frame.Navigate(dashboardPage);
+                Frame.Navigate(dashboard);
             }
             else
             {
-                errorsTextBlock.Text = "No dashboard found for your role!";
+                errorsTextBlock.Text = "Geen dashboard voor deze rol";
             }
         }
     }
