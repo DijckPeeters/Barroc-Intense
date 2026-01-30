@@ -34,8 +34,10 @@ namespace Barroc_Intense.Data
         [MaxLength(100)]
 
         public string Category { get; set; }
-
         [NotMapped]
+        public bool IsPlanned { get; set; } = false;
+
+
         public int UsedCount { get; set; }
 
         public ObservableCollection<Ingredient> Ingredients { get; set; } = new ObservableCollection<Ingredient>();
