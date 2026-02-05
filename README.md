@@ -1,6 +1,4 @@
-Hier is een complete, professionele README.md voor je GitHub-repository. Deze dekt alle modules die je hebt geüpload (Inkoop, Maintenance, Klantenservice).
 
-Je kunt de onderstaande tekst kopiëren en opslaan als README.md in de hoofdmap van je project.
 
 ☕ Barroc Intense CRM & Maintenance System
 Welkom bij de officiële repository van het Barroc Intense CRM-systeem. Dit is een Windows-desktopapplicatie gebouwd met WinUI 3 en .NET, ontworpen om de bedrijfsprocessen van Barroc Intense te stroomlijnen: van inkoop en voorraadbeheer tot klantenservice en onderhoud op locatie.
