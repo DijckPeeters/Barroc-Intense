@@ -2,7 +2,7 @@
 <configuration>
 
 	<connectionStrings>
-		<add name="BarrocIntensDatabase"
+		<add name="BarrocIntens"
              connectionString="server=localhost;user=root;password=;database=barroc_it;" />
 	</connectionStrings>
 </configuration>
