@@ -66,7 +66,6 @@ namespace Barroc_Intense.Pages
         {
             string actie = editingProduct.Id == 0 ? "toevoegen" : "aanpassen";
 
-            //  bevestigingsdialog tonen voordat product wordt opgeslagen
             var dialog = new ContentDialog
             {
                 Title = "Bevestiging",
@@ -78,22 +77,42 @@ namespace Barroc_Intense.Pages
             if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 return;
 
-            //  valideer invoer voor decimale velden en stock
-            if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price) ||
-                !decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var installationCost) ||
-                !int.TryParse(stockTextBox.Text, out var stock))
-            {
-                validationResultsTextBlock.Text = "❌ Ongeldige invoer.";
-                return;
-            }
+            var validationMessages = new List<string>();
 
+            // Controleer prijs
+            if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price))
+                validationMessages.Add("❌ Ongeldige prijs per kg");
+
+            // Controleer installatiekosten
+            if (!decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var installationCost))
+                validationMessages.Add("❌ Ongeldige Reparatie kosten");
+
+            // Controleer stock
+            if (!int.TryParse(stockTextBox.Text, out var stock))
+                validationMessages.Add("❌ Ongeldige voorraad");
+
+            // Controleer gebruikt aantal
             if (!int.TryParse(UsedTextBox.Text, out var usedCount))
+                validationMessages.Add("❌ Ongeldig aantal in gebruik");
+
+            // Productnaam en leasecontract
+            if (string.IsNullOrWhiteSpace(productNameTextBox.Text))
+                validationMessages.Add("❌ Productnaam mag niet leeg zijn");
+
+            if (string.IsNullOrWhiteSpace(leaseContractTextBox.Text))
+                validationMessages.Add("❌ Leasecontract mag niet leeg zijn");
+
+            // Category controleren
+            if (categoryComboBox.SelectedItem == null)
+                validationMessages.Add("❌ Selecteer een categorie");
+
+            if (validationMessages.Any())
             {
-                validationResultsTextBlock.Text = "❌ Ongeldig aantal in gebruik";
+                validationResultsTextBlock.Text = string.Join(Environment.NewLine, validationMessages);
                 return;
             }
 
-            // Vul productobject met nieuwe waarden
+            // Vul productobject
             editingProduct.ProductName = productNameTextBox.Text;
             editingProduct.LeaseContract = leaseContractTextBox.Text;
             editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
@@ -105,12 +124,13 @@ namespace Barroc_Intense.Pages
             if (editingProduct.Category != "Koffieboon")
                 editingProduct.Ingredients.Clear();
 
-            //  datavalidatie via DataAnnotations
+            // DataAnnotations validatie
             var context = new ValidationContext(editingProduct);
             var results = new List<ValidationResult>();
             if (!Validator.TryValidateObject(editingProduct, context, results, true))
             {
-                validationResultsTextBlock.Text = string.Join(Environment.NewLine, results.Select(r => r.ErrorMessage));
+                var daMessages = results.Select(r => "❌ " + r.ErrorMessage);
+                validationResultsTextBlock.Text = string.Join(Environment.NewLine, daMessages);
                 return;
             }
 
@@ -118,16 +138,14 @@ namespace Barroc_Intense.Pages
             {
                 using var db = new AppDbContext();
 
-                //  toevoegen of updaten van product in database
                 bool isNieuwProduct = editingProduct.Id == 0;
                 if (isNieuwProduct)
                     db.Products.Add(editingProduct);
                 else
                     db.Products.Update(editingProduct);
 
-                db.SaveChanges(); 
+                db.SaveChanges();
 
-                //  indien nieuw product en gebruikt aantal > 0, maak lege deliveries aan
                 if (isNieuwProduct && usedCount > 0)
                 {
                     for (int i = 0; i < usedCount; i++)
@@ -146,12 +164,11 @@ namespace Barroc_Intense.Pages
                     db.SaveChanges();
                 }
 
-                // Navigatie naar StockPage met productId
                 Frame.Navigate(typeof(StockPage), editingProduct.Id);
             }
             catch (Exception ex)
             {
-                validationResultsTextBlock.Text = $"❌ Fout: {ex.Message}";
+                validationResultsTextBlock.Text = $"❌ Fout bij opslaan: {ex.Message}";
             }
         }
 

@@ -33,31 +33,57 @@
                                Foreground="Black"
                                HorizontalAlignment="Center"
                                Margin="0,0,0,20"/>
-                    <!-- Productvelden -->
                     <TextBox x:Name="productNameTextBox"
-                             Header="Productnaam:"
-                             FontSize="16"
-                             BorderBrush="Black"
-                             BorderThickness="1"
-                             CornerRadius="10"
-                             Padding="8"/>
+                                 Header="Productnaam:"
+                                 PlaceholderText="Bijv. Espresso Machine"
+                                 FontSize="16"
+                                 BorderBrush="Black"
+                                 BorderThickness="1"
+                                 CornerRadius="10"
+                                 Padding="8"/>
+
                     <TextBox x:Name="leaseContractTextBox"
                              Header="Lease Contract:"
+                             PlaceholderText="Bijv. 12 maanden"
                              FontSize="16"
                              BorderBrush="Black"
                              BorderThickness="1"
                              CornerRadius="10"
                              Padding="8"/>
+
                     <TextBox x:Name="installationCostTextBox"
-                             Header="Reparatie kosten :"
+                             Header="Reparatie kosten:"
+                             PlaceholderText="Bijv. 50,00"
                              FontSize="16"
                              BorderBrush="Black"
                              BorderThickness="1"
                              CornerRadius="10"
                              Padding="8"
                              InputScope="Number"/>
+
                     <TextBox x:Name="priceTextBox"
                              Header="Prijs per Kg:"
+                             PlaceholderText="Bijv. 12,50"
+                             FontSize="16"
+                             BorderBrush="Black"
+                             BorderThickness="1"
+                             CornerRadius="10"
+                             Padding="8"
+                             InputScope="Number"/>
+
+                    <TextBox x:Name="stockTextBox"
+                                 Header="Voorraad:"
+                                 PlaceholderText="Bijv. 100"
+                                 FontSize="16"
+                                 BorderBrush="Black"
+                                 BorderThickness="1"
+                                 CornerRadius="10"
+                                 Padding="8"
+                                 InputScope="Number"/>
+
+                    <TextBox x:Name="UsedTextBox"
+                             Header="In Gebruik:"
+                             PlaceholderText="Bijv. 3"
                              FontSize="16"
                              BorderBrush="Black"
                              BorderThickness="1"
@@ -98,22 +124,7 @@
                                 BorderThickness="0"
                                 CornerRadius="10"/>
                     </StackPanel>
-                    <TextBox x:Name="stockTextBox"
-                             Header="Voorraad:"
-                             FontSize="16"
-                             BorderBrush="Black"
-                             BorderThickness="1"
-                             CornerRadius="10"
-                             Padding="8"
-                             InputScope="Number"/>
-                    <TextBox x:Name="UsedTextBox"
-                             Header="In Gebruik:"
-                             FontSize="16"
-                             BorderBrush="Black"
-                             BorderThickness="1"
-                             CornerRadius="10"
-                             Padding="8"
-                             InputScope="Number"/>
+                    
                     <!-- Validatieresultaten -->
                     <TextBlock x:Name="validationResultsTextBlock"
                                Foreground="DarkRed"
