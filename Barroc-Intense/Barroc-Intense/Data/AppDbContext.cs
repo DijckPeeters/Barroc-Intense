@@ -14,6 +14,10 @@ namespace Barroc_Intense.Data
         public DbSet<Machine> Machines { get; set; }
         public DbSet<PlanningItem> PlanningItems { get; set; }
         public DbSet<MaintenanceMaterial> MaintenanceMaterials { get; set; }
+        public DbSet<Offer> Offers { get; set; }
+        public DbSet<OfferItem> OfferItems { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
