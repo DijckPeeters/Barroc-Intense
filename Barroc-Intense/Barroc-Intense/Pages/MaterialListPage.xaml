@@ -24,21 +24,28 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="#FFFBEF"
-                CornerRadius="8"
-                Padding="10"
-                Margin="5">
+                                        CornerRadius="8"
+                                        Padding="10"
+                                        Margin="5">
                                     <StackPanel Orientation="Horizontal" Spacing="20">
+                                        <!-- Naam van het materiaal -->
                                         <TextBlock Text="{Binding Name}" 
-                           FontWeight="Bold" 
-                           FontSize="16"  
-                           Foreground="Black"/>
+                               FontWeight="Bold" 
+                               FontSize="16"  
+                               Foreground="Black"/>
+
+                                        <!-- Prijs netjes geformatteerd -->
                                         <TextBlock Text="{Binding PriceFormatted}" 
-                           FontSize="16" 
-                           Foreground="Black"/>
+                               FontSize="16" 
+                               Foreground="Black"/>
+
+                                        <!-- Label voor hoeveelheid -->
                                         <TextBlock Text="Aantal:" FontSize="16" Foreground="Black"/>
+
+                                        <!-- Hoeveelheid gebruikt van het materiaal -->
                                         <TextBlock Text="{Binding QuantityUsed}" 
-                           FontSize="16" 
-                           Foreground="Black"/>
+                                               FontSize="16" 
+                                               Foreground="Black"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

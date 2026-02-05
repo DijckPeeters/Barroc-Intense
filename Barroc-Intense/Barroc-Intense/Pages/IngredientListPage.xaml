@@ -5,6 +5,7 @@
     xmlns:localData="using:Barroc_Intense.Data">
 
     <Grid>
+        <!-- Achtergrond met verloop (branding / stijl) -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="Yellow" Offset="0.0"/>
@@ -26,20 +27,26 @@
                                HorizontalAlignment="Center"
                                Margin="0,0,0,10"/>
 
+                    <!-- ListView met DataTemplate gebonden aan Ingredient -->
                     <ListView x:Name="ingredientsListView">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="localData:Ingredient">
+                                <!-- Elke ingrediënt wordt als kaart weergegeven -->
                                 <Border Background="#FFFBEF"
                                         CornerRadius="8"
                                         Padding="10"
                                         Margin="5">
                                     <StackPanel Orientation="Horizontal" Spacing="20">
-                                        <TextBlock Text="{x:Bind Name}" 
-                                                   FontWeight="Bold" 
-                                                   FontSize="16"  
+                                        <!-- Naam van het ingrediënt -->
+                                        <TextBlock Text="{x:Bind Name}"
+                                                   FontWeight="Bold"
+                                                   FontSize="16"
                                                    Foreground="Black"/>
-                                        <TextBlock Text="{x:Bind AmountFormatted}" FontSize="16" Foreground="Black"/>
 
+                                        <!-- Vooraf geformatteerde hoeveelheid (bijv. '250 g') -->
+                                        <TextBlock Text="{x:Bind AmountFormatted}"
+                                                   FontSize="16"
+                                                   Foreground="Black"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

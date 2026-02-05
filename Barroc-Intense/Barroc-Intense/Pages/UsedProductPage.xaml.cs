@@ -24,18 +24,19 @@ namespace Barroc_Intense.Pages
             {
                 using var db = new AppDbContext();
 
+                //  laad het product uit database
                 loadedProduct = db.Products.FirstOrDefault(p => p.Id == productId);
                 if (loadedProduct == null)
                     return;
 
-                // Aantal keer gebruikt (som van QuantityDelivered)
+                //  bereken totaal aantal keer gebruikt (som van geleverde hoeveelheden)
                 loadedProduct.UsedCount = db.Deliveries
                     .Where(d => d.ProductID == loadedProduct.Id && d.Status == "Delivered")
                     .Sum(d => d.QuantityDelivered);
 
                 ProductTitleText.Text = $"{loadedProduct.ProductName} (Gebruikt: {loadedProduct.UsedCount}x)";
 
-                // Gebruikte product instanties
+                //  laad alle gebruikte product-instanties voor deze product
                 var usedList = db.Deliveries
                     .Where(d => d.ProductID == loadedProduct.Id)
                     .Select(d => new
@@ -47,8 +48,9 @@ namespace Barroc_Intense.Pages
                         PlannedDeliveryDate = d.PlannedDeliveryDate.ToShortDateString(),
                         ActualDeliveryDate = d.ActualDeliveryDate.HasValue
                             ? d.ActualDeliveryDate.Value.ToShortDateString()
-                            : "Nog te plannen",
+                            : "Nog te plannen", //  fallback als delivery nog niet geleverd
                         d.DeliveryID,
+                        //  knoptekst afhankelijk van productcategorie
                         ButtonText = loadedProduct.Category == "Koffieboon"
                             ? "📋 Gebruikte ingrediënten"
                             : "📋 Gebruikte materialen"
@@ -59,6 +61,7 @@ namespace Barroc_Intense.Pages
             }
         }
 
+        // navigeer naar de materialenlijst van deze specifieke delivery
         private void MaterialButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag != null &&

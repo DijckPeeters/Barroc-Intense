@@ -24,14 +24,13 @@ namespace Barroc_Intense.Pages
             this.InitializeComponent();
             _db.Database.EnsureCreated();
 
+            //  Laad alle meldingen bij openen van de pagina
             LaadMeldingen();
-
-
         }
 
-        // ================== Melding & Product ==================
         private void LaadMeldingen()
         {
+            //  Haal meldingen op met machine & delivery info
             MaintenanceListView.ItemsSource = _db.Meldingen
                 .Include(m => m.Machine)
                 .Include(m => m.Delivery)
@@ -39,6 +38,7 @@ namespace Barroc_Intense.Pages
                 .ToList();
         }
 
+        //  Zoeken/filteren van meldingen op klant, product of afdeling
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
             string zoekterm = (SearchBox.Text ?? string.Empty).ToLower();
@@ -51,16 +51,17 @@ namespace Barroc_Intense.Pages
                 .ToList();
         }
 
+        //  Reset zoekveld en herlaad alle meldingen
         private void OnResetClick(object sender, RoutedEventArgs e)
         {
             SearchBox.Text = "";
             LaadMeldingen();
         }
 
+        //  Opslaan van afgeronde keuringen en opnieuw inplannen voor volgende maand
         private async void OnSaveClick(object sender, RoutedEventArgs e)
         {
             bool heeftOpenKeuringen = _db.Meldingen.Any(m => m.IsKeuring && !m.IsKeuringVoltooid);
-
             if (heeftOpenKeuringen)
             {
                 await new ContentDialog
@@ -74,7 +75,6 @@ namespace Barroc_Intense.Pages
             }
 
             var meldingen = _db.Meldingen.Where(m => m.IsKeuringVoltooid).ToList();
-
             foreach (var oud in meldingen)
             {
                 var nieuwe = new Melding
@@ -83,7 +83,7 @@ namespace Barroc_Intense.Pages
                     MachineId = oud.MachineId,
                     Prioriteit = oud.Prioriteit,
                     Afdeling = oud.Afdeling,
-                    Datum = oud.Datum.Value.AddMonths(1),
+                    Datum = oud.Datum.Value.AddMonths(1), 
                     Klant = oud.Klant,
                     Product = oud.Product,
                     Probleemomschrijving = oud.Probleemomschrijving,
@@ -113,11 +113,13 @@ namespace Barroc_Intense.Pages
             LaadMeldingen();
         }
 
+        //  Navigatie naar Klantenservice pagina
         private void KlantButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(KlantenservicePage));
         }
 
+        //  Open formulierpagina voor specifieke melding
         private void OpenForm_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -127,6 +129,7 @@ namespace Barroc_Intense.Pages
             Frame.Navigate(typeof(FormulierPage), id);
         }
 
+        //  Verwijderen van een melding met bevestiging
         private async void VerwijderMelding_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -160,44 +163,18 @@ namespace Barroc_Intense.Pages
             }
         }
 
+        //  Navigatie naar bewerkpagina van een melding
         private void BewerkMelding_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
             int id = (int)button.Tag;
             Frame.Navigate(typeof(MeldingBewerkenPage), id);
         }
+
+        //  Terug naar MaintenanceDashboard
         private void BackToMaintenanceDashboard(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MaintenanceDashboard));
         }
-
-
-        //    // ================== Converters ==================
-        //    public class PriorityColorConverter : IValueConverter
-        //    {
-        //        public object Convert(object value, Type targetType, object parameter, string language)
-        //        {
-        //            var priority = (value as string)?.ToLower() ?? string.Empty;
-
-        //            if (priority == "hoog" || priority == "high") return new SolidColorBrush(Microsoft.UI.Colors.Red);
-        //            if (priority == "middel" || priority == "medium") return new SolidColorBrush(Microsoft.UI.Colors.Orange);
-        //            if (priority == "laag" || priority == "low") return new SolidColorBrush(Microsoft.UI.Colors.Green);
-        //            return new SolidColorBrush(Microsoft.UI.Colors.Black);
-        //        }
-
-        //        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
-        //    }
-
-        //    public class HighPriorityConverter : IValueConverter
-        //    {
-        //        public object Convert(object value, Type targetType, object parameter, string language)
-        //        {
-        //            var priority = (value as string)?.ToLower() ?? string.Empty;
-        //            return (priority == "hoog" || priority == "high") ? Visibility.Visible : Visibility.Collapsed;
-        //        }
-
-        //        public object ConvertBack(object value, Type targetType, object parameter, string language) => throw new NotImplementedException();
-        //    }
-        //}
     }
 }

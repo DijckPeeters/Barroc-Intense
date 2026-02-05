@@ -23,7 +23,6 @@ namespace Barroc_Intense.Pages
                 .ToList();
         }
 
-        // ========== BUTTONS ==========
 
        
         private void Meldingen_Click(object sender, RoutedEventArgs e)

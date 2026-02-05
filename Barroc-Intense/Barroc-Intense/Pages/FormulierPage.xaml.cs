@@ -21,8 +21,8 @@ namespace Barroc_Intense.Pages
         private Melding _melding;
         private int _keuringId;
 
-        // Handtekening
-        private bool _isDrawing = false;
+        // Variabelen voor het tekenen van de handtekening
+        private bool _isDrawing;
         private Windows.Foundation.Point _lastPoint;
 
         private AppDbContext _context = new AppDbContext();
@@ -34,40 +34,34 @@ namespace Barroc_Intense.Pages
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            // Id van de melding/keuring ophalen uit navigatie
             _keuringId = (int)e.Parameter;
             _melding = _context.Meldingen.First(x => x.Id == _keuringId);
 
             TitleBlock.Text = _melding.IsKeuring ? "Keuring" : "Melding";
 
-            // ======================
-            // MATERIALEN LADEN (DB)
-            // ======================
+            // Materialen ophalen + koppelen aan gebruikte materialen
             var materialsFromDb = _context.Materials.ToList();
-
             var usedMaterials = _context.MaintenanceMaterials
                 .Where(x => x.MeldingId == _keuringId)
                 .ToList();
 
-            var materials = materialsFromDb
-                .Select(mat =>
+            var materials = materialsFromDb.Select(mat =>
+            {
+                var used = usedMaterials.FirstOrDefault(x => x.MaterialId == mat.Id);
+                return new MaterialViewModel
                 {
-                    var used = usedMaterials.FirstOrDefault(x => x.MaterialId == mat.Id);
-                    return new MaterialViewModel
-                    {
-                        Id = mat.Id,
-                        Name = mat.Name,
-                        Price = mat.Price,
-                        Quantity = used?.QuantityUsed ?? 0,
-                        IsSelected = used != null
-                    };
-                })
-                .ToList();
+                    Id = mat.Id,
+                    Name = mat.Name,
+                    Price = mat.Price,
+                    Quantity = used?.QuantityUsed ?? 0,
+                    IsSelected = used != null
+                };
+            }).ToList();
 
             OnderdelenList.ItemsSource = materials;
 
-            // ======================
-            // FORMULIER INVULLEN
-            // ======================
+            // Velden vullen afhankelijk van type (keuring of melding)
             if (_melding.IsKeuring)
             {
                 ChecklistBox.IsChecked = _melding.ChecklistVolledig;
@@ -82,75 +76,65 @@ namespace Barroc_Intense.Pages
                 BeschrijvingBox.Text = _melding.KorteBeschrijving;
             }
 
-            // ======================
-            // HANDTEKENING LADEN
-            // ======================
+            // Bestaande handtekening laden (base64 → afbeelding)
             if (!string.IsNullOrEmpty(_melding.Handtekening))
                 await LoadSavedSignature(_melding.Handtekening);
         }
 
-        // ======================
-        // PLUS KNOP (DB)
-        // ======================
         private async void Plus_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is MaterialViewModel vm)
+            if (sender is not Button btn || btn.Tag is not MaterialViewModel vm)
+                return;
+
+            vm.Quantity++;
+            vm.IsSelected = true;
+
+            // Aantal gebruikte materialen bijwerken in de database
+            using var context = new AppDbContext();
+            var item = context.MaintenanceMaterials
+                .FirstOrDefault(x => x.MeldingId == _keuringId && x.MaterialId == vm.Id);
+
+            if (item == null)
             {
-                vm.Quantity++;
-                vm.IsSelected = true;
-
-                using var context = new AppDbContext();
-                var item = context.MaintenanceMaterials
-                    .FirstOrDefault(x => x.MeldingId == _keuringId && x.MaterialId == vm.Id);
-
-                if (item == null)
+                context.MaintenanceMaterials.Add(new MaintenanceMaterial
                 {
-                    item = new MaintenanceMaterial
-                    {
-                        MeldingId = _keuringId,
-                        MaterialId = vm.Id,
-                        QuantityUsed = 1
-                    };
-                    context.MaintenanceMaterials.Add(item);
-                }
-                else
-                {
-                    item.QuantityUsed++;
-                }
-
-                await context.SaveChangesAsync();
+                    MeldingId = _keuringId,
+                    MaterialId = vm.Id,
+                    QuantityUsed = 1
+                });
             }
+            else
+            {
+                item.QuantityUsed++;
+            }
+
+            await context.SaveChangesAsync();
         }
 
-        // ======================
-        // MIN KNOP (DB)
-        // ======================
         private async void Min_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is MaterialViewModel vm)
-            {
-                if (vm.Quantity == 0) return;
+            if (sender is not Button btn || btn.Tag is not MaterialViewModel vm)
+                return;
 
-                vm.Quantity--;
-                vm.IsSelected = vm.Quantity > 0;
+            if (vm.Quantity == 0) return;
 
-                var item = _context.MaintenanceMaterials
-                    .FirstOrDefault(x => x.MeldingId == _keuringId && x.MaterialId == vm.Id);
+            vm.Quantity--;
+            vm.IsSelected = vm.Quantity > 0;
 
-                if (item == null) return;
+            var item = _context.MaintenanceMaterials
+                .FirstOrDefault(x => x.MeldingId == _keuringId && x.MaterialId == vm.Id);
 
-                item.QuantityUsed--;
+            if (item == null) return;
 
-                if (item.QuantityUsed <= 0)
-                    _context.MaintenanceMaterials.Remove(item);
+            item.QuantityUsed--;
 
-                await _context.SaveChangesAsync();
-            }
+            // Als er geen materiaal meer gebruikt is → record verwijderen
+            if (item.QuantityUsed <= 0)
+                _context.MaintenanceMaterials.Remove(item);
+
+            await _context.SaveChangesAsync();
         }
 
-        // ======================
-        // HANDTEKENING TEKENEN
-        // ======================
         private void SignatureCanvas_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             _isDrawing = true;
@@ -161,6 +145,7 @@ namespace Barroc_Intense.Pages
         {
             if (!_isDrawing) return;
 
+            // Lijn tekenen tussen vorige en huidige pointerpositie
             var current = e.GetCurrentPoint(SignatureCanvas).Position;
 
             SignatureCanvas.Children.Add(new Line
@@ -181,11 +166,9 @@ namespace Barroc_Intense.Pages
             _isDrawing = false;
         }
 
-        // ======================
-        // HANDTEKENING OPSLAAN
-        // ======================
         private async Task<string> SaveSignatureAsync()
         {
+            // Canvas renderen naar afbeelding en opslaan als base64
             if (SignatureCanvas.Children.Count == 0)
                 return null;
 
@@ -213,11 +196,9 @@ namespace Barroc_Intense.Pages
             return Convert.ToBase64String(bytes);
         }
 
-        // ======================
-        // HANDTEKENING LADEN
-        // ======================
         private async Task LoadSavedSignature(string base64)
         {
+            // Base64-handtekening omzetten naar Image
             byte[] bytes = Convert.FromBase64String(base64);
 
             using var stream = new InMemoryRandomAccessStream();
@@ -232,9 +213,6 @@ namespace Barroc_Intense.Pages
             SignatureCanvas.Visibility = Visibility.Collapsed;
         }
 
-        // ======================
-        // OPSLAAN
-        // ======================
         private async void Opslaan_Click(object sender, RoutedEventArgs e)
         {
             if (_melding.IsKeuring)
@@ -243,9 +221,8 @@ namespace Barroc_Intense.Pages
                 _melding.KeuringGoedgekeurd = GoedgekeurdBox.IsChecked ?? false;
                 _melding.KeuringOpmerkingen = KeuringOpmerkingenBox.Text;
 
-                // VOORRAAD AFTREKKEN (1x bij goedgekeurde keuring)
+                // Stock alleen aanpassen bij eerste succesvolle keuring
                 if ((_melding.KeuringGoedgekeurd ?? false) && !_melding.IsKeuringVoltooid)
-
                 {
                     var materialen = _context.MaintenanceMaterials
                         .Where(x => x.MeldingId == _keuringId)
@@ -268,23 +245,16 @@ namespace Barroc_Intense.Pages
                 _melding.KorteBeschrijving = BeschrijvingBox.Text;
             }
 
-            // HANDTEKENING
             var signature = await SaveSignatureAsync();
             if (signature != null)
                 _melding.Handtekening = signature;
 
             _melding.IsKeuringVoltooid = true;
-
-            // 1 SAVE
             await _context.SaveChangesAsync();
 
-            // NAVIGATIE
             Frame.Navigate(typeof(MaintenanceDashboard));
         }
 
-        // ======================
-        // CLEAR HANDTEKENING
-        // ======================
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             SignatureCanvas.Children.Clear();

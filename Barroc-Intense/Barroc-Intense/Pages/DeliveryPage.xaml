@@ -6,66 +6,68 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
     <Grid>
-        <!-- 📌 Gradient achtergrond -->
+
+        <!-- Achtergrond -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="Yellow" Offset="0.0"/>
                 <GradientStop Color="Black" Offset="1.0"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <!-- 📌 Twee delen: lijst links, details rechts -->
+
+        <!-- Layout: links lijst, rechts details -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.3*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
+
         <!-- ===================== -->
-        <!-- 📦 LEVERINGEN LIJST   -->
+        <!-- LEVERINGEN LIJST     -->
         <!-- ===================== -->
         <Border Background="#EEFFFFFF"
                 CornerRadius="20"
                 Margin="30">
+
             <Grid Margin="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <!-- Titel -->
                     <RowDefinition Height="Auto"/>
-                    <!-- Nieuwe levering knop -->
                     <RowDefinition Height="*"/>
-                    <!-- ListView vult rest -->
                     <RowDefinition Height="Auto"/>
-                    <!-- Terug-knop -->
                 </Grid.RowDefinitions>
-                <!-- Titel -->
+
                 <TextBlock Grid.Row="0"
-               Text="Leveringen"
-               FontSize="32"
-               FontWeight="Bold"
-               Foreground="Black"
-               Margin="0,0,0,10"/>
-                <!-- Nieuwe levering -->
-                <!-- Nieuwe levering + filter -->
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10" Margin="0,0,0,15">
-                    <!-- Nieuwe levering knop -->
+                           Text="Leveringen"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Margin="0,0,0,10"/>
+
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            Spacing="10"
+                            Margin="0,0,0,15">
+
                     <Button Content="➕ Nieuwe levering"
-            Background="Black"
-            Foreground="Yellow"
-            Width="220"
-            Height="45"
-            CornerRadius="10"
-            BorderThickness="0"
-            FontWeight="Bold"
-            Click="AddDeliveryButton_Click"/>
-                    <!-- Filter op status -->
+                            Width="220"
+                            Height="45"
+                            Background="Black"
+                            Foreground="Yellow"
+                            FontWeight="Bold"
+                            CornerRadius="10"
+                            BorderThickness="0"
+                            Click="AddDeliveryButton_Click"/>
+
                     <Button x:Name="filterButton"
-            Content=" Filter status"
-            Background="Black"
-            Foreground="Yellow"
-            Width="180"
-            Height="45"
-            CornerRadius="10"
-            BorderThickness="0"
-            FontWeight="Bold">
+                            Content=" Filter status"
+                            Width="180"
+                            Height="45"
+                            Background="Black"
+                            Foreground="Yellow"
+                            FontWeight="Bold"
+                            CornerRadius="10"
+                            BorderThickness="0">
                         <Button.Flyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Text="Alle" Click="FilterMenuItem_Click"/>
@@ -77,146 +79,154 @@
                         </Button.Flyout>
                     </Button>
                 </StackPanel>
-                <!-- Scrollbare lijst -->
-                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+
+                <ScrollViewer Grid.Row="2">
                     <ListView x:Name="deliveryListView"
-                  SelectionMode="Single"
-                  IsItemClickEnabled="True"
-                  ItemClick="DeliveryListView_ItemClick">
+                              SelectionMode="Single"
+                              IsItemClickEnabled="True"
+                              ItemClick="DeliveryListView_ItemClick">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border Background="#FFFBEF"
-                            CornerRadius="10"
-                            Padding="12"
-                            Margin="5">
+                                        CornerRadius="10"
+                                        Padding="12"
+                                        Margin="5">
                                     <StackPanel>
                                         <TextBlock Text="{Binding ProductName}"
-                                       FontWeight="Bold"
-                                       FontSize="18"
-                                       Foreground="Black"/>
+                                                   FontSize="18"
+                                                   FontWeight="Bold"/>
                                         <TextBlock Text="{Binding CustomerName}"
-                                       Foreground="Gray"
-                                       FontSize="14"/>
+                                                   FontSize="14"
+                                                   Foreground="Gray"/>
                                         <TextBlock Text="{Binding Status}"
-                                       Foreground="DarkOrange"
-                                       FontSize="14"/>
+                                                   FontSize="14"
+                                                   Foreground="DarkOrange"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
                 </ScrollViewer>
-                <!-- Terug naar dashboard knop -->
+
                 <Button Grid.Row="3"
-            Content="⬅️ Terug naar dashboard"
-            Background="Black"
-            Foreground="Yellow"
-            Width="220"
-            Height="45"
-            CornerRadius="10"
-            BorderThickness="0"
-            FontWeight="Bold"
-            Margin="0,15,0,0"
-            HorizontalAlignment="Left"
-            Click="BackToDashboardButton_Click"/>
+                        Content="⬅️ Terug naar dashboard"
+                        Width="220"
+                        Height="45"
+                        Background="Black"
+                        Foreground="Yellow"
+                        FontWeight="Bold"
+                        CornerRadius="10"
+                        BorderThickness="0"
+                        Margin="0,15,0,0"
+                        Click="BackToDashboardButton_Click"/>
             </Grid>
         </Border>
+
         <!-- ===================== -->
-        <!-- 📝 DETAILS RECHTS     -->
+        <!-- DETAILS              -->
         <!-- ===================== -->
         <Border Grid.Column="1"
-                Background="#FFFFFFFF"
+                Background="White"
                 CornerRadius="20"
                 Margin="30">
+
             <Grid>
-                <!-- Placeholder -->
                 <TextBlock x:Name="placeholderText"
                            Text="Selecteer een levering voor details"
-                           Foreground="Gray"
-                           FontStyle="Italic"
                            FontSize="20"
+                           FontStyle="Italic"
+                           Foreground="Gray"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
 
-                <!-- Scrollbare detailpagina -->
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ScrollViewer>
                     <StackPanel x:Name="detailsPanel"
                                 Margin="30"
                                 Spacing="15"
                                 Visibility="Collapsed">
+
                         <TextBlock Text="Leveringsdetails"
                                    FontSize="30"
-                                   FontWeight="Bold"
-                                   Foreground="Black"
-                                   Margin="0,0,0,10"/>
-                        <!-- Product info -->
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Productnaam:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailProductName" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Aantal geleverd:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailQuantity" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Klantnaam:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailCustomerName" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Afleveradres:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailAddress" TextWrapping="Wrap" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Status:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailStatus" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Geplande leveringsdatum:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailPlannedDate" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Werkelijke leveringsdatum:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailActualDate" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Vervoerder:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailCarrier" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Naam chauffeur:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailDriver" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Trackingnummer:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailTrackingNumber" Width="250" Foreground="Black"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                            <TextBlock Text="Opmerkingen:" FontWeight="Bold" Width="180" Foreground="Black"/>
-                            <TextBlock x:Name="detailNotes" TextWrapping="Wrap" Width="250" Foreground="Black"/>
+                                   FontWeight="Bold"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Productnaam:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailProductName" Width="250"/>
                         </StackPanel>
 
-                        <!-- Knoppen -->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Aantal geleverd:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailQuantity" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Klantnaam:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailCustomerName" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Afleveradres:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailAddress" Width="250" TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Status:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailStatus" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Geplande leveringsdatum:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailPlannedDate" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Werkelijke leveringsdatum:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailActualDate" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Vervoerder:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailCarrier" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Naam chauffeur:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailDriver" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Trackingnummer:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailTrackingNumber" Width="250"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Opmerkingen:" Width="180" FontWeight="Bold"/>
+                            <TextBlock x:Name="detailNotes" Width="250" TextWrapping="Wrap"/>
+                        </StackPanel>
+
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     Spacing="10"
                                     Margin="0,20,0,0">
+
                             <Button Content="✏️ Aanpassen"
                                     Width="180"
                                     Height="45"
                                     Background="DarkOrange"
                                     Foreground="White"
                                     FontWeight="Bold"
-                                    BorderThickness="0"
                                     CornerRadius="10"
+                                    BorderThickness="0"
                                     Click="EditDeliveryButton_Click"/>
+
                             <Button Content="❌ Verwijderen"
                                     Width="180"
                                     Height="45"
                                     Background="DarkRed"
                                     Foreground="White"
                                     FontWeight="Bold"
-                                    BorderThickness="0"
                                     CornerRadius="10"
+                                    BorderThickness="0"
                                     Click="DeleteDeliveryButton_Click"/>
                         </StackPanel>
                     </StackPanel>
@@ -225,8 +235,3 @@
         </Border>
     </Grid>
 </Page>
-
-
-
-
-

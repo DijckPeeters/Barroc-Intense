@@ -79,11 +79,9 @@ namespace Barroc_Intense.Pages
                 }
 
                 var productName = product.ProductName;
-                newProductName.Text = productName; // automatisch invullen
+                newProductName.Text = productName; 
 
-                // ---------------------------------------------------------
-                // ?? BEWERKEN (bestehende levering wijzigen)
-                // ---------------------------------------------------------
+               
                 if (editingDelivery != null)
                 {
                     var d = db.Deliveries.FirstOrDefault(x => x.DeliveryID == editingDelivery.DeliveryID);
@@ -122,9 +120,7 @@ namespace Barroc_Intense.Pages
                     return;
                 }
 
-                // ---------------------------------------------------------
-                // ?? TOEVOEGEN (nieuwe levering)
-                // ---------------------------------------------------------
+               
                 var delivery = new Delivery
                 {
                     DeliveryID = 0,
@@ -169,7 +165,6 @@ namespace Barroc_Intense.Pages
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            // Navigeer terug naar de DeliveryPage
             Frame.Navigate(typeof(DeliveryPage));
         }
 

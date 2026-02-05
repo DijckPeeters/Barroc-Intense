@@ -15,23 +15,25 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-namespace Barroc_Intense.Pages 
+namespace Barroc_Intense.Pages
 {
     public sealed partial class LoginPage : Page
     {
+        //  Dummy employees lijst voor login (in echte app vervangbaar door DB)
         private readonly List<Employee> _employees = new()
         {
             new Employee { Id = 1, Username = "sarah", Password = "1234", Role = "Sales" },
             new Employee { Id = 2, Username = "john", Password = "1234", Role = "Inkoop" },
-            new Employee { Id = 3, Username = "emma", Role = "Finance" },
+            new Employee { Id = 3, Username = "emma", Role = "Finance" }, 
             new Employee { Id = 4, Username = "mike", Role = "Maintenance" },
             new Employee { Id = 5, Username = "anna", Role = "Klantenservice" },
             new Employee { Id = 6, Username = "marc", Password = "1234", Role = "Manager" }
         };
 
+        //  Mapping van rollen naar de juiste dashboard pagina
         private readonly Dictionary<string, Type> dashboards = new Dictionary<string, Type>
         {
-            { "Inkoop", typeof(InkoopDashBoard) },  
+            { "Inkoop", typeof(InkoopDashBoard) },
             { "Sales", typeof(SalesDashboard) },
             { "Finance", typeof(FinanceDashboard) },
             { "Maintenance", typeof(MaintenanceDashboard) },
@@ -44,19 +46,17 @@ namespace Barroc_Intense.Pages
             this.InitializeComponent();
         }
 
+        //  Login knop logica
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var errors = new List<string>();
 
+            //  Validatie van lege velden
             if (string.IsNullOrEmpty(UsernameBox.Text))
-            {
                 errors.Add("Name is required");
-            }
 
             if (string.IsNullOrEmpty(PasswordBox.Password))
-            {
                 errors.Add("Password is required");
-            }
 
             if (errors.Count > 0)
             {
@@ -69,11 +69,7 @@ namespace Barroc_Intense.Pages
             string user = UsernameBox.Text;
             string pass = PasswordBox.Password;
 
-
-
-            // -------------------------------
-            // Check if the employee exists
-            // -------------------------------
+            //  Controleer of gebruiker bestaat in _employees lijst
             var employee = _employees.FirstOrDefault(e => e.Username.Equals(user, StringComparison.OrdinalIgnoreCase)
                                                        && e.Password == pass);
 
@@ -83,12 +79,10 @@ namespace Barroc_Intense.Pages
                 return;
             }
 
-            // -------------------------------
-            // Navigate to the correct dashboard
-            // -------------------------------
+            //  Navigatie naar juiste dashboard op basis van rol
             if (dashboards.TryGetValue(employee.Role, out Type dashboardPage))
             {
-                Frame.Navigate(dashboardPage);
+                Frame.Navigate(dashboardPage); //  Navigeren naar dashboard
             }
             else
             {

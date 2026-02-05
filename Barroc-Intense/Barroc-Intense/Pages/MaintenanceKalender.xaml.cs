@@ -18,14 +18,17 @@ public sealed partial class MaintenanceKalender : Page
     public MaintenanceKalender()
     {
         this.InitializeComponent();
+
         LaadMeldingen();
+
         LaadAlleMeldingenVoorKalender();
+
         UpdateKalenderHeader();
     }
 
-    // ================== DATA ==================
     private void LaadMeldingen()
     {
+        //  Haal alle meldingen op uit de DB inclusief gerelateerde Machine & Delivery
         DagMeldingenControl.ItemsSource = _db.Meldingen
             .Include(m => m.Machine)
             .Include(m => m.Delivery)
@@ -35,6 +38,7 @@ public sealed partial class MaintenanceKalender : Page
 
     private void LaadAlleMeldingenVoorKalender()
     {
+        //  Alle meldingen opslaan in een lijst om kalender te highlighten
         _alleMeldingen = _db.Meldingen.ToList();
         Kalender.SelectedDates.Clear();
         Kalender.SetDisplayDate(_huidigeDatum);
@@ -42,52 +46,41 @@ public sealed partial class MaintenanceKalender : Page
 
     private void UpdateKalenderHeader()
     {
+        //  Maand en jaar tonen boven de kalender
         MonthYearText.Text = _huidigeDatum.ToString("MMMM yyyy");
     }
 
-    // ================== KALENDER VISUALS ==================
     private void Kalender_DayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
     {
         if (args.Item == null) return;
 
         DateTime day = args.Item.Date.Date;
 
+        //  Controleer of er meldingen zijn op deze dag
         bool heeftMeldingen = _alleMeldingen != null &&
             _alleMeldingen.Any(m => m.Datum.HasValue && m.Datum.Value.Date == day);
 
         if (heeftMeldingen)
         {
-            // Rand
+            //  Highlight dag met een rode rand en gouden achtergrond
             args.Item.BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Red);
             args.Item.BorderThickness = new Thickness(2);
-
-            // Achtergrond highlight
-            args.Item.Background = new SolidColorBrush(
-                Microsoft.UI.ColorHelper.FromArgb(80, 255, 215, 0));
-
-            // Rond effect
-            try
-            {
-                args.Item.CornerRadius = new CornerRadius(20);
-            }
-            catch { }
+            args.Item.Background = new SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(80, 255, 215, 0));
+            try { args.Item.CornerRadius = new CornerRadius(20); } catch { }
         }
         else
         {
+            //  Reset styling als er geen meldingen zijn
             args.Item.BorderBrush = null;
             args.Item.BorderThickness = new Thickness(0);
             args.Item.Background = null;
-            try
-            {
-                args.Item.CornerRadius = new CornerRadius(0);
-            }
-            catch { }
+            try { args.Item.CornerRadius = new CornerRadius(0); } catch { }
         }
     }
 
-    // ================== SELECTIE ==================
     private void Kalender_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
     {
+        //  Als een datum geselecteerd is, laad meldingen voor die dag
         if (sender.SelectedDates.Count > 0)
         {
             LaadMeldingenVoorDatum(sender.SelectedDates[0].Date);
@@ -96,14 +89,15 @@ public sealed partial class MaintenanceKalender : Page
 
     private void LaadMeldingenVoorDatum(DateTime date)
     {
+        //  Filter meldingen op exacte geselecteerde datum
         DagMeldingenControl.ItemsSource = _db.Meldingen
             .Where(m => m.Datum.HasValue && m.Datum.Value.Date == date.Date)
             .ToList();
     }
 
-    // ================== NAVIGATIE ==================
     private void PrevMonth_Click(object sender, RoutedEventArgs e)
     {
+        //  Ga naar vorige maand
         _huidigeDatum = _huidigeDatum.AddMonths(-1);
         Kalender.SetDisplayDate(_huidigeDatum);
         UpdateKalenderHeader();
@@ -111,6 +105,7 @@ public sealed partial class MaintenanceKalender : Page
 
     private void NextMonth_Click(object sender, RoutedEventArgs e)
     {
+        //  Ga naar volgende maand
         _huidigeDatum = _huidigeDatum.AddMonths(1);
         Kalender.SetDisplayDate(_huidigeDatum);
         UpdateKalenderHeader();
@@ -118,6 +113,7 @@ public sealed partial class MaintenanceKalender : Page
 
     private void PrevYear_Click(object sender, RoutedEventArgs e)
     {
+        //  Ga naar vorig jaar
         _huidigeDatum = _huidigeDatum.AddYears(-1);
         Kalender.SetDisplayDate(_huidigeDatum);
         UpdateKalenderHeader();
@@ -125,6 +121,7 @@ public sealed partial class MaintenanceKalender : Page
 
     private void NextYear_Click(object sender, RoutedEventArgs e)
     {
+        //  Ga naar volgend jaar
         _huidigeDatum = _huidigeDatum.AddYears(1);
         Kalender.SetDisplayDate(_huidigeDatum);
         UpdateKalenderHeader();

@@ -1,4 +1,4 @@
-
+﻿
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -22,7 +22,6 @@
     <None Remove="Pages\LoginPage.xaml" />
     <None Remove="Pages\MaintenanceDashboard.xaml" />
     <None Remove="Pages\MaintenanceKalender.xaml" />
-    <None Remove="Pages\MaintenanceLogboek.xaml" />
     <None Remove="Pages\MaintenanceMachine.xaml" />
     <None Remove="Pages\MaterialListPage.xaml" />
     <None Remove="Pages\ProductPage.xaml" />
@@ -64,11 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\MaintenanceKalender.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\MaintenanceLogboek.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

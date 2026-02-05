@@ -22,14 +22,16 @@ namespace Barroc_Intense.Pages
         {
             this.InitializeComponent();
 
-            // Zorg dat comboboxen een standaard selected hebben
+            //  Zet standaard geselecteerde items voor comboboxen
             StatusComboBox.SelectedIndex = 0;
             PrioriteitCombo.SelectedIndex = 0;
 
+            //  Zorg dat de database bestaat bij eerste keer gebruik
             using var db = new AppDbContext();
             db.Database.EnsureCreated();
         }
 
+        //  Helper functie voor pop-up dialogen
         private async void ToonDialog(string title, string message)
         {
             var dialog = new ContentDialog
@@ -42,15 +44,17 @@ namespace Barroc_Intense.Pages
             await dialog.ShowAsync();
         }
 
+        //  Toevoegen van een nieuwe melding aan de database
         private void Toevoegen_Click(object sender, RoutedEventArgs e)
         {
             DateTime? gekozenDatum = null;
 
-            // Datum/tijd instellen als checkbox niet aangevinkt
+            //  Controleer of de gebruiker geen datum/tijd wil invullen
             if (GeenDatumCheckBox.IsChecked != true)
             {
                 try
                 {
+                    //  Combineer DatePicker en TimePicker tot één DateTime
                     var dateOffset = DatumPicker.Date;
                     var timeSpan = TijdPicker.Time;
                     gekozenDatum = dateOffset.Date + timeSpan;
@@ -62,7 +66,7 @@ namespace Barroc_Intense.Pages
                 }
             }
 
-            // Eenvoudige validatie
+            //  Basisvalidatie van verplichte velden
             if (string.IsNullOrWhiteSpace(AfdelingTextBox.Text) ||
                 string.IsNullOrWhiteSpace(KlantTextBox.Text))
             {
@@ -72,7 +76,7 @@ namespace Barroc_Intense.Pages
 
             using var db = new AppDbContext();
 
-            // Controle op exacte datum + tijd
+            //  Controleer dat er niet al een melding bestaat op exact dezelfde datum/tijd
             if (gekozenDatum.HasValue)
             {
                 bool bestaatAl = db.Meldingen.Any(m => m.Datum == gekozenDatum.Value);
@@ -83,18 +87,18 @@ namespace Barroc_Intense.Pages
                 }
             }
 
-            // **Maak hier slechts één Melding**
+            //  Maak de nieuwe melding aan en vul alle velden vanuit de UI
             var melding = new Melding
             {
                 MachineId = int.Parse(MachineTextBox.Text),
-                MonteurId = int.Parse (MonteurTextBox.Text),
+                MonteurId = int.Parse(MonteurTextBox.Text),
                 Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
                 Afdeling = AfdelingTextBox.Text,
                 Klant = KlantTextBox.Text,
                 Product = ProductTextBox.Text,
                 Probleemomschrijving = ProbleemTextBox.Text,
                 Status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content.ToString() ?? "Open",
-                Datum = gekozenDatum,  // nullable datum/tijd
+                Datum = gekozenDatum,
                 IsOpgelost = false
             };
 
@@ -103,7 +107,7 @@ namespace Barroc_Intense.Pages
 
             ToonDialog("Gelukt", "Melding is toegevoegd aan de database.");
 
-            // Velden resetten
+            //  Reset alle velden na succesvol opslaan
             AfdelingTextBox.Text = "";
             MonteurTextBox.Text = "";
             KlantTextBox.Text = "";
@@ -117,6 +121,7 @@ namespace Barroc_Intense.Pages
             GeenDatumCheckBox.IsChecked = false;
         }
 
+        //  Navigatie naar MaintenanceMelding pagina
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MaintenanceMelding));

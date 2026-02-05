@@ -11,7 +11,7 @@
 
     <Grid>
 
-        <!-- BACKGROUND -->
+        <!-- Achtergrond -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#FFD700" Offset="0"/>
@@ -20,13 +20,15 @@
         </Grid.Background>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Margin="40" Spacing="28" HorizontalAlignment="Center" MaxWidth="1000">
+            <StackPanel Margin="40"
+                        Spacing="28"
+                        HorizontalAlignment="Center"
+                        MaxWidth="1000">
 
-                <!-- PAGE TITLE -->
+                <!-- Titel -->
                 <Border Background="#CC000000"
                         CornerRadius="18"
                         Padding="20">
-
                     <TextBlock x:Name="TitleBlock"
                                FontSize="38"
                                FontWeight="Bold"
@@ -34,15 +36,19 @@
                                HorizontalAlignment="Center"/>
                 </Border>
 
-                <!-- KEURING -->
-                <Border Background="White" CornerRadius="22" Padding="24">
+                <!-- Keuring -->
+                <Border Background="White"
+                        CornerRadius="22"
+                        Padding="24">
                     <StackPanel Spacing="14">
 
                         <TextBlock Text="Keuring"
                                    FontSize="30"
                                    FontWeight="Bold"/>
 
-                        <Border Height="1" Background="#FFD700" Opacity="0.6"/>
+                        <Border Height="1"
+                                Background="#FFD700"
+                                Opacity="0.6"/>
 
                         <CheckBox x:Name="ChecklistBox"
                                   Content="Checklist volledig uitgevoerd"/>
@@ -57,17 +63,22 @@
                     </StackPanel>
                 </Border>
 
-                <!-- MELDING INFO -->
-                <Border Background="White" CornerRadius="22" Padding="24">
+                <!-- Melding -->
+                <Border Background="White"
+                        CornerRadius="22"
+                        Padding="24">
                     <StackPanel Spacing="14">
 
                         <TextBlock Text="Melding"
                                    FontSize="30"
                                    FontWeight="Bold"/>
 
-                        <Border Height="1" Background="#FFD700" Opacity="0.6"/>
+                        <Border Height="1"
+                                Background="#FFD700"
+                                Opacity="0.6"/>
 
-                        <Grid ColumnSpacing="20" RowSpacing="14">
+                        <Grid ColumnSpacing="20"
+                              RowSpacing="14">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -102,7 +113,6 @@
                             <CheckBox x:Name="VerholpenBox"
                                       Content="Storing verholpen"
                                       Grid.Row="2"/>
-
                         </Grid>
 
                         <TextBox x:Name="VervolgBox"
@@ -117,19 +127,22 @@
                     </StackPanel>
                 </Border>
 
-                <!-- ONDERDELEN -->
-                <Border Background="White" CornerRadius="22" Padding="24">
+                <!-- Onderdelen -->
+                <Border Background="White"
+                        CornerRadius="22"
+                        Padding="24">
                     <StackPanel Spacing="14">
 
                         <TextBlock Text="Onderdelen"
                                    FontSize="30"
                                    FontWeight="Bold"/>
 
-                        <Border Height="1" Background="#FFD700" Opacity="0.6"/>
+                        <Border Height="1"
+                                Background="#FFD700"
+                                Opacity="0.6"/>
 
                         <ListView x:Name="OnderdelenList"
                                   SelectionMode="None">
-
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="data:MaterialViewModel">
                                     <Grid ColumnDefinitions="Auto,Auto,Auto,Auto"
@@ -163,17 +176,22 @@
                     </StackPanel>
                 </Border>
 
-                <!-- HANDTEKENING -->
-                <Border Background="White" CornerRadius="22" Padding="24">
+                <!-- Handtekening -->
+                <Border Background="White"
+                        CornerRadius="22"
+                        Padding="24">
                     <StackPanel Spacing="14">
 
                         <TextBlock Text="Handtekening"
                                    FontSize="30"
                                    FontWeight="Bold"/>
 
-                        <Border Height="1" Background="#FFD700" Opacity="0.6"/>
+                        <Border Height="1"
+                                Background="#FFD700"
+                                Opacity="0.6"/>
 
-                        <Grid Width="520" Height="220">
+                        <Grid Width="520"
+                              Height="220">
                             <Canvas x:Name="SignatureCanvas"
                                     Background="#F9F9F9"
                                     PointerPressed="SignatureCanvas_PointerPressed"

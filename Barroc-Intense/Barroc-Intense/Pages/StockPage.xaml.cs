@@ -20,29 +20,28 @@ namespace Barroc_Intense.Pages
 
         private void LoadProducts()
         {
+            //  laad alle producten uit database
             using var db = new AppDbContext();
             var products = db.Products.ToList();
 
             foreach (var p in products)
             {
-                // Controleer of er een delivery is voor dit product
+                //  check of er deliveries bestaan voor dit product
                 p.IsPlanned = db.Deliveries.Any(d => d.ProductID == p.Id);
 
-                // Tel alleen de geleverde deliveries
+                //  tel alleen de daadwerkelijk geleverde deliveries
                 p.UsedCount = db.Deliveries.Count(d => d.ProductID == p.Id && d.Status == "Delivered");
             }
 
             productListView.ItemsSource = products;
         }
 
-
-
         private void ShowProductDetails(Product selectedProduct)
         {
             detailsPanel.Visibility = Visibility.Visible;
             placeholderTextBlock.Visibility = Visibility.Collapsed;
 
-            // Basisgegevens
+            //  toon basisgegevens product
             detailNameTextBlock.Text = selectedProduct.ProductName;
             detailLeaseContractTextBlock.Text = string.IsNullOrWhiteSpace(selectedProduct.LeaseContract) ? "Geen contract" : selectedProduct.LeaseContract;
             detailPriceTextBlock.Text = $"€ {selectedProduct.PricePerKg:0.00}";
@@ -52,12 +51,9 @@ namespace Barroc_Intense.Pages
                 ? $"{selectedProduct.Stock} kg op voorraad"
                 : $"{selectedProduct.Stock} op voorraad";
 
-            // =========================
-            // Gebruikte producten status
-            // =========================
+            //  status gebruikte producten afhankelijk van planning en geleverd aantal
             if (!selectedProduct.IsPlanned)
             {
-                // Geen deliveries aangemaakt
                 UsedTextBlock.Text = "Product niet in gebruik";
                 usedProductsButton.Visibility = Visibility.Collapsed;
             }
@@ -65,25 +61,21 @@ namespace Barroc_Intense.Pages
             {
                 if (selectedProduct.UsedCount == 0)
                 {
-                    // Gepland, maar nog niet geleverd
                     UsedTextBlock.Text = "Nog niet geleverd";
                     usedProductsButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    // Gepland en geleverd
                     UsedTextBlock.Text = $"{selectedProduct.UsedCount}× in gebruik";
                     usedProductsButton.Visibility = Visibility.Visible;
                 }
             }
 
-            // Knop tekst afhankelijk van categorie
+            //  knoptekst aanpassen op basis van categorie
             materialsListButton.Content = selectedProduct.Category == "Koffieboon"
                 ? "Ingrediënten"
                 : "Materialenlijst";
         }
-
-
 
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -99,6 +91,7 @@ namespace Barroc_Intense.Pages
             base.OnNavigatedTo(e);
             LoadProducts();
 
+            //  indien navigatie met productId, toon details direct
             if (e.Parameter != null && int.TryParse(e.Parameter.ToString(), out int productId))
             {
                 using var db = new AppDbContext();
@@ -126,6 +119,7 @@ namespace Barroc_Intense.Pages
             if (chosenProduct == null)
                 return;
 
+            //  bevestigingsdialog tonen voor verwijderen
             var dialog = new ContentDialog
             {
                 Title = "Weet u het zeker?",
@@ -142,10 +136,12 @@ namespace Barroc_Intense.Pages
                 var productToRemove = db.Products.FirstOrDefault(p => p.Id == chosenProduct.Id);
                 if (productToRemove != null)
                 {
+                    // product verwijderen uit database
                     db.Products.Remove(productToRemove);
                     db.SaveChanges();
                 }
 
+                //  herlaad producten en reset UI
                 LoadProducts();
                 detailsPanel.Visibility = Visibility.Collapsed;
                 placeholderTextBlock.Visibility = Visibility.Visible;
@@ -186,6 +182,7 @@ namespace Barroc_Intense.Pages
         }
     }
 
+    //  converter toont waarschuwing als stock laag is (<4)
     public class LowStockConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
