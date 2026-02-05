@@ -10,7 +10,7 @@
 
     <Grid>
 
-        <!-- BACKGROUND -->
+        <!-- Achtergrond gradient -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#FFD700" Offset="0"/>
@@ -18,14 +18,14 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-        <!-- MAIN LAYOUT -->
+        <!-- Hoofdlayout -->
         <Grid Padding="40">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- HEADER -->
+            <!-- Header -->
             <Border
                 Background="#CC000000"
                 CornerRadius="18"
@@ -40,7 +40,7 @@
                     HorizontalAlignment="Center"/>
             </Border>
 
-            <!-- FORM CARD -->
+            <!-- Formulier Card -->
             <Border
                 Grid.Row="1"
                 Background="White"
@@ -50,52 +50,46 @@
                 MaxWidth="900">
 
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-
                     <StackPanel Spacing="18">
 
+                        <!-- Afdeling, Monteur, Klant, Product -->
                         <Grid ColumnSpacing="20" RowSpacing="16">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <TextBox x:Name="AfdelingTextBox"
-             Header="Afdeling"
-             Height="80"/>
-
+                                     Header="Afdeling"
+                                     Height="80"/>
                             <TextBox x:Name="MonteurTextBox"
-             Header="Monteur"
-             Grid.Column="1"
-             Height="80"/>
-
+                                     Header="Monteur"
+                                     Grid.Column="1"
+                                     Height="80"/>
                             <TextBox x:Name="KlantTextBox"
-             Header="Klant"
-             Grid.Row="1"
-             Height="80"/>
-
+                                     Header="Klant"
+                                     Grid.Row="1"
+                                     Height="80"/>
                             <TextBox x:Name="ProductTextBox"
-             Header="Product"
-             Grid.Column="1"
-             Grid.Row="1"
-             Height="80"/>
+                                     Header="Product"
+                                     Grid.Column="1"
+                                     Grid.Row="1"
+                                     Height="80"/>
                         </Grid>
 
-
-                        <!-- PROBLEEM -->
+                        <!-- Probleemomschrijving -->
                         <TextBox x:Name="ProbleemTextBox"
                                  Header="Probleemomschrijving"
                                  AcceptsReturn="True"
                                  Height="200"
                                  TextWrapping="Wrap"/>
 
-                        <!-- STATUS / PRIORITEIT -->
+                        <!-- Status en prioriteit (gebruik comboBox voor vaste keuzes) -->
                         <Grid ColumnDefinitions="1*,1*" ColumnSpacing="20">
-
                             <ComboBox x:Name="StatusComboBox"
                                       Header="Status"
                                       Height="70">
@@ -112,36 +106,32 @@
                                 <ComboBoxItem Content="Middel"/>
                                 <ComboBoxItem Content="Hoog"/>
                             </ComboBox>
-
                         </Grid>
 
-                        <!-- MACHINE -->
+                        <!-- Machine ID -->
                         <TextBox x:Name="MachineTextBox"
                                  Header="Machine ID"
                                  Height="80"/>
 
-                        <!-- DATUM / TIJD -->
+                        <!-- Datum en tijd -->
                         <Grid ColumnDefinitions="1*,1*" ColumnSpacing="20">
-
                             <DatePicker x:Name="DatumPicker"
-                                        Header="Datum"
-                                        />
-
+                                        Header="Datum"/>
                             <TimePicker x:Name="TijdPicker"
                                         Header="Tijd"
                                         Grid.Column="1"/>
-
                         </Grid>
 
                         <CheckBox x:Name="GeenDatumCheckBox"
                                   Content="Geen datum/tijd kiezen"/>
 
-                        <!-- ACTIONS -->
+                        <!-- Scheidingslijn -->
                         <Border Height="1"
                                 Background="#FFD700"
                                 Opacity="0.6"
                                 Margin="0,10"/>
 
+                        <!-- Actieknoppen -->
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center"
                                     Spacing="20">
@@ -163,7 +153,6 @@
                                     FontSize="18"
                                     FontWeight="Bold"
                                     Click="MaintenanceButton_Click"/>
-
                         </StackPanel>
 
                     </StackPanel>

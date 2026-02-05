@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Grid>
-        <!-- Achtergrond gradient -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="Yellow" Offset="0.0"/>
@@ -18,14 +17,12 @@
                 Margin="30">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="10" Spacing="20">
-                    <!-- Titel -->
                     <TextBlock x:Name="ProductTitleText"
                                Text="Geleverde producten"
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="Black"
                                HorizontalAlignment="Center"/>
-                    <!-- Terug knop -->
                     <Button Content="⬅️ Terug naar voorraad"
                             Click="BackToStockButton_Click"
                             Background="Black"
@@ -36,7 +33,6 @@
                             HorizontalAlignment="Center"
                             CornerRadius="10"
                             BorderThickness="0"/>
-                    <!-- Gebruikte producten -->
                     <ItemsControl x:Name="UsedBoxesList">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -47,19 +43,16 @@
                                         BorderBrush="Black"
                                         BorderThickness="1">
                                     <StackPanel Spacing="8">
-                                        <!-- Productnaam -->
                                         <TextBlock Text="{Binding ProductName}"
                                                    FontSize="20"
                                                    FontWeight="Bold"
                                                    Foreground="Black"/>
-                                        <!-- Klant en adres -->
                                         <TextBlock Text="Klant:" FontWeight="Bold" Foreground="Black"/>
                                         <TextBlock Text="{Binding CustomerName}" Foreground="Black"/>
                                         <TextBlock Text="Adres:" FontWeight="Bold" Foreground="Black"/>
                                         <TextBlock Text="{Binding DeliveryAddress}" Foreground="Black"/>
                                         <TextBlock Text="Geleverd op:" FontWeight="Bold" Foreground="Black"/>
                                         <TextBlock Text="{Binding ActualDeliveryDate}" Foreground="Black"/>
-                                        <!-- Bekijk materialen knop -->
                                         <Button Content="{Binding ButtonText}"
                                                 Tag="{Binding DeliveryID}"
                                                 Click="MaterialButton_Click"

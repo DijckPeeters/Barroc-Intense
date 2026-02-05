@@ -29,6 +29,8 @@ namespace Barroc_Intense.Pages
             if (e.Parameter is Product productToEdit)
             {
                 editingProduct = productToEdit;
+
+                // Vul de velden met bestaande productwaarden
                 productNameTextBox.Text = editingProduct.ProductName;
                 leaseContractTextBox.Text = editingProduct.LeaseContract;
                 priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00");
@@ -52,6 +54,7 @@ namespace Barroc_Intense.Pages
             }
             else
             {
+                //  nieuw product aanmaken met lege ingredientenlijst
                 editingProduct = new Product
                 {
                     Ingredients = new ObservableCollection<Ingredient>()
@@ -62,6 +65,8 @@ namespace Barroc_Intense.Pages
         private async void saveButton_Click(object sender, RoutedEventArgs e)
         {
             string actie = editingProduct.Id == 0 ? "toevoegen" : "aanpassen";
+
+            //  bevestigingsdialog tonen voordat product wordt opgeslagen
             var dialog = new ContentDialog
             {
                 Title = "Bevestiging",
@@ -73,7 +78,7 @@ namespace Barroc_Intense.Pages
             if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 return;
 
-            // VALIDATIE
+            //  valideer invoer voor decimale velden en stock
             if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price) ||
                 !decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var installationCost) ||
                 !int.TryParse(stockTextBox.Text, out var stock))
@@ -88,6 +93,7 @@ namespace Barroc_Intense.Pages
                 return;
             }
 
+            // Vul productobject met nieuwe waarden
             editingProduct.ProductName = productNameTextBox.Text;
             editingProduct.LeaseContract = leaseContractTextBox.Text;
             editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
@@ -99,6 +105,7 @@ namespace Barroc_Intense.Pages
             if (editingProduct.Category != "Koffieboon")
                 editingProduct.Ingredients.Clear();
 
+            //  datavalidatie via DataAnnotations
             var context = new ValidationContext(editingProduct);
             var results = new List<ValidationResult>();
             if (!Validator.TryValidateObject(editingProduct, context, results, true))
@@ -110,15 +117,17 @@ namespace Barroc_Intense.Pages
             try
             {
                 using var db = new AppDbContext();
+
+                //  toevoegen of updaten van product in database
                 bool isNieuwProduct = editingProduct.Id == 0;
                 if (isNieuwProduct)
                     db.Products.Add(editingProduct);
                 else
                     db.Products.Update(editingProduct);
 
-                db.SaveChanges(); // Id wordt hier aangemaakt
+                db.SaveChanges(); 
 
-                // Maak lege deliveries aan voor gebruikte producten
+                //  indien nieuw product en gebruikt aantal > 0, maak lege deliveries aan
                 if (isNieuwProduct && usedCount > 0)
                 {
                     for (int i = 0; i < usedCount; i++)
@@ -137,6 +146,7 @@ namespace Barroc_Intense.Pages
                     db.SaveChanges();
                 }
 
+                // Navigatie naar StockPage met productId
                 Frame.Navigate(typeof(StockPage), editingProduct.Id);
             }
             catch (Exception ex)
@@ -147,6 +157,7 @@ namespace Barroc_Intense.Pages
 
         private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
         {
+            //  nieuw ingredient toevoegen aan de ingredientenlijst
             editingProduct.Ingredients ??= new ObservableCollection<Ingredient>();
             editingProduct.Ingredients.Add(new Ingredient { Name = "", AmountInKg = 0.2m });
             ingredientsPanel.Visibility = Visibility.Visible;
@@ -154,6 +165,7 @@ namespace Barroc_Intense.Pages
 
         private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //  toon of verberg ingredientenpaneel op basis van category
             if (categoryComboBox.SelectedItem?.ToString() == "Koffieboon")
             {
                 ingredientsPanel.Visibility = Visibility.Visible;
