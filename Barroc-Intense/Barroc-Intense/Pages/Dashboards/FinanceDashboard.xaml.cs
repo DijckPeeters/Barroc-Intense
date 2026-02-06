@@ -15,6 +15,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Barroc_Intense.Data;
 using Barroc_Intense.Services;
+using System.Drawing.Text;
+using Microsoft.EntityFrameworkCore;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -26,84 +28,30 @@ namespace Barroc_Intense.Pages.Dashboards
     /// </summary>
     public sealed partial class FinanceDashboard : Page
     {
-        private List<Barroc_Intense.Data.Invoice> _invoices = new();
-        private List<Barroc_Intense.Data.Product> _products = new();
+        private readonly AppDbContext _db = new();
 
         public FinanceDashboard()
         {
             this.InitializeComponent();
 
-            LoadProducts();
-            LoadDemoInvoice();
-            DisplayInvoices();
+            LoadInvoices();
             UpdateTotalIncome();
         }
 
         // --------------------------------------------------
-        // Demo products (normally from database / inkoop)
+        // Load invoices from database
         // --------------------------------------------------
-        private void LoadProducts()
-        {
-            _products = new List<Barroc_Intense.Data.Product>
-            {
-                new Barroc_Intense.Data.Product
-                {
-                    Id = 1,
-                    ProductName = "Koffiebonen Premium",
-                    Stock = 100,
-                    PricePerKg = 18.50m,
-                    InstallationCost = 0
-                },
-                new Barroc_Intense.Data.Product
-                {
-                    Id = 2,
-                    ProductName = "Espresso Automaat",
-                    Stock = 5,
-                    PricePerKg = 0,
-                    InstallationCost = 750
-                }
-            };
-        }
-
-        // --------------------------------------------------
-        // Demo: Offer > Invoice > Stock update
-        // --------------------------------------------------
-        private void LoadDemoInvoice()
-        {
-            var offer = new Barroc_Intense.Data.Offer
-            {
-                OfferNumber = "OFF-001",
-                Date = DateTime.Now,
-                CustomerName = "Bedrijf A",
-                CustomerAddress = "Industrieweg 10, Breda",
-                Items = new List<Barroc_Intense.Data.OfferItem>
-                {
-                    new Barroc_Intense.Data.OfferItem
-                    {
-                        Product = _products[0],
-                        Quantity = 10
-                    },
-                    new Barroc_Intense.Data.OfferItem
-                    {
-                        Product = _products[1],
-                        Quantity = 1
-                    }
-                }
-            };
-
-            // Convert offer to invoice (also updates stock!)
-            var invoice = InvoiceService.CreateInvoiceFromOffer(offer);
-            _invoices.Add(invoice);
-        }
-
-        // --------------------------------------------------
-        // UI: show invoices
-        // --------------------------------------------------
-        private void DisplayInvoices()
+        private void LoadInvoices()
         {
             ContractListPanel.Children.Clear();
 
-            foreach (var invoice in _invoices)
+            var invoices = _db.Invoices
+                .Include(i => i.Items)
+                    .ThenInclude(ii => ii.Product)
+                .OrderByDescending(i => i.Date)
+                .ToList();
+
+            foreach (var invoice in invoices)
             {
                 var row = new StackPanel
                 {
@@ -120,9 +68,10 @@ namespace Barroc_Intense.Pages.Dashboards
 
                 var amountText = new TextBlock
                 {
-                    Text = $"€{invoice.TotalAmount:0.00}",
+                    Text = $"€ {invoice.TotalAmount:0.00}",
                     Width = 120,
-                    FontSize = 18
+                    FontSize = 18,
+                    TextAlignment = TextAlignment.Right
                 };
 
                 var statusText = new TextBlock
@@ -131,13 +80,12 @@ namespace Barroc_Intense.Pages.Dashboards
                     Width = 120,
                     FontSize = 18,
                     Foreground = new SolidColorBrush(
-                        invoice.IsPaid ? Colors.Green : Colors.Red
-                    )
+                        invoice.IsPaid ? Colors.Green : Colors.Red)
                 };
 
                 var payButton = new Button
                 {
-                    Content = "Markeer als betaald",
+                    Content = "Markeren als betaald",
                     Width = 180,
                     Height = 40,
                     Tag = invoice
@@ -164,34 +112,33 @@ namespace Barroc_Intense.Pages.Dashboards
         }
 
         // --------------------------------------------------
-        // Mark invoice as paid
+        // Mark invoice as paid (DATABASE)
         // --------------------------------------------------
         private void PayInvoice_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is Barroc_Intense.Data.Invoice invoice)
             {
                 invoice.IsPaid = true;
-                DisplayInvoices();
+                _db.SaveChanges();
+
+                LoadInvoices();
                 UpdateTotalIncome();
-            }
+            }    
         }
 
-        // --------------------------------------------------
-        // Create PDF from invoice
-        // --------------------------------------------------
         private void CreateInvoicePdf_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is Barroc_Intense.Data.Invoice invoice)
             {
                 var folder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                var path = Path.Combine(folder, $"{invoice.InvoiceNumber}.pdf");
+                var path = Path.Combine(folder, $"Invoice-{invoice.InvoiceNumber}.pdf");
 
                 PdfService.CreateInvoicePdf(invoice, path);
 
                 ContentDialog dialog = new ContentDialog
                 {
                     Title = "PDF aangemaakt",
-                    Content = $"De factuur is opgeslagen op:\n{path}",
+                    Content = $"De PDF is opgeslagen op het bureaublad: \n{path}",
                     CloseButtonText = "OK",
                     XamlRoot = this.XamlRoot
                 };
@@ -201,15 +148,16 @@ namespace Barroc_Intense.Pages.Dashboards
         }
 
         // --------------------------------------------------
-        // Total income calculation
+        // Total income calculation (DATABASE)
         // --------------------------------------------------
         private void UpdateTotalIncome()
         {
-            var total = _invoices
-                .Where(i => i.IsPaid)
-                .Sum(i => i.TotalAmount);
+            // Sum each InvoiceItem's contribution for invoices that are marked as paid.
+            var total = _db.InvoiceItems
+                .Where(ii => ii.Invoice.IsPaid)
+                .Sum(ii => ii.Quantity * ii.Product.PricePerKg + ii.Product.InstallationCost);
 
-            TotalIncomeText.Text = $"Totale inkomsten: €{total:0.00}";
+            TotalIncomeText.Text = $"Totale inkomsten: € {total:0.00}";
         }
     }
 }

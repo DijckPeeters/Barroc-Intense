@@ -32,6 +32,14 @@
                         Foreground="Black"
                         HorizontalAlignment="Center"/>
 
+                    <Button
+                        Content="Offerte aanmaken"
+                        Width="220"
+                        Height="45"
+                        FontSize="18"
+                        HorizontalAlignment="Center"
+                        Click="CreateOffer_Click"/>
+
                     <TextBlock
                         Text="Overzicht van leasecontracten en facturen"
                         FontSize="20"
