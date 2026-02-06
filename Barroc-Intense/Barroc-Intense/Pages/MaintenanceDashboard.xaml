@@ -94,7 +94,6 @@
                         Click="OpenKalender_Click"/>
 
                 </Grid>
-
             </StackPanel>
         </Border>
     </Grid>
