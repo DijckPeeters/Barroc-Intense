@@ -211,5 +211,18 @@ namespace Barroc_Intense.Pages.Dashboards
 
             TotalIncomeText.Text = $"Totale inkomsten: €{total:0.00}";
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Session.IsLoggedIn = false;
+            Session.Username = null;
+
+            Frame.Navigate(typeof(LoginPage));
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
     }
 }

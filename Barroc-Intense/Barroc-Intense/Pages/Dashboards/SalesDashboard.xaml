@@ -28,6 +28,16 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="40" Spacing="25">
 
+                    <Button Content="Terug"
+                            Click="Button_Click"
+                            HorizontalAlignment="Left"
+                            Margin="10"/>
+
+                    <Button Content="Uitloggen"
+                            Click="Button_Click_1"
+                            HorizontalAlignment="Right"
+                            Margin="10"/>
+
                     <!-- Title -->
                     <TextBlock Text="SALES DASHBOARD"
                                FontSize="48"

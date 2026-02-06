@@ -1,3 +1,4 @@
+using Barroc_Intense.Data;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -62,6 +63,20 @@ namespace Barroc_Intense.Pages.Dashboards
             ProspectMessage.Foreground = new SolidColorBrush(Colors.Green);
 
             ProspectNote.Text = "";
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Session.IsLoggedIn = false;
+            Session.Username = null;
+
+            Frame.Navigate(typeof(LoginPage));
         }
     }
 }
