@@ -1,18 +1,8 @@
 ﻿using Barroc_Intense.Data;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
 namespace Barroc_Intense.Pages
 {
@@ -22,16 +12,16 @@ namespace Barroc_Intense.Pages
         {
             this.InitializeComponent();
 
-            //  Zet standaard geselecteerde items voor comboboxen
+            // Standaard geselecteerde items
             StatusComboBox.SelectedIndex = 0;
             PrioriteitCombo.SelectedIndex = 0;
 
-            //  Zorg dat de database bestaat bij eerste keer gebruik
+            // Database aanmaken indien nodig
             using var db = new AppDbContext();
             db.Database.EnsureCreated();
         }
 
-        //  Helper functie voor pop-up dialogen
+        // Helper dialog
         private async void ToonDialog(string title, string message)
         {
             var dialog = new ContentDialog
@@ -44,20 +34,26 @@ namespace Barroc_Intense.Pages
             await dialog.ShowAsync();
         }
 
-        //  Toevoegen van een nieuwe melding aan de database
         private void Toevoegen_Click(object sender, RoutedEventArgs e)
         {
             DateTime? gekozenDatum = null;
 
-            //  Controleer of de gebruiker geen datum/tijd wil invullen
+            // ==========================
+            // Datum/Tijd validatie
+            // ==========================
             if (GeenDatumCheckBox.IsChecked != true)
             {
                 try
                 {
-                    //  Combineer DatePicker en TimePicker tot één DateTime
                     var dateOffset = DatumPicker.Date;
                     var timeSpan = TijdPicker.Time;
                     gekozenDatum = dateOffset.Date + timeSpan;
+
+                    if (gekozenDatum < DateTime.Now.AddYears(-5) || gekozenDatum > DateTime.Now.AddYears(5))
+                    {
+                        ToonDialog("Fout", "Kies een geldige datum en tijd of vink 'Geen datum/tijd' aan.");
+                        return;
+                    }
                 }
                 catch
                 {
@@ -66,38 +62,85 @@ namespace Barroc_Intense.Pages
                 }
             }
 
-            //  Basisvalidatie van verplichte velden
-            if (string.IsNullOrWhiteSpace(AfdelingTextBox.Text) ||
-                string.IsNullOrWhiteSpace(KlantTextBox.Text))
+            // ==========================
+            // Tekst validatie
+            // ==========================
+            if (string.IsNullOrWhiteSpace(AfdelingTextBox.Text))
             {
-                ToonDialog("Fout", "Vul minimaal Afdeling en Klant in.");
+                ToonDialog("Validatiefout", "Afdeling is verplicht.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(KlantTextBox.Text))
+            {
+                ToonDialog("Validatiefout", "Klant is verplicht.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(ProbleemTextBox.Text) || ProbleemTextBox.Text.Length < 5)
+            {
+                ToonDialog("Validatiefout", "Probleemomschrijving moet minimaal 5 tekens bevatten.");
+                return;
+            }
+
+            // ==========================
+            // Nummerieke validatie
+            // ==========================
+            if (!int.TryParse(MachineTextBox.Text, out int machineId) || machineId <= 0)
+            {
+                ToonDialog("Validatiefout", "Machine ID moet een geldig getal zijn.");
+                return;
+            }
+
+            if (!int.TryParse(MonteurTextBox.Text, out int monteurId) || monteurId <= 0)
+            {
+                ToonDialog("Validatiefout", "Monteur ID moet een geldig getal zijn.");
+                return;
+            }
+
+            // ==========================
+            // ComboBox validatie
+            // ==========================
+            if (StatusComboBox.SelectedItem == null)
+            {
+                ToonDialog("Validatiefout", "Selecteer een status.");
+                return;
+            }
+
+            if (PrioriteitCombo.SelectedItem == null)
+            {
+                ToonDialog("Validatiefout", "Selecteer een prioriteit.");
                 return;
             }
 
             using var db = new AppDbContext();
 
-            //  Controleer dat er niet al een melding bestaat op exact dezelfde datum/tijd
+            // ==========================
+            // Dubbele datum check
+            // ==========================
             if (gekozenDatum.HasValue)
             {
                 bool bestaatAl = db.Meldingen.Any(m => m.Datum == gekozenDatum.Value);
                 if (bestaatAl)
                 {
-                    ToonDialog("Fout", "Er bestaat al een melding op exact dezelfde datum en tijd.");
+                    ToonDialog("Validatiefout", "Er bestaat al een melding op exact dezelfde datum en tijd.");
                     return;
                 }
             }
 
-            //  Maak de nieuwe melding aan en vul alle velden vanuit de UI
+            // ==========================
+            // Opslaan
+            // ==========================
             var melding = new Melding
             {
-                MachineId = int.Parse(MachineTextBox.Text),
-                MonteurId = int.Parse(MonteurTextBox.Text),
-                Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem)?.Content.ToString() ?? "Laag",
-                Afdeling = AfdelingTextBox.Text,
-                Klant = KlantTextBox.Text,
-                Product = ProductTextBox.Text,
-                Probleemomschrijving = ProbleemTextBox.Text,
-                Status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content.ToString() ?? "Open",
+                MachineId = machineId,
+                MonteurId = monteurId,
+                Prioriteit = ((ComboBoxItem)PrioriteitCombo.SelectedItem).Content.ToString(),
+                Afdeling = AfdelingTextBox.Text.Trim(),
+                Klant = KlantTextBox.Text.Trim(),
+                Product = ProductTextBox.Text.Trim(),
+                Probleemomschrijving = ProbleemTextBox.Text.Trim(),
+                Status = ((ComboBoxItem)StatusComboBox.SelectedItem).Content.ToString(),
                 Datum = gekozenDatum,
                 IsOpgelost = false
             };
@@ -105,9 +148,11 @@ namespace Barroc_Intense.Pages
             db.Meldingen.Add(melding);
             db.SaveChanges();
 
-            ToonDialog("Gelukt", "Melding is toegevoegd aan de database.");
+            ToonDialog("Gelukt", "Melding is succesvol opgeslagen.");
 
-            //  Reset alle velden na succesvol opslaan
+            // ==========================
+            // Reset velden
+            // ==========================
             AfdelingTextBox.Text = "";
             MonteurTextBox.Text = "";
             KlantTextBox.Text = "";
@@ -121,7 +166,6 @@ namespace Barroc_Intense.Pages
             GeenDatumCheckBox.IsChecked = false;
         }
 
-        //  Navigatie naar MaintenanceMelding pagina
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MaintenanceMelding));
