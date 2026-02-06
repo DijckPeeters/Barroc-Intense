@@ -19,6 +19,24 @@ namespace Barroc_Intense.Pages
         public ProductPage()
         {
             this.InitializeComponent();
+
+            // Event handler toevoegen
+            leaseContractTextBox.BeforeTextChanging += LeaseContractTextBox_BeforeTextChanging;
+        }
+
+        private void LeaseContractTextBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
+        {
+            // Verboden tekens
+            char[] forbidden = { '+', '/', '*', '=', '%', '^', '&', '$', '#' };
+
+            foreach (char c in args.NewText)
+            {
+                if (forbidden.Contains(c))
+                {
+                    args.Cancel = true; // blokkeer deze tekens
+                    break;
+                }
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -77,6 +95,7 @@ namespace Barroc_Intense.Pages
             if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 return;
 
+            // Lijst om foutmeldingen te verzamelen
             var validationMessages = new List<string>();
 
             // Controleer prijs
@@ -95,17 +114,28 @@ namespace Barroc_Intense.Pages
             if (!int.TryParse(UsedTextBox.Text, out var usedCount))
                 validationMessages.Add("❌ Ongeldig aantal in gebruik");
 
-            // Productnaam en leasecontract
+            // Productnaam controleren
             if (string.IsNullOrWhiteSpace(productNameTextBox.Text))
                 validationMessages.Add("❌ Productnaam mag niet leeg zijn");
 
+            // LeaseContract controleren
             if (string.IsNullOrWhiteSpace(leaseContractTextBox.Text))
+            {
                 validationMessages.Add("❌ Leasecontract mag niet leeg zijn");
+            }
+            else
+            {
+                // Verboden tekens in LeaseContract
+                string forbiddenChars = "+-*/=^&%$#";
+                if (leaseContractTextBox.Text.Any(c => forbiddenChars.Contains(c)))
+                    validationMessages.Add("❌ LeaseContract mag geen +, -, *, / of andere symbolen bevatten");
+            }
 
-            // Category controleren
+            // Categorie controleren
             if (categoryComboBox.SelectedItem == null)
                 validationMessages.Add("❌ Selecteer een categorie");
 
+            // Als er foutmeldingen zijn, tonen en stoppen met opslaan
             if (validationMessages.Any())
             {
                 validationResultsTextBlock.Text = string.Join(Environment.NewLine, validationMessages);
