@@ -7,69 +7,119 @@
     mc:Ignorable="d">
 
     <Grid>
+        <!-- BACKGROUND -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="Yellow" Offset="0.0"/>
-                <GradientStop Color="Black" Offset="1.0"/>
+                <GradientStop Color="#FFD700" Offset="0"/>
+                <GradientStop Color="#000000" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
 
-        <Border Background="#AAFFFFFF"
+        <!-- MAIN CARD -->
+        <Border Background="White"
                 CornerRadius="25"
                 Padding="40"
                 Margin="40"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                BorderBrush="#E0E0E0"
+                BorderThickness="1"
+                MaxWidth="700">
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Spacing="15" Width="400" HorizontalAlignment="Center">
+                <StackPanel Spacing="18" Width="100%"  HorizontalAlignment="Center">
 
+                    <!-- PAGE TITLE -->
                     <TextBlock Text="Nieuwe Levering Toevoegen"
-                               FontSize="30"
+                               FontSize="32"
                                FontWeight="Bold"
                                Foreground="Black"
                                HorizontalAlignment="Center"/>
 
-                    <TextBox x:Name="newProductId" Header="Product ID" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newOrderId" Header="Order ID" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newCustomerId" Header="Customer ID" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newCustomerContact" Header="TelefoonNummert" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newProductName" Header="Product Naam" Padding="8" CornerRadius="10" IsReadOnly="True"/>
+                    <!-- PRODUCT ID -->
+                    <TextBlock Text="Product ID" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newProductId" Padding="12" CornerRadius="10" Foreground="Black"/>
 
+                    <!-- ORDER ID -->
+                    <TextBlock Text="Order ID" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newOrderId" Padding="12" CornerRadius="10" Foreground="Black"/>
 
+                    <!-- CUSTOMER ID -->
+                    <TextBlock Text="Customer ID" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newCustomerId" Padding="12" CornerRadius="10" Foreground="Black"/>
 
-                    <TextBox x:Name="newQuantity" Header="Aantal geleverd" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newExpectedQuantity" Header="Aantal verwacht" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newCustomerName" Header="Klantnaam" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newAddress" Header="Afleveradres" Padding="8" CornerRadius="10"/>
-                    <DatePicker x:Name="newPlannedDate" Header="Geplande leveringsdatum"/>
-                    <TextBox x:Name="newStatus" Header="Status" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newCarrier" Header="Vervoerder" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newDriver" Header="Naam chauffeur" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newTrackingNumber" Header="Trackingnummer" Padding="8" CornerRadius="10"/>
-                    <TextBox x:Name="newNotes" Header="Opmerkingen" Padding="8" CornerRadius="10"/>
+                    <!-- TELEFOON -->
+                    <TextBlock Text="Telefoonnummer" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newCustomerContact" Padding="12" CornerRadius="10" Foreground="Black"/>
 
+                    <!-- PRODUCT NAAM -->
+                    <TextBlock Text="Product Naam" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newProductName" Padding="12" CornerRadius="10" Foreground="Black" IsReadOnly="True"/>
+
+                    <!-- AANTAL GELEVERD -->
+                    <TextBlock Text="Aantal geleverd" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newQuantity" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- AANTAL VERWACHT -->
+                    <TextBlock Text="Aantal verwacht" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newExpectedQuantity" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- KLANTNAAM -->
+                    <TextBlock Text="Klantnaam" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newCustomerName" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- AFLEVERADRES -->
+                    <TextBlock Text="Afleveradres" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newAddress" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- GEPLANDE LEVERINGSDATUM -->
+                    <TextBlock Text="Geplande leveringsdatum" FontWeight="SemiBold" Foreground="Black"/>
+                    <DatePicker x:Name="newPlannedDate" Foreground="Black"/>
+
+                    <!-- STATUS -->
+                    <TextBlock Text="Status" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newStatus" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- VERVOERDER -->
+                    <TextBlock Text="Vervoerder" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newCarrier" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- NAAM CHAUFFEUR -->
+                    <TextBlock Text="Naam chauffeur" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newDriver" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- TRACKINGNUMMER -->
+                    <TextBlock Text="Trackingnummer" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newTrackingNumber" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- OPMERKINGEN -->
+                    <TextBlock Text="Opmerkingen" FontWeight="SemiBold" Foreground="Black"/>
+                    <TextBox x:Name="newNotes" Padding="12" CornerRadius="10" Foreground="Black"/>
+
+                    <!-- VALIDATION -->
                     <TextBlock x:Name="validationResultsTextBlock"
                                Foreground="Red"
                                TextWrapping="Wrap"
                                FontSize="14"/>
 
+                    <!-- ACTION BUTTONS -->
                     <Button Content="Opslaan"
                             Click="SaveButton_Click"
-                            Background="Black"
-                            Foreground="Yellow"
+                            Background="#FFD700"
+                            Foreground="Black"
                             FontWeight="Bold"
-                            Height="45"
+                            Height="50"
                             CornerRadius="10"
                             HorizontalAlignment="Center"/>
+
                     <Button Content="Terug naar Overzicht"
-        Click="BackButton_Click"
-        Background="Gray"
-        Foreground="White"
-        FontWeight="Bold"
-        Height="45"
-        CornerRadius="10"
-        HorizontalAlignment="Center"/>
+                            Click="BackButton_Click"
+                            Background="Gray"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            Height="50"
+                            CornerRadius="10"
+                            HorizontalAlignment="Center"/>
 
                 </StackPanel>
             </ScrollViewer>
