@@ -27,7 +27,7 @@
                 MaxWidth="700">
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Spacing="18" Width="100%"  HorizontalAlignment="Center">
+                <StackPanel Spacing="18" HorizontalAlignment="Stretch">
 
                     <!-- PAGE TITLE -->
                     <TextBlock Text="Nieuwe Levering Toevoegen"
@@ -38,39 +38,48 @@
 
                     <!-- PRODUCT ID -->
                     <TextBlock Text="Product ID" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newProductId" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newProductId" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- ORDER ID -->
                     <TextBlock Text="Order ID" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newOrderId" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newOrderId" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- CUSTOMER ID -->
                     <TextBlock Text="Customer ID" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newCustomerId" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newCustomerId" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- TELEFOON -->
                     <TextBlock Text="Telefoonnummer" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newCustomerContact" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newCustomerContact" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
-                    <!-- PRODUCT NAAM -->
+                    <!-- PRODUCT NAAM (read-only) -->
                     <TextBlock Text="Product Naam" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newProductName" Padding="12" CornerRadius="10" Foreground="Black" IsReadOnly="True"/>
+                    <TextBox x:Name="newProductName" Padding="12" CornerRadius="10" Foreground="Black" IsReadOnly="True"
+                             Background="#F0F0F0" BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- AANTAL GELEVERD -->
                     <TextBlock Text="Aantal geleverd" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newQuantity" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newQuantity" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- AANTAL VERWACHT -->
                     <TextBlock Text="Aantal verwacht" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newExpectedQuantity" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newExpectedQuantity" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- KLANTNAAM -->
                     <TextBlock Text="Klantnaam" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newCustomerName" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newCustomerName" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- AFLEVERADRES -->
                     <TextBlock Text="Afleveradres" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newAddress" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newAddress" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- GEPLANDE LEVERINGSDATUM -->
                     <TextBlock Text="Geplande leveringsdatum" FontWeight="SemiBold" Foreground="Black"/>
@@ -78,23 +87,28 @@
 
                     <!-- STATUS -->
                     <TextBlock Text="Status" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newStatus" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newStatus" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- VERVOERDER -->
                     <TextBlock Text="Vervoerder" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newCarrier" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newCarrier" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- NAAM CHAUFFEUR -->
                     <TextBlock Text="Naam chauffeur" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newDriver" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newDriver" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- TRACKINGNUMMER -->
                     <TextBlock Text="Trackingnummer" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newTrackingNumber" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newTrackingNumber" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- OPMERKINGEN -->
                     <TextBlock Text="Opmerkingen" FontWeight="SemiBold" Foreground="Black"/>
-                    <TextBox x:Name="newNotes" Padding="12" CornerRadius="10" Foreground="Black"/>
+                    <TextBox x:Name="newNotes" Padding="12" CornerRadius="10" Foreground="Black"
+                             BorderBrush="#CCCCCC" BorderThickness="1"/>
 
                     <!-- VALIDATION -->
                     <TextBlock x:Name="validationResultsTextBlock"
