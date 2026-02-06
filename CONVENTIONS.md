@@ -4,7 +4,7 @@
 
 # General Guidelines
 - All code must be written in English.
-- All commit messages must also be written in English.
+- All commit messages must also be written in English or Dutch.
 
 # Naming Conventions
 - Use camelCase for variables and method names.
@@ -17,6 +17,6 @@ Example: LoginView, UserModel, IsLoggedIn
 - Use these consistently across UI elements for a unified look.
 
 # Code styling
-- For comments, stick with comments such as: // ===================== Login (for example) =====================
+- For comments, stick with comments such as: // ===================== Login (for example) ===================== in enhlish or dutch.
 - If needed, add a description to the lines of code. Example: // Validates user input before saving
 - Keep comments concise, clear, and relevant.
