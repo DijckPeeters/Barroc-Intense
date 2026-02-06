@@ -45,21 +45,25 @@
                     <TextBox x:Name="QuoteClient"
                              Header="Klantnaam"
                              Height="70"
+                             Foreground="Black"
                              MinWidth="600"/>
 
                     <TextBox x:Name="QuoteProduct"
                              Header="Product"
                              Height="70"
+                             Foreground="Black"
                              MinWidth="600"/>
 
                     <TextBox x:Name="QuoteQuantity"
                              Header="Aantal"
                              Height="70"
+                             Foreground="Black"
                              MinWidth="600"/>
 
                     <TextBox x:Name="QuotePricePerUnit"
                              Header="Prijs per stuk"
                              Height="70"
+                             Foreground="Black"
                              MinWidth="600"/>
 
                     <Button Content="Bereken Offerte"

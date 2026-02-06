@@ -1,33 +1,31 @@
 ﻿using Barroc_Intense.Data;
-using Barroc_Intense.Pages.Dashboards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Barroc_Intense.Services
 {
     internal class InvoiceService
     {
-        public static Barroc_Intense.Data.Invoice CreateInvoiceFromOffer(Offer offer)
+        public static Invoice CreateInvoiceFromOffer(Offer offer)
         {
-            var invoice = new Barroc_Intense.Data.Invoice
+            var invoice = new Invoice
             {
                 InvoiceNumber = $"INV-{offer.OfferNumber}",
                 Date = DateTime.Now,
                 CustomerName = offer.CustomerName,
                 CustomerAddress = offer.CustomerAddress,
-                Items = offer.Items?.Select(item => new InvoiceItem
+                Items = offer.Items.Select(item => new InvoiceItem
                 {
+                    ProductId = item.ProductId,
                     Product = item.Product,
-                    Quantity = item.Quantity,
-                }).ToList() ?? new List<InvoiceItem>()
+                    Quantity = item.Quantity
+                }).ToList()
             };
 
             foreach (var item in invoice.Items)
             {
-                if (item?.Product != null)
+                if (item.Product != null)
                 {
                     item.Product.Stock -= item.Quantity;
                 }
