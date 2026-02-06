@@ -20,3 +20,9 @@ Example: LoginView, UserModel, IsLoggedIn
 - For comments, stick with comments such as: // ===================== Login (for example) ===================== in enhlish or dutch.
 - If needed, add a description to the lines of code. Example: // Validates user input before saving
 - Keep comments concise, clear, and relevant.
+
+# GitHub/Git
+- Make a commit for every change.
+- Once your changes are finished, open a pull request and tell me—I’ll merge it into main.
+- For each new fix or change, create a branch with a clear, descriptive name.
+- Add a description to the commit message.
