@@ -9,7 +9,7 @@ namespace Barroc_Intense.Data
     internal class Offer
     {
         public int Id { get; set; }
-        public int OfferNumber { get; set; }
+        public string OfferNumber { get; set; }
         public DateTime Date { get; set; }
 
         public string CustomerName { get; set; }
