@@ -180,10 +180,17 @@ namespace Barroc_Intense.Pages
 
         private void MaterialsListButton_Click(object sender, RoutedEventArgs e)
         {
-            if (chosenProduct == null)
-                return;
+            if (chosenProduct == null) return;
 
-            Frame.Navigate(typeof(MaterialListPage), chosenProduct);
+            // Koffieboon => Ingrediënten via ProductPage
+            if (chosenProduct.Category == "Koffieboon")
+            {
+                Frame.Navigate(typeof(IngredientListPage), chosenProduct.Id);
+            }
+            else // Overige categorieën => Materialenlijst
+            {
+                Frame.Navigate(typeof(MaterialListPage), chosenProduct.Id);
+            }
         }
 
         private void UsedProductsButton_Click(object sender, RoutedEventArgs e)

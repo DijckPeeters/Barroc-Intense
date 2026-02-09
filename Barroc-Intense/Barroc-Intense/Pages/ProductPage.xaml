@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <!-- BACKGROUND -->
+        <!-- Achtergrond -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#FFD700" Offset="0"/>
@@ -18,11 +18,11 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-        <!-- MAIN CARD -->
+        <!-- Main Card -->
         <Border Background="White"
                 CornerRadius="25"
                 Padding="50"
-                Margin="60"
+                Margin="40"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 BorderBrush="#E0E0E0"
@@ -35,173 +35,92 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Spacing="20"
-                                HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
 
-                        <!-- PAGE TITLE -->
+                        <!-- Titel -->
                         <TextBlock Text="Productbeheer"
                                    FontSize="34"
                                    FontWeight="Bold"
                                    Foreground="Black"
                                    HorizontalAlignment="Center"/>
 
-                        <!-- PRODUCT NAAM -->
-                        <TextBlock Text="Productnaam"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"/>
-                        <TextBox x:Name="productNameTextBox"
-                                 Padding="14"
-                                 CornerRadius="12"
-                                 Foreground="Black"
-                                 BorderBrush="#CCCCCC"
-                                 BorderThickness="1"
-                                 HorizontalAlignment="Stretch"/>
+                        <!-- Productvelden -->
+                        <TextBlock Text="Productnaam" FontWeight="SemiBold" Foreground="Black"/>
+                        <TextBox x:Name="productNameTextBox" Padding="14" CornerRadius="12" Foreground="Black"
+                                 BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch"/>
 
-                        <!-- LEASE CONTRACT -->
-                        <TextBlock Text="Lease Contract"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"/>
-                        <TextBox x:Name="leaseContractTextBox"
-                                 Padding="14"
-                                 CornerRadius="12"
-                                 Foreground="Black"
-                                 BorderBrush="#CCCCCC"
-                                 BorderThickness="1"
-                                 HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Lease Contract" FontWeight="SemiBold" Foreground="Black"/>
+                        <TextBox x:Name="leaseContractTextBox" Padding="14" CornerRadius="12" Foreground="Black"
+                                 BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch"/>
 
-                        <!-- REPARATIE KOSTEN -->
-                        <TextBlock Text="Reparatie kosten"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"/>
-                        <TextBox x:Name="installationCostTextBox"
-                                 Padding="14"
-                                 CornerRadius="12"
-                                 Foreground="Black"
-                                 BorderBrush="#CCCCCC"
-                                 BorderThickness="1"
-                                 HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Reparatie kosten" FontWeight="SemiBold" Foreground="Black"/>
+                        <TextBox x:Name="installationCostTextBox" Padding="14" CornerRadius="12" Foreground="Black"
+                                 BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch"/>
 
-                        <!-- PRIJS PER KG -->
-                        <TextBlock Text="Prijs per Kg"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"/>
-                        <TextBox x:Name="priceTextBox"
-                                 Padding="14"
-                                 CornerRadius="12"
-                                 Foreground="Black"
-                                 BorderBrush="#CCCCCC"
-                                 BorderThickness="1"
-                                 HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Prijs per Kg" FontWeight="SemiBold" Foreground="Black"/>
+                        <TextBox x:Name="priceTextBox" Padding="14" CornerRadius="12" Foreground="Black"
+                                 BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch"/>
 
-                        <!-- VOORRAAD -->
-                        <TextBlock Text="Voorraad"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"/>
-                        <TextBox x:Name="stockTextBox"
-                                 Padding="14"
-                                 CornerRadius="12"
-                                 Foreground="Black"
-                                 BorderBrush="#CCCCCC"
-                                 BorderThickness="1"
-                                 HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Voorraad" FontWeight="SemiBold" Foreground="Black"/>
+                        <TextBox x:Name="stockTextBox" Padding="14" CornerRadius="12" Foreground="Black"
+                                 BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch"/>
 
-                        <!-- IN GEBRUIK -->
-                        <TextBlock Text="In Gebruik"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"/>
-                        <TextBox x:Name="UsedTextBox"
-                                 Padding="14"
-                                 CornerRadius="12"
-                                 Foreground="Black"
-                                 BorderBrush="#CCCCCC"
-                                 BorderThickness="1"
-                                 HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="In Gebruik" FontWeight="SemiBold" Foreground="Black"/>
+                        <TextBox x:Name="UsedTextBox" Padding="14" CornerRadius="12" Foreground="Black"
+                                 BorderBrush="#CCCCCC" BorderThickness="1" HorizontalAlignment="Stretch"/>
 
-                        <!-- CATEGORIE -->
-                        <TextBlock Text="Categorie"
-                                   FontWeight="SemiBold"
-                                   Foreground="Black"/>
-                        <ComboBox x:Name="categoryComboBox"
-                                  Padding="14"
-                                  CornerRadius="12"
-                                  BorderBrush="#CCCCCC"
-                                  BorderThickness="1"
-                                  Foreground="Black"
-                                  HorizontalAlignment="Stretch"/>
+                        <TextBlock Text="Categorie" FontWeight="SemiBold" Foreground="Black"/>
+                        <ComboBox x:Name="categoryComboBox" Padding="14" CornerRadius="12" BorderBrush="#CCCCCC"
+                                  BorderThickness="1" Foreground="Black" HorizontalAlignment="Stretch"
+                                  SelectionChanged="categoryComboBox_SelectionChanged"/>
 
-                        <!-- INGREDIËNTEN -->
-                        <StackPanel x:Name="ingredientsPanel"
-                                    Visibility="Collapsed"
-                                    Spacing="12">
-                            <TextBlock Text="Ingrediënten"
-                                       FontWeight="Bold"
-                                       FontSize="18"
-                                       Foreground="Black"/>
+                        <!-- Ingrediënten Panel -->
+                        <Border x:Name="ingredientsBorder" Background="#FFFBEF" CornerRadius="12" Padding="15"
+                                Visibility="Collapsed">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="Ingrediënten" FontWeight="Bold" FontSize="18" Foreground="Black"/>
+                                <ItemsControl x:Name="ingredientsListControl">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="localData:Ingredient">
+                                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                                <TextBox Text="{x:Bind Name, Mode=TwoWay}"
+                                                         Width="260" Padding="14" CornerRadius="12"
+                                                         BorderBrush="#CCCCCC" BorderThickness="1"
+                                                         Foreground="Black" PlaceholderText="Naam ingredient"/>
+                                                <TextBox Text="{x:Bind AmountText, Mode=TwoWay}"
+                                                         Width="120" Padding="14" CornerRadius="12"
+                                                         BorderBrush="#CCCCCC" BorderThickness="1"
+                                                         Foreground="Black" PlaceholderText="Kg"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
-                            <ItemsControl x:Name="ingredientsListControl">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate x:DataType="localData:Ingredient">
-                                        <StackPanel Orientation="Horizontal"
-                                                    Spacing="12">
-                                            <TextBox Text="{x:Bind Name, Mode=TwoWay}"
-                                                     Width="260"
-                                                     Padding="14"
-                                                     CornerRadius="12"
-                                                     BorderBrush="#CCCCCC"
-                                                     BorderThickness="1"
-                                                     Foreground="Black"
-                                                     PlaceholderText="Naam ingredient"/>
+                                <Button Content="➕ Voeg ingredient toe"
+                                        Click="AddIngredientButton_Click"
+                                        Background="#FFD700"
+                                        Foreground="Black"
+                                        FontWeight="Bold"
+                                        Width="220"
+                                        Height="42"
+                                        BorderThickness="0"
+                                        CornerRadius="12"/>
+                            </StackPanel>
+                        </Border>
 
-                                            <TextBox Text="{x:Bind AmountText, Mode=TwoWay}"
-                                                     Width="120"
-                                                     Padding="14"
-                                                     CornerRadius="12"
-                                                     BorderBrush="#CCCCCC"
-                                                     BorderThickness="1"
-                                                     Foreground="Black"
-                                                     PlaceholderText="Kg"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                        <!-- Validation -->
+                        <TextBlock x:Name="validationResultsTextBlock" Foreground="Red" TextWrapping="Wrap" FontSize="14"/>
 
-                            <Button Content="➕ Voeg ingredient toe"
-                                    Click="AddIngredientButton_Click"
-                                    Background="#FFD700"
-                                    Foreground="Black"
-                                    FontWeight="Bold"
-                                    Width="220"
-                                    Height="42"
-                                    BorderThickness="0"
-                                    CornerRadius="12"/>
+                        <!-- Actieknoppen -->
+                        <StackPanel Orientation="Horizontal" Spacing="20" HorizontalAlignment="Center">
+                            <Button Content="Opslaan" Click="saveButton_Click"
+                                    Background="#FFD700" Foreground="Black" FontWeight="Bold"
+                                    Width="260" Height="52" CornerRadius="12"/>
+                            <Button Content="Terug naar Overzicht" Click="BackButton_Click"
+                                    Background="Gray" Foreground="White" FontWeight="Bold"
+                                    Width="260" Height="52" CornerRadius="12"/>
                         </StackPanel>
 
-                        <!-- VALIDATION -->
-                        <TextBlock x:Name="validationResultsTextBlock"
-                                   Foreground="Red"
-                                   TextWrapping="Wrap"
-                                   FontSize="14"/>
-
-                        <!-- ACTION BUTTONS -->
-                        <Button Content="Opslaan"
-                                Click="saveButton_Click"
-                                Background="#FFD700"
-                                Foreground="Black"
-                                FontWeight="Bold"
-                                Height="52"
-                                Width="260"
-                                CornerRadius="12"
-                                HorizontalAlignment="Center"/>
-
-                        <Button Content="Terug naar Overzicht"
-                                Click="BackButton_Click"
-                                Background="Gray"
-                                Foreground="White"
-                                FontWeight="Bold"
-                                Height="52"
-                                Width="260"
-                                CornerRadius="12"
-                                HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Grid>
             </ScrollViewer>

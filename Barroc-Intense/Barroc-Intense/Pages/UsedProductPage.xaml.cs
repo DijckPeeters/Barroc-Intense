@@ -64,10 +64,18 @@ namespace Barroc_Intense.Pages
         // navigeer naar de materialenlijst van deze specifieke delivery
         private void MaterialButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag != null &&
-                int.TryParse(btn.Tag.ToString(), out int deliveryId))
+            if (loadedProduct == null)
+                return;
+
+            if (loadedProduct.Category == "Koffieboon")
             {
-                Frame.Navigate(typeof(MaterialListPage), deliveryId);
+                // Ingrediëntenlijst van dit product
+                Frame.Navigate(typeof(IngredientListPage), loadedProduct.Id);
+            }
+            else
+            {
+                // Materialenlijst van dit product
+                Frame.Navigate(typeof(MaterialListPage), loadedProduct.Id);
             }
         }
 
