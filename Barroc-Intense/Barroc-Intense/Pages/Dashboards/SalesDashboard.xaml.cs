@@ -73,8 +73,9 @@ namespace Barroc_Intense.Pages.Dashboards
                 CreationCollisionOption.OpenIfExists
                 );
 
-            string line = $"{DateTime.Now} | {company} | {note} \n";
+            string line = $"{DateTime.Now} | {company} \n| {note} \n";
 
+            // Keep existing notes and add this new one to the file
             await FileIO.AppendTextAsync(file, line);
 
             
