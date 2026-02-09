@@ -22,12 +22,12 @@
         <Border Background="White"
                 CornerRadius="25"
                 Padding="50"
-                Margin="40"
+                Margin="60"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 BorderBrush="#E0E0E0"
                 BorderThickness="1"
-                MaxWidth="1200">
+                MaxWidth="1500">
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Grid HorizontalAlignment="Stretch">
