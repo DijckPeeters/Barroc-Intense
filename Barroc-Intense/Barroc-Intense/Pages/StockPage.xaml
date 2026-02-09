@@ -192,7 +192,11 @@
 
                         <StackPanel>
                             <TextBlock Text="In gebruik:" FontWeight="Bold" Foreground="Black"/>
-                            <TextBlock x:Name="UsedTextBlock" Foreground="Black"/>
+                            <!-- Gebruik deze TextBlock voor dynamische status -->
+                            <TextBlock x:Name="UsedTextBlock"
+                                   Text="{x:Bind chosenProduct.UsedStatusText, Mode=OneWay}"
+                                   Foreground="Black"
+                                   TextWrapping="Wrap"/>
                         </StackPanel>
 
                         <!-- KNOPPEN (NIETS VERWIJDERD) -->

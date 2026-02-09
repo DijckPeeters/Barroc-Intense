@@ -36,7 +36,8 @@ namespace Barroc_Intense.Data
         public string Category { get; set; }
         [NotMapped]
         public bool IsPlanned { get; set; } = false;
-
+        [NotMapped]
+        public string UsedStatusText { get; set; }
 
         public int UsedCount { get; set; }
 
