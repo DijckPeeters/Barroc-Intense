@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Barroc_Intense.Pages
@@ -23,11 +24,30 @@ namespace Barroc_Intense.Pages
             using var db = new AppDbContext();
             var products = db.Products.ToList();
 
-            //  Bereken hoeveel keer een product geleverd is
             foreach (var p in products)
             {
-                p.UsedCount = db.Deliveries
-                    .Count(d => d.ProductID == p.Id && d.Status == "Delivered");
+                var deliveries = db.Deliveries
+                    .Where(d => d.ProductID == p.Id)
+                    .ToList();
+
+                int inGebruik = deliveries.Count(d => d.Status == "Delivered");
+                int ingepland = deliveries.Count(d => d.Status == "Planned");
+                int moetIngepland = deliveries.Count(d => d.Status == "Not planned");
+
+                // Bouw de tekst
+                var statusLines = new List<string>();
+                if (inGebruik > 0)
+                    statusLines.Add($"{inGebruik}× in gebruik");
+                if (ingepland > 0)
+                    statusLines.Add($"{ingepland}× ingepland");
+                if (moetIngepland > 0)
+                    statusLines.Add($"{moetIngepland}× moet ingepland worden");
+
+                // Als er helemaal niks is
+                if (statusLines.Count == 0)
+                    statusLines.Add("0× in gebruik");
+
+                p.UsedStatusText = string.Join(Environment.NewLine, statusLines);
             }
 
             productListView.ItemsSource = products;
@@ -46,25 +66,19 @@ namespace Barroc_Intense.Pages
                 string.IsNullOrWhiteSpace(selectedProduct.Category) ? "Geen categorie" : selectedProduct.Category;
             detailInstallationCostTextBlock.Text =
                 selectedProduct.InstallationCost > 0 ? $"€ {selectedProduct.InstallationCost:0.00} per maand" : "Geen maandelijkse reparatiekosten";
-
             detailStockTextBlock.Text = selectedProduct.Category == "Koffieboon"
                 ? $"{selectedProduct.Stock} kg op voorraad"
                 : $"{selectedProduct.Stock} op voorraad";
 
-            UsedTextBlock.Text = $"{selectedProduct.UsedCount}× in gebruik";
+            // ? Dynamische status berekenen
+            UsedTextBlock.Text = GetUsedStatusText(selectedProduct.Id);
 
-            
             materialsListButton.Content = selectedProduct.Category == "Koffieboon"
-                ? "Ingrediënten"   
-                : "Materialenlijst"; 
+                ? "Ingrediënten"
+                : "Materialenlijst";
 
-            // Gebruikte producten altijd zichtbaar
             usedProductsButton.Visibility = Visibility.Visible;
         }
-
-
-
-
 
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)
         {
@@ -180,10 +194,17 @@ namespace Barroc_Intense.Pages
 
         private void MaterialsListButton_Click(object sender, RoutedEventArgs e)
         {
-            if (chosenProduct == null)
-                return;
+            if (chosenProduct == null) return;
 
-            Frame.Navigate(typeof(MaterialListPage), chosenProduct);
+            // Koffieboon => Ingrediënten via ProductPage
+            if (chosenProduct.Category == "Koffieboon")
+            {
+                Frame.Navigate(typeof(IngredientListPage), chosenProduct.Id);
+            }
+            else // Overige categorieën => Materialenlijst
+            {
+                Frame.Navigate(typeof(MaterialListPage), chosenProduct.Id);
+            }
         }
 
         private void UsedProductsButton_Click(object sender, RoutedEventArgs e)
@@ -193,21 +214,45 @@ namespace Barroc_Intense.Pages
 
             Frame.Navigate(typeof(UsedProductPage), chosenProduct.Id);
         }
-    }
 
+
+        private string GetUsedStatusText(int productId)
+        {
+            using var db = new AppDbContext();
+            var deliveries = db.Deliveries.Where(d => d.ProductID == productId).ToList();
+
+            int inGebruik = deliveries.Count(d => d.Status == "Delivered");
+            int onderweg = deliveries.Count(d => d.Status == "Underway");
+            int ingepland = deliveries.Count(d => d.Status == "Planned");
+            int moetIngepland = deliveries.Count(d => d.Status == "Not planned");
+
+            var statusLines = new List<string>();
+
+            if (inGebruik > 0) statusLines.Add($"{inGebruik}× in gebruik");
+            if (onderweg > 0) statusLines.Add($"{onderweg}× onderweg");
+            if (ingepland > 0) statusLines.Add($"{ingepland}× ingepland");
+            if (moetIngepland > 0) statusLines.Add($"{moetIngepland}× moet ingepland worden");
+
+            if (statusLines.Count == 0)
+                statusLines.Add("0× in gebruik");
+
+            return string.Join(Environment.NewLine, statusLines);
+        }
+    }
     public class LowStockConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is int stock && stock < 4)
-                return Visibility.Visible;
+            public object Convert(object value, Type targetType, object parameter, string language)
+            {
+                if (value is int stock && stock < 4)
+                    return Visibility.Visible;
 
-            return Visibility.Collapsed;
-        }
+                return Visibility.Collapsed;
+            }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
+            public object ConvertBack(object value, Type targetType, object parameter, string language)
+            {
+                throw new NotImplementedException();
+            }
         }
-    }
+    
 }
