@@ -51,7 +51,7 @@ namespace Barroc_Intense.Pages.Dashboards
                 QuoteResult.Text = "Voer geldige getallen in!";
             }
         }
-
+        // Using a simple text file instead of database for quick setup and simplicity with small data.
         private async void SaveProspect_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(ProspectCompany.Text) ||
@@ -66,6 +66,7 @@ namespace Barroc_Intense.Pages.Dashboards
             string note = ProspectNote.Text;
             string fileName = $"{company}.txt";
 
+
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             StorageFile file = await folder.CreateFileAsync(
                 fileName,
@@ -76,7 +77,7 @@ namespace Barroc_Intense.Pages.Dashboards
 
             await FileIO.AppendTextAsync(file, line);
 
-            // Later add database logic here
+            
             string folderPath = ApplicationData.Current.LocalFolder.Path;
             ProspectMessage.Text = $"Notitie opgeslagen in:\n{folderPath}";
             ProspectMessage.Foreground = new SolidColorBrush(Colors.Green);
