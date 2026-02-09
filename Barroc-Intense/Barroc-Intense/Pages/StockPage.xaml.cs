@@ -58,30 +58,26 @@ namespace Barroc_Intense.Pages
             detailsPanel.Visibility = Visibility.Visible;
             placeholderTextBlock.Visibility = Visibility.Collapsed;
 
-            // ... bestaande code voor andere details ...
+            detailNameTextBlock.Text = selectedProduct.ProductName;
+            detailLeaseContractTextBlock.Text =
+                string.IsNullOrWhiteSpace(selectedProduct.LeaseContract) ? "Geen contract" : selectedProduct.LeaseContract;
+            detailPriceTextBlock.Text = $"€ {selectedProduct.PricePerKg:0.00}";
+            detailCategoryTextBlock.Text =
+                string.IsNullOrWhiteSpace(selectedProduct.Category) ? "Geen categorie" : selectedProduct.Category;
+            detailInstallationCostTextBlock.Text =
+                selectedProduct.InstallationCost > 0 ? $"€ {selectedProduct.InstallationCost:0.00} per maand" : "Geen maandelijkse reparatiekosten";
+            detailStockTextBlock.Text = selectedProduct.Category == "Koffieboon"
+                ? $"{selectedProduct.Stock} kg op voorraad"
+                : $"{selectedProduct.Stock} op voorraad";
 
-            // Update dynamische gebruikte producten status
-            using var db = new AppDbContext();
-            var deliveries = db.Deliveries.Where(d => d.ProductID == selectedProduct.Id).ToList();
+            // ? Dynamische status berekenen
+            UsedTextBlock.Text = GetUsedStatusText(selectedProduct.Id);
 
-            int inGebruik = deliveries.Count(d => d.Status == "Delivered");
-            int ingepland = deliveries.Count(d => d.Status == "Planned");
-            int moetIngepland = deliveries.Count(d => d.Status == "Not planned");
+            materialsListButton.Content = selectedProduct.Category == "Koffieboon"
+                ? "Ingrediënten"
+                : "Materialenlijst";
 
-            var statusLines = new List<string>();
-            if (inGebruik > 0)
-                statusLines.Add($"{inGebruik}× in gebruik");
-            if (ingepland > 0)
-                statusLines.Add($"{ingepland}× ingepland");
-            if (moetIngepland > 0)
-                statusLines.Add($"{moetIngepland}× moet ingepland worden");
-
-            if (statusLines.Count == 0)
-                statusLines.Add("0× in gebruik");
-
-            selectedProduct.UsedStatusText = string.Join(Environment.NewLine, statusLines);
-
-            UsedTextBlock.Text = selectedProduct.UsedStatusText;
+            usedProductsButton.Visibility = Visibility.Visible;
         }
 
         private void productListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -218,21 +214,45 @@ namespace Barroc_Intense.Pages
 
             Frame.Navigate(typeof(UsedProductPage), chosenProduct.Id);
         }
-    }
 
+
+        private string GetUsedStatusText(int productId)
+        {
+            using var db = new AppDbContext();
+            var deliveries = db.Deliveries.Where(d => d.ProductID == productId).ToList();
+
+            int inGebruik = deliveries.Count(d => d.Status == "Delivered");
+            int onderweg = deliveries.Count(d => d.Status == "Underway");
+            int ingepland = deliveries.Count(d => d.Status == "Planned");
+            int moetIngepland = deliveries.Count(d => d.Status == "Not planned");
+
+            var statusLines = new List<string>();
+
+            if (inGebruik > 0) statusLines.Add($"{inGebruik}× in gebruik");
+            if (onderweg > 0) statusLines.Add($"{onderweg}× onderweg");
+            if (ingepland > 0) statusLines.Add($"{ingepland}× ingepland");
+            if (moetIngepland > 0) statusLines.Add($"{moetIngepland}× moet ingepland worden");
+
+            if (statusLines.Count == 0)
+                statusLines.Add("0× in gebruik");
+
+            return string.Join(Environment.NewLine, statusLines);
+        }
+    }
     public class LowStockConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is int stock && stock < 4)
-                return Visibility.Visible;
+            public object Convert(object value, Type targetType, object parameter, string language)
+            {
+                if (value is int stock && stock < 4)
+                    return Visibility.Visible;
 
-            return Visibility.Collapsed;
-        }
+                return Visibility.Collapsed;
+            }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
+            public object ConvertBack(object value, Type targetType, object parameter, string language)
+            {
+                throw new NotImplementedException();
+            }
         }
-    }
+    
 }
