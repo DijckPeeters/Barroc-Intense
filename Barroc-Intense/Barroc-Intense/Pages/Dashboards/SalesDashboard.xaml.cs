@@ -14,6 +14,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using System.Text;
+using System.Threading.Tasks;
+using Windows.System;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -47,8 +51,8 @@ namespace Barroc_Intense.Pages.Dashboards
                 QuoteResult.Text = "Voer geldige getallen in!";
             }
         }
-
-        private void SaveProspect_Click(object sender, RoutedEventArgs e)
+        // Using a simple text file instead of database for quick setup and simplicity with small data.
+        private async void SaveProspect_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(ProspectCompany.Text) ||
                 string.IsNullOrWhiteSpace(ProspectNote.Text))
@@ -58,11 +62,32 @@ namespace Barroc_Intense.Pages.Dashboards
                 return;
             }
 
-            // Later add database logic here
-            ProspectMessage.Text = $"Notitie opgeslagen voor {ProspectCompany.Text}.";
+            string company = ProspectCompany.Text;
+            string note = ProspectNote.Text;
+            string fileName = $"{company}.txt";
+
+
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await folder.CreateFileAsync(
+                fileName,
+                CreationCollisionOption.OpenIfExists
+                );
+
+            string line = $"{DateTime.Now} | {company} \n| {note} \n";
+
+            // Keep existing notes and add this new one to the file
+            await FileIO.AppendTextAsync(file, line);
+
+            
+            string folderPath = ApplicationData.Current.LocalFolder.Path;
+            ProspectMessage.Text = $"Notitie opgeslagen in:\n{folderPath}";
             ProspectMessage.Foreground = new SolidColorBrush(Colors.Green);
 
             ProspectNote.Text = "";
+            ProspectCompany.Text = "";
+
+            // Opens the file after saving
+            await Launcher.LaunchFileAsync(file);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
