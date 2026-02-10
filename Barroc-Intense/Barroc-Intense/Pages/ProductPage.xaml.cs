@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 
@@ -19,24 +18,13 @@ namespace Barroc_Intense.Pages
         public ProductPage()
         {
             this.InitializeComponent();
-
-            // Event handler toevoegen
             leaseContractTextBox.BeforeTextChanging += LeaseContractTextBox_BeforeTextChanging;
         }
 
         private void LeaseContractTextBox_BeforeTextChanging(TextBox sender, TextBoxBeforeTextChangingEventArgs args)
         {
-            // Verboden tekens
             char[] forbidden = { '+', '/', '*', '=', '%', '^', '&', '$', '#' };
-
-            foreach (char c in args.NewText)
-            {
-                if (forbidden.Contains(c))
-                {
-                    args.Cancel = true; // blokkeer deze tekens
-                    break;
-                }
-            }
+            if (args.NewText.Any(c => forbidden.Contains(c))) args.Cancel = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -48,7 +36,6 @@ namespace Barroc_Intense.Pages
             {
                 editingProduct = productToEdit;
 
-                // Vul de velden met bestaande productwaarden
                 productNameTextBox.Text = editingProduct.ProductName;
                 leaseContractTextBox.Text = editingProduct.LeaseContract;
                 priceTextBox.Text = editingProduct.PricePerKg.ToString("0.00");
@@ -59,24 +46,42 @@ namespace Barroc_Intense.Pages
                 if (!string.IsNullOrWhiteSpace(editingProduct.Category))
                 {
                     categoryComboBox.SelectedItem = editingProduct.Category;
-                    ingredientsPanel.Visibility = editingProduct.Category == "Koffieboon"
+                    ingredientsBorder.Visibility = editingProduct.Category == "Koffieboon"
                         ? Visibility.Visible
                         : Visibility.Collapsed;
                 }
 
-                if (editingProduct.Ingredients == null)
-                    editingProduct.Ingredients = new ObservableCollection<Ingredient>();
-
+                editingProduct.Ingredients ??= new ObservableCollection<Ingredient>();
                 ingredientsListControl.ItemsSource = editingProduct.Ingredients;
-                categoryComboBox_SelectionChanged(null, null);
             }
             else
             {
-                //  nieuw product aanmaken met lege ingredientenlijst
                 editingProduct = new Product
                 {
                     Ingredients = new ObservableCollection<Ingredient>()
                 };
+            }
+        }
+
+        private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
+        {
+            editingProduct.Ingredients ??= new ObservableCollection<Ingredient>();
+            editingProduct.Ingredients.Add(new Ingredient { Name = "", AmountInKg = 0.2m });
+            ingredientsListControl.ItemsSource = editingProduct.Ingredients;
+            ingredientsBorder.Visibility = Visibility.Visible;
+        }
+
+        private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (categoryComboBox.SelectedItem?.ToString() == "Koffieboon")
+            {
+                ingredientsBorder.Visibility = Visibility.Visible;
+                ingredientsListControl.ItemsSource = editingProduct.Ingredients;
+            }
+            else
+            {
+                ingredientsBorder.Visibility = Visibility.Collapsed;
+                editingProduct.Ingredients.Clear();
             }
         }
 
@@ -95,74 +100,47 @@ namespace Barroc_Intense.Pages
             if (await dialog.ShowAsync() != ContentDialogResult.Primary)
                 return;
 
-            // Lijst om foutmeldingen te verzamelen
             var validationMessages = new List<string>();
 
-            // Controleer prijs
             if (!decimal.TryParse(priceTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var price))
                 validationMessages.Add("❌ Ongeldige prijs per kg");
 
-            // Controleer installatiekosten
             if (!decimal.TryParse(installationCostTextBox.Text, NumberStyles.Number, CultureInfo.CurrentCulture, out var installationCost))
                 validationMessages.Add("❌ Ongeldige Reparatie kosten");
 
-            // Controleer stock
             if (!int.TryParse(stockTextBox.Text, out var stock))
                 validationMessages.Add("❌ Ongeldige voorraad");
 
-            // Controleer gebruikt aantal
             if (!int.TryParse(UsedTextBox.Text, out var usedCount))
                 validationMessages.Add("❌ Ongeldig aantal in gebruik");
 
-            // Productnaam controleren
             if (string.IsNullOrWhiteSpace(productNameTextBox.Text))
                 validationMessages.Add("❌ Productnaam mag niet leeg zijn");
 
-            // LeaseContract controleren
             if (string.IsNullOrWhiteSpace(leaseContractTextBox.Text))
-            {
                 validationMessages.Add("❌ Leasecontract mag niet leeg zijn");
-            }
-            else
-            {
-                // Verboden tekens in LeaseContract
-                string forbiddenChars = "+-*/=^&%$#";
-                if (leaseContractTextBox.Text.Any(c => forbiddenChars.Contains(c)))
-                    validationMessages.Add("❌ LeaseContract mag geen +, -, *, / of andere symbolen bevatten");
-            }
 
-            // Categorie controleren
             if (categoryComboBox.SelectedItem == null)
                 validationMessages.Add("❌ Selecteer een categorie");
 
-            // Als er foutmeldingen zijn, tonen en stoppen met opslaan
             if (validationMessages.Any())
             {
                 validationResultsTextBlock.Text = string.Join(Environment.NewLine, validationMessages);
                 return;
             }
 
-            // Vul productobject
+            // Update productgegevens
             editingProduct.ProductName = productNameTextBox.Text;
             editingProduct.LeaseContract = leaseContractTextBox.Text;
-            editingProduct.Category = categoryComboBox.SelectedItem?.ToString();
+            editingProduct.Category = categoryComboBox.SelectedItem.ToString();
             editingProduct.PricePerKg = price;
             editingProduct.InstallationCost = installationCost;
             editingProduct.Stock = stock;
             editingProduct.UsedCount = usedCount;
 
+            // Alleen koffiebonen mogen ingrediënten hebben
             if (editingProduct.Category != "Koffieboon")
                 editingProduct.Ingredients.Clear();
-
-            // DataAnnotations validatie
-            var context = new ValidationContext(editingProduct);
-            var results = new List<ValidationResult>();
-            if (!Validator.TryValidateObject(editingProduct, context, results, true))
-            {
-                var daMessages = results.Select(r => "❌ " + r.ErrorMessage);
-                validationResultsTextBlock.Text = string.Join(Environment.NewLine, daMessages);
-                return;
-            }
 
             try
             {
@@ -170,12 +148,29 @@ namespace Barroc_Intense.Pages
 
                 bool isNieuwProduct = editingProduct.Id == 0;
                 if (isNieuwProduct)
+                {
                     db.Products.Add(editingProduct);
+                    db.SaveChanges(); // Product krijgt nu een Id
+                }
                 else
+                {
                     db.Products.Update(editingProduct);
+                    db.SaveChanges();
+                }
 
+                // Ingrediënten correct koppelen
+                foreach (var ingredient in editingProduct.Ingredients)
+                {
+                    ingredient.ProductId = editingProduct.Id;
+
+                    if (ingredient.Id == 0)
+                        db.Ingredients.Add(ingredient);
+                    else
+                        db.Ingredients.Update(ingredient);
+                }
                 db.SaveChanges();
 
+                // Optioneel: Delivery automatisch toevoegen als UsedCount > 0
                 if (isNieuwProduct && usedCount > 0)
                 {
                     for (int i = 0; i < usedCount; i++)
@@ -194,41 +189,13 @@ namespace Barroc_Intense.Pages
                     db.SaveChanges();
                 }
 
+                // Terug naar StockPage
                 Frame.Navigate(typeof(StockPage), editingProduct.Id);
             }
             catch (Exception ex)
             {
                 validationResultsTextBlock.Text = $"❌ Fout bij opslaan: {ex.Message}";
             }
-        }
-
-        private void AddIngredientButton_Click(object sender, RoutedEventArgs e)
-        {
-            //  nieuw ingredient toevoegen aan de ingredientenlijst
-            editingProduct.Ingredients ??= new ObservableCollection<Ingredient>();
-            editingProduct.Ingredients.Add(new Ingredient { Name = "", AmountInKg = 0.2m });
-            ingredientsPanel.Visibility = Visibility.Visible;
-        }
-
-        private void categoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //  toon of verberg ingredientenpaneel op basis van category
-            if (categoryComboBox.SelectedItem?.ToString() == "Koffieboon")
-            {
-                ingredientsPanel.Visibility = Visibility.Visible;
-                ingredientsListControl.ItemsSource = editingProduct?.Ingredients;
-            }
-            else
-            {
-                ingredientsPanel.Visibility = Visibility.Collapsed;
-                editingProduct?.Ingredients.Clear();
-                ingredientsListControl.ItemsSource = null;
-            }
-        }
-
-        private void goToStockButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(StockPage));
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

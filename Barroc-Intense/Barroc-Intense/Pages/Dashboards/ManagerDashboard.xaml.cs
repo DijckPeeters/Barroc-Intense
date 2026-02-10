@@ -134,5 +134,13 @@
                 if (bkrAfkeuring)
                     AlertsBlock.Text += "\nBKR-afkeuring bij Finance";
             }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Session.IsLoggedIn = false;
+            Session.Username = null;
+
+            Frame.Navigate(typeof(LoginPage));
         }
+    }
     }

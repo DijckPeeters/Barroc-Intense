@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Barroc_Intense.Pages
@@ -24,19 +25,19 @@ namespace Barroc_Intense.Pages
             {
                 using var db = new AppDbContext();
 
-                //  laad het product uit database
+                // Laad het product uit de database
                 loadedProduct = db.Products.FirstOrDefault(p => p.Id == productId);
-                if (loadedProduct == null)
-                    return;
+                if (loadedProduct == null) return;
 
-                //  bereken totaal aantal keer gebruikt (som van geleverde hoeveelheden)
+                // Bereken totaal aantal keer gebruikt (alle delivered)
                 loadedProduct.UsedCount = db.Deliveries
                     .Where(d => d.ProductID == loadedProduct.Id && d.Status == "Delivered")
                     .Sum(d => d.QuantityDelivered);
 
+                // Titel tonen met totaal gebruikt
                 ProductTitleText.Text = $"{loadedProduct.ProductName} (Gebruikt: {loadedProduct.UsedCount}x)";
 
-                //  laad alle gebruikte product-instanties voor deze product
+                // Laad alle gebruikte product-instanties
                 var usedList = db.Deliveries
                     .Where(d => d.ProductID == loadedProduct.Id)
                     .Select(d => new
@@ -48,9 +49,8 @@ namespace Barroc_Intense.Pages
                         PlannedDeliveryDate = d.PlannedDeliveryDate.ToShortDateString(),
                         ActualDeliveryDate = d.ActualDeliveryDate.HasValue
                             ? d.ActualDeliveryDate.Value.ToShortDateString()
-                            : "Nog te plannen", //  fallback als delivery nog niet geleverd
+                            : "Nog te plannen", // fallback als delivery nog niet geleverd
                         d.DeliveryID,
-                        //  knoptekst afhankelijk van productcategorie
                         ButtonText = loadedProduct.Category == "Koffieboon"
                             ? "📋 Gebruikte ingrediënten"
                             : "📋 Gebruikte materialen"
@@ -64,16 +64,46 @@ namespace Barroc_Intense.Pages
         // navigeer naar de materialenlijst van deze specifieke delivery
         private void MaterialButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag != null &&
-                int.TryParse(btn.Tag.ToString(), out int deliveryId))
+            if (loadedProduct == null)
+                return;
+
+            if (loadedProduct.Category == "Koffieboon")
             {
-                Frame.Navigate(typeof(MaterialListPage), deliveryId);
+                // Ingrediëntenlijst van dit product
+                Frame.Navigate(typeof(IngredientListPage), loadedProduct.Id);
+            }
+            else
+            {
+                // Materialenlijst van dit product
+                Frame.Navigate(typeof(MaterialListPage), loadedProduct.Id);
             }
         }
 
         private void BackToStockButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(StockPage));
+        }
+
+        private string GetUsedStatusText(int productId)
+        {
+            using var db = new AppDbContext();
+            var deliveries = db.Deliveries.Where(d => d.ProductID == productId).ToList();
+
+            int inGebruik = deliveries.Count(d => d.Status == "Delivered");
+            int onderweg = deliveries.Count(d => d.Status == "Underway");
+            int ingepland = deliveries.Count(d => d.Status == "Planned");
+            int moetIngepland = deliveries.Count(d => d.Status == "Not planned");
+
+            var statusLines = new List<string>();
+            if (inGebruik > 0) statusLines.Add($"{inGebruik}× in gebruik");
+            if (onderweg > 0) statusLines.Add($"{onderweg}× onderweg");
+            if (ingepland > 0) statusLines.Add($"{ingepland}× ingepland");
+            if (moetIngepland > 0) statusLines.Add($"{moetIngepland}× moet ingepland worden");
+
+            if (statusLines.Count == 0)
+                statusLines.Add("0× in gebruik");
+
+            return string.Join(Environment.NewLine, statusLines);
         }
     }
 }

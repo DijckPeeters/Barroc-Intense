@@ -91,7 +91,6 @@
                         CornerRadius="18"
                         Click="OpenKalender_Click"/>
                 </Grid>
-
             </StackPanel>
         </Border>
     </Grid>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Page
     x:Class="Barroc_Intense.Pages.UsedProductPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -5,69 +6,96 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
     <Grid>
+        <!-- ACHTERGROND -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="Yellow" Offset="0.0"/>
-                <GradientStop Color="Black" Offset="1.0"/>
+                <GradientStop Color="#FFD700" Offset="0"/>
+                <GradientStop Color="#000000" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <Border Background="#EEFFFFFF"
-                CornerRadius="10"
+
+        <!-- CONTENT CARD -->
+        <Border Background="White"
+                CornerRadius="20"
                 Margin="30">
+
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Margin="10" Spacing="20">
+                <StackPanel Margin="20" Spacing="20">
+
                     <TextBlock x:Name="ProductTitleText"
                                Text="Geleverde producten"
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="Black"
                                HorizontalAlignment="Center"/>
+
+                    <!-- TERUG KNOP -->
                     <Button Content="⬅️ Terug naar voorraad"
                             Click="BackToStockButton_Click"
-                            Background="Black"
-                            Foreground="Yellow"
+                            Background="#FFD700"
+                            Foreground="Black"
                             FontWeight="Bold"
-                            Width="220"
-                            Height="40"
+                            Width="240"
+                            Height="42"
                             HorizontalAlignment="Center"
-                            CornerRadius="10"
+                            CornerRadius="12"
                             BorderThickness="0"/>
+
+                    <!-- LIJST -->
                     <ItemsControl x:Name="UsedBoxesList">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Background="White"
-                                        CornerRadius="10"
-                                        Margin="0,10"
-                                        Padding="15"
-                                        BorderBrush="Black"
+                                <Border Background="#FFF9F9F9"
+                                        CornerRadius="16"
+                                        Margin="0,12"
+                                        Padding="18"
+                                        BorderBrush="#E0E0E0"
                                         BorderThickness="1">
+
                                     <StackPanel Spacing="8">
+
+                                        <!-- Dynamische status per delivery -->
+                                        <TextBlock Text="{Binding UsedStatusText}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="Black"
+                                                   TextWrapping="Wrap"
+                                                   Margin="0,10,0,10"/>
+
                                         <TextBlock Text="{Binding ProductName}"
                                                    FontSize="20"
                                                    FontWeight="Bold"
                                                    Foreground="Black"/>
+
                                         <TextBlock Text="Klant:" FontWeight="Bold" Foreground="Black"/>
                                         <TextBlock Text="{Binding CustomerName}" Foreground="Black"/>
+
                                         <TextBlock Text="Adres:" FontWeight="Bold" Foreground="Black"/>
                                         <TextBlock Text="{Binding DeliveryAddress}" Foreground="Black"/>
+
                                         <TextBlock Text="Geleverd op:" FontWeight="Bold" Foreground="Black"/>
                                         <TextBlock Text="{Binding ActualDeliveryDate}" Foreground="Black"/>
+
+                                        <!-- ACTIE KNOP -->
                                         <Button Content="{Binding ButtonText}"
                                                 Tag="{Binding DeliveryID}"
                                                 Click="MaterialButton_Click"
-                                                Background="Black"
-                                                Foreground="Yellow"
+                                                Background="#FFD700"
+                                                Foreground="Black"
                                                 FontWeight="Bold"
-                                                Height="40"
-                                                Width="200"
+                                                Height="42"
+                                                Width="220"
                                                 HorizontalAlignment="Left"
-                                                CornerRadius="10"/>
+                                                CornerRadius="12"
+                                                BorderThickness="0"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
                 </StackPanel>
             </ScrollViewer>
         </Border>

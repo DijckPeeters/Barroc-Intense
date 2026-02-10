@@ -8,52 +8,66 @@
     mc:Ignorable="d">
 
     <Grid>
-        <!-- Achtergrond met kleurverloop voor consistente styling -->
+        <!-- ACHTERGROND -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="Yellow" Offset="0.0"/>
-                <GradientStop Color="Black" Offset="1.0"/>
+                <GradientStop Color="#FFD700" Offset="0"/>
+                <GradientStop Color="#000000" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
 
-        <!-- Centraal paneel met navigatieknoppen -->
-        <Border Background="#AAFFFFFF"
-                CornerRadius="20"
-                Margin="100"
+        <!-- MAIN CARD -->
+        <Border Background="#EEFFFFFF"
+                CornerRadius="25"
+                Margin="80"
+                Padding="60"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                BorderBrush="#E0E0E0"
+                BorderThickness="1">
 
             <StackPanel Spacing="30"
-                        Padding="50"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center">
 
+                <TextBlock Text="Inkoop Dashboard"
+                           FontSize="34"
+                           FontWeight="Bold"
+                           Foreground="Black"
+                           HorizontalAlignment="Center"/>
+
                 <Button Content="📦 Productvoorraad"
                         Click="ViewStockButton_Click"
-                        FontSize="24"
-                        Width="300"
+                        FontSize="22"
+                        FontWeight="Bold"
+                        Width="340"
                         Height="80"
                         Background="Black"
-                        Foreground="Yellow"
-                        CornerRadius="15"/>
+                        Foreground="#FFD700"
+                        CornerRadius="18"
+                        BorderThickness="0"/>
 
                 <Button Content="➕ Product toevoegen"
                         Click="AddProductButton_Click"
-                        FontSize="24"
-                        Width="300"
+                        FontSize="22"
+                        FontWeight="Bold"
+                        Width="340"
                         Height="80"
-                        Background="DarkBlue"
-                        Foreground="White"
-                        CornerRadius="15"/>
+                        Background="Black"
+                        Foreground="#FFD700"
+                        CornerRadius="18"
+                        BorderThickness="0"/>
 
                 <Button Content="🚚 Levering"
                         Click="GoToDeliveryButton_Click"
-                        FontSize="24"
-                        Width="300"
+                        FontSize="22"
+                        FontWeight="Bold"
+                        Width="340"
                         Height="80"
-                        Background="DarkGreen"
-                        Foreground="White"
-                        CornerRadius="15"/>
+                        Background="Black"
+                        Foreground="#FFD700"
+                        CornerRadius="18"
+                        BorderThickness="0"/>
             </StackPanel>
         </Border>
     </Grid>
