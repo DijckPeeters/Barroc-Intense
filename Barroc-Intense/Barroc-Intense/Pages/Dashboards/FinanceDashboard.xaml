@@ -13,8 +13,8 @@
         <!-- Background -->
         <Grid.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="Yellow" Offset="0"/>
-                <GradientStop Color="Black" Offset="1"/>
+                <GradientStop Color="Yellow" Offset="0" />
+                <GradientStop Color="Black" Offset="1" />
             </LinearGradientBrush>
         </Grid.Background>
 
@@ -30,7 +30,7 @@
                         FontSize="48"
                         FontWeight="Bold"
                         Foreground="Black"
-                        HorizontalAlignment="Center"/>
+                        HorizontalAlignment="Center" />
 
                     <Button
                         Content="Offerte aanmaken"
@@ -38,34 +38,39 @@
                         Height="45"
                         FontSize="18"
                         HorizontalAlignment="Center"
-                        Click="CreateOffer_Click"/>
+                        Background="Black"
+                        Foreground="White"
+                        BorderBrush="Black"
+                        BorderThickness="0"
+                        Padding="12,6"
+                        Click="CreateOffer_Click" />
 
                     <TextBlock
                         Text="Overzicht van leasecontracten en facturen"
                         FontSize="20"
                         Foreground="Black"
-                        HorizontalAlignment="Center"/>
+                        HorizontalAlignment="Center" />
 
                     <!-- Invoice list -->
                     <StackPanel
                         x:Name="ContractListPanel"
                         Spacing="10"
-                        Margin="0,30,0,30"/>
+                        Margin="0,30,0,30" />
 
                     <!-- Total income -->
                     <TextBlock
                         x:Name="TotalIncomeText"
-                        Text="Totale inkomsten: €0.00"
+                        Text="Totale inkomsten: &#x20AC;0.00"
                         FontSize="28"
                         FontWeight="Bold"
                         Foreground="Black"
-                        HorizontalAlignment="Center"/>
+                        HorizontalAlignment="Center" />
 
                     <TextBlock
                         Text="Klik op 'Markeer als betaald' om een factuur te voldoen."
                         FontSize="16"
                         Foreground="Black"
-                        HorizontalAlignment="Center"/>
+                        HorizontalAlignment="Center" />
                 </StackPanel>
             </ScrollViewer>
         </Border>

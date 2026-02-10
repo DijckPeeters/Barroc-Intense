@@ -125,6 +125,7 @@
             private void CheckWarnings()
             {
                 // Dummy warnings
+                // TODO 
                 bool voorraadTekort = true;
                 bool bkrAfkeuring = false;
 
