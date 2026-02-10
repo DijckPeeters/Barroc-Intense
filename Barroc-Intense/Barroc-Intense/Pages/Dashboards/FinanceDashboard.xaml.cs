@@ -1,24 +1,15 @@
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Barroc_Intense.Data;
 using Barroc_Intense.Services;
 using Microsoft.EntityFrameworkCore;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Data = Barroc_Intense.Data;
 
 namespace Barroc_Intense.Pages.Dashboards
 {
@@ -29,12 +20,13 @@ namespace Barroc_Intense.Pages.Dashboards
         public FinanceDashboard()
         {
             InitializeComponent();
+            LoadOffers();
             LoadInvoices();
             UpdateTotalIncome();
         }
 
         // -------------------------
-        // Create Offer
+        // CREATE OFFER
         // -------------------------
         private async void CreateOffer_Click(object sender, RoutedEventArgs e)
         {
@@ -53,8 +45,7 @@ namespace Barroc_Intense.Pages.Dashboards
             var productBox = new ComboBox
             {
                 ItemsSource = _db.Products.ToList(),
-                DisplayMemberPath = "ProductName",
-                PlaceholderText = "Selecteer een product"
+                DisplayMemberPath = "ProductName"
             };
 
             var quantityBox = new NumberBox { Minimum = 1, Value = 1 };
@@ -68,59 +59,95 @@ namespace Barroc_Intense.Pages.Dashboards
                     addressBox,
                     emailBox,
                     productBox,
-                    new TextBlock { Text = "Aantal:" },
                     quantityBox
                 }
             };
 
-            var result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
-                CreateOffer(
-                    companyBox.Text,
-                    addressBox.Text,
-                    emailBox.Text,
-                    productBox.SelectedItem as Barroc_Intense.Data.Product,
-                    (int)quantityBox.Value);
+                if (productBox.SelectedItem is Data.Product product)
+                {
+                    var offer = new Data.Offer
+                    {
+                        OfferNumber = $"OFF-{DateTime.Now.Ticks}",
+                        Date = DateTime.Now,
+                        CustomerName = companyBox.Text,
+                        CustomerAddress = addressBox.Text,
+                        CustomerEmail = emailBox.Text,
+                        Items = new List<Data.OfferItem>
+                        {
+                            new Data.OfferItem
+                            {
+                                Product = product,
+                                Quantity = (int)quantityBox.Value
+                            }
+                        }
+                    };
+
+                    _db.Offers.Add(offer);
+                    _db.SaveChanges();
+                    LoadOffers();
+                }
             }
         }
 
-        private void CreateOffer(string company, string address, string email, Barroc_Intense.Data.Product product, int quantity)
+        // -------------------------
+        // LOAD OFFERS
+        // -------------------------
+        private void LoadOffers()
         {
-            if (product == null) return;
+            if (OfferListPanel == null) return;
 
-            int nextNumber = _db.Offers.Any()
-                ? _db.Offers.Max(o => o.Id) + 1
-                : 1;
+            OfferListPanel.Children.Clear();
 
-            var offer = new Offer
+            var offers = _db.Offers
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .OrderByDescending(o => o.Date)
+                .ToList();
+
+            foreach (var offer in offers)
             {
-                OfferNumber = $"OFF-{nextNumber}",
-                Date = DateTime.Now,
-                CustomerName = company,
-                CustomerAddress = address,
-                CustomerEmail = email,
-                Items = new List<OfferItem>
-                {
-                    new OfferItem
-                    {
-                        ProductId = product.Id,
-                        Product = product,
-                        Quantity = quantity
-                    }
-                }
-            };
+                var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 15 };
 
-            _db.Offers.Add(offer);
-            _db.SaveChanges();
+                row.Children.Add(new TextBlock { Text = offer.CustomerName, Width = 200 });
+                row.Children.Add(new TextBlock { Text = offer.OfferNumber, Width = 150 });
+
+                var convertBtn = new Button
+                {
+                    Content = "Converteer naar factuur",
+                    Tag = offer
+                };
+                convertBtn.Click += ConvertOffer_Click;
+
+                row.Children.Add(convertBtn);
+                OfferListPanel.Children.Add(row);
+            }
+        }
+
+        private void ConvertOffer_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is Data.Offer offer)
+            {
+                var invoice = InvoiceService.CreateInvoiceFromOffer(offer);
+
+                _db.Invoices.Add(invoice);
+                _db.Offers.Remove(offer);
+                _db.SaveChanges();
+
+                LoadOffers();
+                LoadInvoices();
+                UpdateTotalIncome();
+            }
         }
 
         // -------------------------
-        // Load invoices
+        // LOAD INVOICES
         // -------------------------
         private void LoadInvoices()
         {
+            if (ContractListPanel == null) return;
+
             ContractListPanel.Children.Clear();
 
             var invoices = _db.Invoices
@@ -133,45 +160,23 @@ namespace Barroc_Intense.Pages.Dashboards
             {
                 var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 15 };
 
-                row.Children.Add(new TextBlock
-                {
-                    Text = invoice.CustomerName,
-                    Width = 200,
-                    FontSize = 18
-                });
-
-                row.Children.Add(new TextBlock
-                {
-                    Text = $"€ {invoice.TotalAmount:0.00}",
-                    Width = 120,
-                    FontSize = 18,
-                    TextAlignment = TextAlignment.Right
-                });
+                row.Children.Add(new TextBlock { Text = invoice.CustomerName, Width = 200 });
+                row.Children.Add(new TextBlock { Text = $"€ {invoice.TotalAmount:0.00}", Width = 120 });
 
                 row.Children.Add(new TextBlock
                 {
                     Text = invoice.IsPaid ? "Betaald" : "Openstaand",
-                    Width = 120,
-                    FontSize = 18,
                     Foreground = new SolidColorBrush(invoice.IsPaid ? Colors.Green : Colors.Red)
                 });
 
-                var payButton = new Button
-                {
-                    Content = "Markeren als betaald",
-                    Tag = invoice
-                };
-                payButton.Click += PayInvoice_Click;
+                var payBtn = new Button { Content = "Markeer als betaald", Tag = invoice };
+                payBtn.Click += PayInvoice_Click;
 
-                var pdfButton = new Button
-                {
-                    Content = "Maak PDF",
-                    Tag = invoice
-                };
-                pdfButton.Click += CreateInvoicePdf_Click;
+                var pdfBtn = new Button { Content = "Maak PDF", Tag = invoice };
+                pdfBtn.Click += CreateInvoicePdf_Click;
 
-                row.Children.Add(payButton);
-                row.Children.Add(pdfButton);
+                row.Children.Add(payBtn);
+                row.Children.Add(pdfBtn);
 
                 ContractListPanel.Children.Add(row);
             }
@@ -179,7 +184,7 @@ namespace Barroc_Intense.Pages.Dashboards
 
         private void PayInvoice_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is Barroc_Intense.Data.Invoice invoice)
+            if (sender is Button btn && btn.Tag is Data.Invoice invoice)
             {
                 invoice.IsPaid = true;
                 _db.SaveChanges();
@@ -190,7 +195,7 @@ namespace Barroc_Intense.Pages.Dashboards
 
         private void CreateInvoicePdf_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is Barroc_Intense.Data.Invoice invoice)
+            if (sender is Button btn && btn.Tag is Data.Invoice invoice)
             {
                 var path = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -202,6 +207,7 @@ namespace Barroc_Intense.Pages.Dashboards
 
         private void UpdateTotalIncome()
         {
+            // Perform server-side aggregation using InvoiceItems so EF can translate to SQL.
             var total = _db.InvoiceItems
                 .Where(ii => ii.Invoice.IsPaid)
                 .Sum(ii => ii.Quantity * ii.Product.PricePerKg + ii.Product.InstallationCost);

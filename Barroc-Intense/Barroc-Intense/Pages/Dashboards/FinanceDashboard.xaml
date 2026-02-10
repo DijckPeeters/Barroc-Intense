@@ -3,10 +3,16 @@
     x:Class="Barroc_Intense.Pages.Dashboards.FinanceDashboard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Barroc_Intense.Pages.Dashboards"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
+    <!-- ✅ GLOBAL PAGE STYLES -->
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+    </Page.Resources>
 
     <Grid>
 
@@ -29,7 +35,6 @@
                         Text="FINANCE DASHBOARD"
                         FontSize="48"
                         FontWeight="Bold"
-                        Foreground="Black"
                         HorizontalAlignment="Center" />
 
                     <Button
@@ -40,7 +45,6 @@
                         HorizontalAlignment="Center"
                         Background="Black"
                         Foreground="White"
-                        BorderBrush="Black"
                         BorderThickness="0"
                         Padding="12,6"
                         Click="CreateOffer_Click" />
@@ -48,29 +52,32 @@
                     <TextBlock
                         Text="Overzicht van leasecontracten en facturen"
                         FontSize="20"
-                        Foreground="Black"
                         HorizontalAlignment="Center" />
 
-                    <!-- Invoice list -->
+                    <!-- Offers -->
+                    <StackPanel
+                        x:Name="OfferListPanel"
+                        Spacing="10"
+                        Margin="0,10,0,10" />
+
+                    <!-- Invoices -->
                     <StackPanel
                         x:Name="ContractListPanel"
                         Spacing="10"
                         Margin="0,30,0,30" />
 
-                    <!-- Total income -->
                     <TextBlock
                         x:Name="TotalIncomeText"
-                        Text="Totale inkomsten: &#x20AC;0.00"
+                        Text="Totale inkomsten: €0.00"
                         FontSize="28"
                         FontWeight="Bold"
-                        Foreground="Black"
                         HorizontalAlignment="Center" />
 
                     <TextBlock
                         Text="Klik op 'Markeer als betaald' om een factuur te voldoen."
                         FontSize="16"
-                        Foreground="Black"
                         HorizontalAlignment="Center" />
+
                 </StackPanel>
             </ScrollViewer>
         </Border>
