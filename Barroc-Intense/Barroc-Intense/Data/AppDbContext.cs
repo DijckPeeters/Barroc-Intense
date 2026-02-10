@@ -79,7 +79,7 @@ namespace Barroc_Intense.Data
                     MachineId = 1,
                     Prioriteit = "Middel",
                     Afdeling = "Logistiek",
-                    Datum = DateTime.Now.AddDays(-4),
+                    Datum = null,
                     Klant = "Bol.com",
                     Product = "Koffieautomaat",
                     Probleemomschrijving = "Maalt niet goed",
