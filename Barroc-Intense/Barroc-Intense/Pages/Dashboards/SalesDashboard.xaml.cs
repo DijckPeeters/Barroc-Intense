@@ -51,6 +51,7 @@ namespace Barroc_Intense.Pages.Dashboards
                 QuoteResult.Text = "Voer geldige getallen in!";
             }
         }
+
         // Using a simple text file instead of database for quick setup and simplicity with small data.
         private async void SaveProspect_Click(object sender, RoutedEventArgs e)
         {
@@ -78,7 +79,6 @@ namespace Barroc_Intense.Pages.Dashboards
             // Keep existing notes and add this new one to the file
             await FileIO.AppendTextAsync(file, line);
 
-            
             string folderPath = ApplicationData.Current.LocalFolder.Path;
             ProspectMessage.Text = $"Notitie opgeslagen in:\n{folderPath}";
             ProspectMessage.Foreground = new SolidColorBrush(Colors.Green);
@@ -93,7 +93,6 @@ namespace Barroc_Intense.Pages.Dashboards
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Frame.GoBack();
-
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
