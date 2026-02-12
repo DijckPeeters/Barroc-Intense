@@ -38,7 +38,7 @@ namespace Barroc_Intense.Pages.Dashboards
                 XamlRoot = this.XamlRoot
             };
 
-            var companyBox = new TextBox { PlaceholderText = "Bedrijfsnaam" };
+            var companyBox = new TextBox { Header = "Bedrijfsnaam" };
             var addressBox = new TextBox { PlaceholderText = "Adres" };
             var emailBox = new TextBox { PlaceholderText = "E-mailadres" };
 
@@ -207,7 +207,6 @@ namespace Barroc_Intense.Pages.Dashboards
 
         private void UpdateTotalIncome()
         {
-            // Perform server-side aggregation using InvoiceItems so EF can translate to SQL.
             var total = _db.InvoiceItems
                 .Where(ii => ii.Invoice.IsPaid)
                 .Sum(ii => ii.Quantity * ii.Product.PricePerKg + ii.Product.InstallationCost);
